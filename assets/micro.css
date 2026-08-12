@@ -1,0 +1,306 @@
+/* Micro for Macro — due pubblici sulla stessa pagina: le imprese che chiedono
+   un prestito e le banche che collaborano. Taglio operativo: requisiti, iter,
+   ruoli. Niente racconto, niente numeroni decorativi. */
+
+body { --c: var(--red); }
+
+.wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 32px; }
+
+/* ── intestazione: chiara e stretta, la condizione economica prima di tutto ── */
+
+.mh {
+  background: var(--ink);
+  color: #fff;
+  padding: calc(var(--header-h) + clamp(40px, 6vh, 72px)) 32px clamp(44px, 6vh, 72px);
+}
+
+.mh__inner { max-width: var(--wrap); margin: 0 auto; }
+
+.mh__back {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-bottom: 24px;
+  font-size: 14px; font-weight: 600;
+  color: rgba(255, 255, 255, .7);
+  text-decoration: none;
+  transition: color .18s ease, gap .18s ease;
+}
+
+.mh__back:hover { color: #fff; gap: 12px; }
+.mh__back svg { width: 14px; height: 14px; }
+
+.mh__k {
+  margin: 0 0 12px;
+  font-size: 12.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--c);
+}
+
+.mh__h {
+  margin: 0;
+  font-size: clamp(32px, 4.4vw, 56px);
+  font-weight: 900; line-height: 1.08; letter-spacing: -.025em;
+  max-width: 20ch;
+}
+
+.mh__d {
+  margin: 20px 0 0;
+  max-width: 58ch;
+  font-size: clamp(16.5px, 1.4vw, 19px); line-height: 1.55;
+  color: rgba(255, 255, 255, .8);
+}
+
+/* ── le due strade ── */
+
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 34px; }
+
+.split__c {
+  display: block;
+  padding: 24px 26px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .07);
+  border: 1px solid rgba(255, 255, 255, .16);
+  text-decoration: none; color: #fff;
+  transition: background-color .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.split__c:hover {
+  background: rgba(255, 255, 255, .12);
+  border-color: rgba(255, 255, 255, .4);
+  transform: translateY(-3px);
+}
+
+.split__k {
+  display: block;
+  font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--c);
+  margin-bottom: 9px;
+}
+
+.split__c--b .split__k { color: #8fd3ff; }
+
+.split__t { display: block; font-size: 21px; font-weight: 800; letter-spacing: -.015em; }
+.split__g { display: block; margin-top: 8px; font-size: 14.5px; color: rgba(255, 255, 255, .68); }
+
+/* ── sezioni ── */
+
+.msec { padding: clamp(42px, 5.5vw, 70px) 0; scroll-margin-top: calc(var(--header-h) + 20px); }
+.msec + .msec { border-top: 1px solid var(--border); }
+
+.msec__k {
+  margin: 0 0 10px;
+  font-size: 12.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--c);
+}
+
+.msec__h {
+  margin: 0 0 24px;
+  font-size: clamp(24px, 2.8vw, 34px);
+  font-weight: 900; line-height: 1.14; letter-spacing: -.02em;
+}
+
+.msec__p { margin: 0 0 26px; max-width: 70ch; font-size: 16.5px; line-height: 1.68; color: var(--muted); }
+
+/* ── requisiti: tre colonne di elenchi ── */
+
+.req { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+.req__c {
+  padding: 24px 24px 26px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.req__c--no { background: var(--paper); }
+
+.req__t {
+  margin: 0 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase;
+  color: var(--ink);
+}
+
+.ticks { list-style: none; margin: 0; padding: 0; }
+
+.ticks li {
+  position: relative;
+  padding: 0 0 12px 24px;
+  font-size: 15.5px; line-height: 1.55;
+  color: var(--muted);
+}
+
+.ticks li:last-child { padding-bottom: 0; }
+.ticks b { color: var(--ink); font-weight: 650; }
+
+.ticks li::before {
+  content: "";
+  position: absolute;
+  left: 2px; top: 8px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--c);
+}
+
+.ticks--tight li { padding-bottom: 11px; }
+
+/* i "no" col trattino, non col pallino */
+.ticks--no li::before {
+  width: 10px; height: 2px;
+  border-radius: 2px;
+  background: var(--muted);
+  top: 11px;
+}
+
+/* ── come si accede ── */
+
+.how {
+  margin-top: 24px;
+  padding: 28px 30px;
+  border-radius: 18px;
+  background: var(--paper);
+  border: 1px solid var(--border);
+}
+
+.how__t { margin: 0 0 12px; font-size: 18px; font-weight: 800; letter-spacing: -.01em; }
+.how__d { margin: 0 0 24px; max-width: 74ch; font-size: 16px; line-height: 1.65; color: var(--muted); }
+.how__d b { color: var(--ink); font-weight: 650; }
+
+/* l'iter, in una riga di passi numerati */
+.flow {
+  list-style: none;
+  display: flex; flex-wrap: wrap; gap: 10px;
+  margin: 0 0 26px; padding: 0;
+  counter-reset: f;
+}
+
+.flow li {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 10px 16px 10px 10px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--border);
+  font-size: 14.5px; font-weight: 600; color: var(--ink);
+}
+
+.flow li span {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--c); color: #fff;
+  font-size: 12px; font-weight: 800;
+}
+
+/* ── ruoli nella partnership ── */
+
+.roles { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 26px; }
+
+.role {
+  padding: 24px 26px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.role__k {
+  margin: 0 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* ── il capitale che gira ── */
+
+.cycle {
+  padding: 26px 28px;
+  border-radius: 18px;
+  background: var(--ink);
+  color: #fff;
+  margin-bottom: 26px;
+}
+
+.cycle__t {
+  margin: 0 0 18px;
+  font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(255, 255, 255, .6);
+}
+
+.cycle__r { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+
+.cycle__r span {
+  padding: 11px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .1);
+  font-size: 15px; font-weight: 650;
+}
+
+.cycle__r i { color: rgba(255, 255, 255, .45); font-style: normal; font-size: 17px; }
+
+/* l'ultimo anello chiude il cerchio */
+.cycle__b { background: var(--c) !important; }
+
+/* ── stato del progetto ── */
+
+.state {
+  padding: 28px 30px;
+  border-radius: 18px;
+  border: 2px dashed color-mix(in srgb, var(--c) 36%, #fff);
+  background: color-mix(in srgb, var(--c) 6%, #fff);
+  margin-bottom: 26px;
+}
+
+@supports not (background: color-mix(in srgb, red 6%, #fff)) {
+  .state { background: var(--paper); border-color: var(--border); }
+}
+
+.state__k {
+  margin: 0 0 12px;
+  font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--c);
+}
+
+.state__t {
+  margin: 0 0 12px;
+  font-size: clamp(19px, 2.1vw, 24px);
+  font-weight: 850; line-height: 1.25; letter-spacing: -.015em;
+  max-width: 34ch;
+}
+
+.state__d { margin: 0; max-width: 72ch; font-size: 16px; line-height: 1.65; color: var(--muted); }
+.state__d b { color: var(--ink); font-weight: 650; }
+
+/* ── pulsante ── */
+
+.mbtn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 15px 28px;
+  border-radius: 10px;
+  background: var(--ink); color: #fff;
+  font-size: 16px; font-weight: 700; text-decoration: none;
+  border: 1px solid var(--ink);
+  transition: background-color .16s ease, border-color .16s ease;
+}
+
+.mbtn:hover { background: var(--c); border-color: var(--c); }
+.mbtn:focus-visible { outline: 3px solid var(--c); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mh__back, .split__c, .mbtn { transition: none; }
+  .split__c:hover { transform: none; }
+}
+
+@media (max-width: 900px) {
+  .req { grid-template-columns: 1fr; }
+  .roles { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .split { grid-template-columns: 1fr; }
+  .cycle__r i { display: none; }
+  .cycle__r span { width: 100%; }
+}
+
+@media (max-width: 520px) {
+  .mh { padding-left: 22px; padding-right: 22px; }
+  .wrap { padding-left: 22px; padding-right: 22px; }
+}

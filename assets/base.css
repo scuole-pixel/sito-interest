@@ -1,0 +1,328 @@
+/* Interest — stili condivisi: token, base, header, footer.
+   Modificare qui si riflette su tutte le pagine che lo importano. */
+
+
+  /* ═══════════════════════════════════════════════
+     TOKEN — colori di brand dal CSS del sito attuale
+     ═══════════════════════════════════════════════ */
+  /* i due caratteri: uno per i titoli, uno per la lettura.
+     Quando arriva il font di brand si cambia solo --display. */
+  @font-face {
+    font-family: "Display";
+    src: local("Archivo Black"), local("Arial Black"), local("Helvetica Neue Bold");
+    font-weight: 900;
+    font-display: swap;
+  }
+
+  :root {
+    --display: "Archivo Black", "Arial Black", "Helvetica Neue", Impact, sans-serif;
+    --testo: "Inter", "Helvetica Neue", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+    --green: #2fc6a0;
+    --red:   #fa6676;
+    --blue:  #007aff;
+
+    --ink:    #0e1b2c;
+    --muted:  #5a6b7d;
+    --accent: #0d7fd2;
+    --border: #e4ebf2;
+    --paper:  #f7f8fa;
+
+    --header-h: 76px;
+    --wrap: 1180px;
+
+    /* la macchia di vernice: forma morbida, appena irregolare.
+       Serve da maschera al pannello, così il bordo non è un cerchio perfetto. */
+    --blob: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' preserveAspectRatio='none'><path fill='%23fff' d='M100 4C129 4 156 14 173 34C190 54 196 76 196 100C196 126 189 150 171 168C153 186 128 196 100 196C71 196 45 187 27 168C9 149 4 125 4 100C4 74 11 51 29 33C47 15 72 4 100 4Z'/></svg>");
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  /* col colore aperto la pagina sotto resta ferma, e lo snap è sospeso:
+     altrimenti scorrendo le parole scivolano sotto il cursore e ne aprono altre */
+  html.is-locked {
+    overflow: hidden;
+    scroll-snap-type: none;
+  }
+
+  body {
+    margin: 0;
+    /* Il grigio caldo della home diventa la tela comune del sito. */
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--testo);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ogni sezione è un punto di aggancio, sotto l'header sticky */
+  .snap {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    scroll-margin-top: var(--header-h);
+  }
+
+  /* con "mandatory" una sezione più alta dello schermo avrebbe il fondo
+     irraggiungibile: queste si agganciano alla fine, così si arriva in fondo */
+  .snap--tall {
+    scroll-snap-align: end;
+    scroll-snap-stop: normal;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-snap-type: none; scroll-behavior: auto; }
+  }
+
+  /* ═══════════════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════════════ */
+/* ---------- HEADER ---------- */
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, .88);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+
+  /* la riga di separazione compare solo quando si scrolla */
+  .site-header.is-scrolled {
+    border-bottom-color: var(--border);
+  }
+
+  .site-header__inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    height: var(--header-h);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+  }
+
+  /* --- logo: solo il simbolo; il nome compare all'hover --- */
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    flex: none;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+
+  .logo__mark {
+    height: 30px;
+    width: auto;
+    display: block;
+    fill: var(--ink);
+    flex: none;
+    transition: fill .18s ease;
+  }
+
+  /* il nome è montato ma nascosto: scorre in orizzontale e sfuma */
+  .logo__name {
+    display: block;
+    overflow: hidden;
+    max-width: 0;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition:
+      max-width .34s cubic-bezier(.4, 0, .2, 1),
+      opacity   .22s ease,
+      transform .34s cubic-bezier(.4, 0, .2, 1);
+  }
+
+  .logo__name svg {
+    height: 19px;
+    width: auto;
+    display: block;
+    fill: var(--ink);
+  }
+
+  .logo:hover .logo__name,
+  .logo:focus-visible .logo__name {
+    max-width: 160px;
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .logo:hover .logo__mark { fill: var(--accent); }
+
+  .logo:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo__name { transition: opacity .15s ease; }
+  }
+
+  /* --- navigazione --- */
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 38px;
+  }
+
+  .nav a {
+    position: relative;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -.01em;
+    white-space: nowrap;
+    padding: 6px 0;
+    transition: color .18s ease;
+  }
+
+  /* la sottolineatura cresce dal centro all'hover */
+  .nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform .22s cubic-bezier(.4, 0, .2, 1);
+  }
+
+  .nav a:hover { color: var(--accent); }
+  .nav a:hover::after { transform: scaleX(1); }
+
+  .nav a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 3px;
+  }
+
+  /* pagina corrente: sottolineatura fissa, testo pieno */
+  .nav a[aria-current="page"] { color: var(--ink); font-weight: 600; }
+  .nav a[aria-current="page"]::after { transform: scaleX(1); background: var(--ink); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav a::after, .logo svg, .site-header { transition: none; }
+  }
+
+
+  /* ═══════════════════════════════════════════════
+     FOOTER — leggero: logo, navigazione, dati legali
+     ═══════════════════════════════════════════════ */
+
+  .foot {
+    position: relative;
+    background: var(--ink);
+    color: #fff;
+    padding: clamp(52px, 6vw, 72px) 32px clamp(28px, 3vw, 38px);
+    border-radius: 34px 34px 0 0;
+    overflow: hidden;
+  }
+
+  .foot::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 7px;
+    background: linear-gradient(90deg, var(--green) 0 33.333%, var(--red) 33.333% 66.666%, var(--blue) 66.666%);
+  }
+
+  .foot__inner { max-width: var(--wrap); margin: 0 auto; }
+
+  .foot__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 26px;
+    padding-bottom: clamp(26px, 3.5vw, 36px);
+    border-bottom: 1px solid rgba(255, 255, 255, .16);
+  }
+
+  .foot__brand { display: inline-flex; flex: none; border-radius: 4px; }
+  .foot__brand:focus-visible { outline: 2px solid #fff; outline-offset: 6px; }
+  .foot__mark { width: 52px; height: auto; fill: #fff; display: block; }
+
+  .foot__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 30px;
+  }
+
+  .foot__nav a {
+    color: rgba(255, 255, 255, .88);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, .14);
+    border-radius: 999px;
+    transition: color .16s ease;
+  }
+  .foot__nav a:hover { color: #fff; background: rgba(255, 255, 255, .09); }
+  .foot__nav a:focus-visible { outline: 2px solid #fff; outline-offset: 4px; border-radius: 3px; }
+
+  .fsoc { display: flex; gap: 10px; flex: none; }
+
+  .fsoc a {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .13);
+    color: #fff;
+    transition: background-color .16s ease;
+  }
+  .fsoc a:hover { background: rgba(255, 255, 255, .26); }
+  .fsoc a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  .fsoc svg { width: 17px; height: 17px; }
+
+  .foot__bottom {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    margin-top: clamp(20px, 2.5vw, 26px);
+    padding: 18px 20px;
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, .045);
+  }
+
+  .foot__legal {
+    margin: 0;
+    max-width: 76ch;
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, .64);
+  }
+
+  .foot__legal a { color: rgba(255, 255, 255, .78); text-decoration: none; }
+  .foot__legal a:hover { color: #fff; text-decoration: underline; }
+
+  .foot__copy {
+    margin: 0;
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, .64);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 720px) {
+    .foot__top { flex-direction: column; align-items: flex-start; gap: 22px; }
+    .foot__nav { gap: 10px 22px; }
+  }
+  @media (max-width: 520px) {
+    .hero { padding-left: 22px; padding-right: 22px; }
+    .foot { padding-left: 22px; padding-right: 22px; }
+  }

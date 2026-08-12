@@ -1,0 +1,243 @@
+/* Finance for Schools — pagina rivolta alle scuole.
+   Calda e visiva: la scuola deve capire in dieci secondi cosa arriva e cosa costa. */
+
+body { --c: var(--green); }
+
+/* ── intestazione a tutto colore ── */
+
+.ph {
+  position: relative;
+  background: var(--c);
+  color: #fff;
+  padding: calc(var(--header-h) + clamp(46px, 7vh, 88px)) 32px clamp(52px, 7vh, 92px);
+  overflow: hidden;
+}
+
+.ph__inner { position: relative; z-index: 1; max-width: var(--wrap); margin: 0 auto; }
+
+.ph__i {
+  position: absolute;
+  top: -14%; right: 2%;
+  z-index: 0;
+  font-size: clamp(200px, 30vw, 420px);
+  font-weight: 900; line-height: .8; letter-spacing: -.04em;
+  color: rgba(255, 255, 255, .13);
+  pointer-events: none; user-select: none;
+}
+
+.ph__back {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-bottom: 22px;
+  font-size: 14.5px; font-weight: 600;
+  color: rgba(255, 255, 255, .82);
+  text-decoration: none;
+  transition: color .18s ease, gap .18s ease;
+}
+
+.ph__back:hover { color: #fff; gap: 12px; }
+.ph__back svg { width: 15px; height: 15px; }
+
+.ph__k {
+  margin: 0 0 12px;
+  font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+  color: rgba(255, 255, 255, .78);
+}
+
+.ph__h {
+  margin: 0;
+  font-size: clamp(36px, 5.2vw, 68px);
+  font-weight: 900; line-height: 1.05; letter-spacing: -.02em;
+  max-width: 17ch;
+}
+
+.ph__d {
+  margin: 22px 0 0;
+  max-width: 56ch;
+  font-size: clamp(17px, 1.5vw, 20px); line-height: 1.55;
+  color: rgba(255, 255, 255, .92);
+}
+
+.ph__row { margin-top: 30px; }
+
+/* ── il riquadro pratico, a cavallo sull'intestazione ── */
+
+.card { transform: translateY(-34px); }
+
+.card__g {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(14, 27, 44, .1);
+}
+
+.card__i { background: #fff; padding: 22px 20px; }
+.card__i b { display: block; font-size: 16.5px; font-weight: 800; letter-spacing: -.01em; }
+.card__i span { display: block; margin-top: 5px; font-size: 13.5px; line-height: 1.4; color: var(--muted); }
+
+/* ── impaginazione ── */
+
+.wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 32px; }
+
+.sec { padding: clamp(40px, 5.5vw, 72px) 0; }
+.sec + .sec { border-top: 1px solid var(--border); }
+.sec--tight { padding-top: clamp(12px, 2vw, 24px); }
+
+.sec__k {
+  margin: 0 0 10px;
+  font-size: 12.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--c);
+}
+
+.sec__h {
+  margin: 0 0 26px;
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 900; line-height: 1.14; letter-spacing: -.015em;
+  max-width: 22ch;
+}
+
+.sec__p { margin: 0 0 18px; max-width: 68ch; font-size: 17px; line-height: 1.68; color: var(--muted); }
+.sec__p:last-child { margin-bottom: 0; }
+.sec__p strong { color: var(--ink); font-weight: 650; }
+
+/* ── il dato grosso: un numero e una frase, niente fascia di statistiche ── */
+
+.quote {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(24px, 4vw, 52px);
+  align-items: center;
+  padding: clamp(26px, 3.4vw, 40px) 0;
+}
+
+.quote__n {
+  margin: 0;
+  font-size: clamp(64px, 9vw, 116px);
+  font-weight: 900; line-height: .9; letter-spacing: -.04em;
+  color: var(--c);
+  white-space: nowrap;
+}
+
+.quote__n span { font-size: .42em; }
+.quote__s { color: var(--muted); font-weight: 800; }
+
+.quote__t {
+  margin: 0 0 12px;
+  font-size: clamp(20px, 2.4vw, 28px);
+  font-weight: 800; line-height: 1.25; letter-spacing: -.015em;
+  max-width: 26ch;
+}
+
+.quote__d { margin: 0; max-width: 62ch; font-size: 16px; line-height: 1.65; color: var(--muted); }
+
+/* ── i tre formati ── */
+
+.forms { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+
+.form {
+  padding: 28px 26px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: #fff;
+  transition: border-color .24s ease, transform .24s ease;
+}
+
+.form:hover { border-color: var(--c); transform: translateY(-4px); }
+
+.form__ic {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px;
+  margin-bottom: 18px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--c) 13%, #fff);
+  color: var(--c);
+}
+
+@supports not (background: color-mix(in srgb, red 13%, #fff)) {
+  .form__ic { background: var(--paper); }
+}
+
+.form__ic svg { width: 22px; height: 22px; }
+.form__t { display: block; font-size: 19px; font-weight: 800; letter-spacing: -.01em; margin-bottom: 9px; }
+.form__d { margin: 0; font-size: 15.5px; line-height: 1.6; color: var(--muted); }
+
+/* ── i temi ── */
+
+.tags { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+
+.tags li {
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #fff;
+  font-size: 14.5px; font-weight: 600; color: var(--ink);
+}
+
+/* ── la prova: tre numeri in riga, senza scatola ── */
+
+.proof { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+
+.proof__i b {
+  display: block;
+  font-size: clamp(30px, 3.6vw, 44px);
+  font-weight: 900; line-height: 1; letter-spacing: -.025em;
+  color: var(--c);
+  font-variant-numeric: tabular-nums;
+}
+
+.proof__i b i { font-style: normal; font-size: .5em; }
+.proof__i span { display: block; margin-top: 9px; font-size: 14.5px; line-height: 1.45; color: var(--muted); }
+
+/* ── chiusura ── */
+
+.cta { background: var(--c); color: #fff; padding: clamp(46px, 6.5vw, 78px) 32px; text-align: center; }
+
+.cta__h {
+  margin: 0 auto; max-width: 20ch;
+  font-size: clamp(27px, 3.4vw, 42px);
+  font-weight: 900; line-height: 1.12; letter-spacing: -.02em;
+}
+
+.cta__p { margin: 16px auto 0; max-width: 54ch; font-size: 17px; line-height: 1.6; color: rgba(255, 255, 255, .9); }
+.cta__row { display: flex; flex-wrap: wrap; justify-content: center; gap: 13px; margin-top: 30px; }
+
+.cta__b {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 15px 30px;
+  border-radius: 999px;
+  font-size: 16px; font-weight: 700; text-decoration: none;
+  border: 2px solid transparent;
+  transition: transform .16s ease, background-color .16s ease, border-color .16s ease;
+}
+
+.cta__b--solid { background: #fff; color: var(--c); }
+.cta__b--solid:hover { transform: translateY(-2px); }
+.cta__b:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+/* dentro l'intestazione il bottone sta già su fondo colorato */
+.ph__row .cta__b--solid { background: #fff; color: var(--c); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ph__back, .cta__b, .form { transition: none; }
+  .cta__b:hover, .form:hover { transform: none; }
+}
+
+@media (max-width: 1000px) {
+  .card__g { grid-template-columns: repeat(3, 1fr); }
+  .forms { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 700px) {
+  .card__g { grid-template-columns: repeat(2, 1fr); }
+  .quote { grid-template-columns: 1fr; gap: 18px; }
+  .proof { grid-template-columns: 1fr; gap: 22px; }
+}
+
+@media (max-width: 520px) {
+  .ph { padding-left: 22px; padding-right: 22px; }
+  .wrap { padding-left: 22px; padding-right: 22px; }
+  .cta { padding-left: 22px; padding-right: 22px; }
+  .card__g { grid-template-columns: 1fr; }
+}

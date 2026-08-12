@@ -1,0 +1,1097 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interest Edufin APS — Educazione finanziaria nelle scuole superiori</title>
+<meta name="description" content="Portiamo seminari gratuiti di educazione finanziaria nelle scuole superiori italiane. 51 scuole e quasi 5.000 studenti nell'anno scolastico 2025/26.">
+<style>
+  /* ═══════════════════════════════════════════════
+     TOKEN — colori di brand dal CSS del sito attuale
+     ═══════════════════════════════════════════════ */
+  :root {
+    --green: #2fc6a0;
+    --red:   #fa6676;
+    --blue:  #007aff;
+
+    --ink:    #0e1b2c;
+    --muted:  #5a6b7d;
+    --accent: #0d7fd2;
+    --border: #e4ebf2;
+    --paper:  #f7f8fa;
+
+    --header-h: 76px;
+    --wrap: 1180px;
+
+    /* Una secchiata vera: corpo irregolare, punte, schizzi e gocce. */
+    --blob: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'><g fill='%23fff'><path d='M117 17l13 19 22-25 1 33 35-17-15 31 42-3-30 25 39 15-40 8 31 30-39-9 17 39-35-21-1 46-23-35-18 42-10-43-31 31 4-42-43 17 27-35-43-4 39-23-35-22 45-7-20-39 39 19z'/><circle cx='213' cy='36' r='9'/><circle cx='224' cy='143' r='6'/><circle cx='28' cy='51' r='7'/><circle cx='18' cy='177' r='10'/><circle cx='193' cy='211' r='8'/><circle cx='69' cy='219' r='5'/></g></svg>");
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    /* effetto magnete: ogni scroll porta alla sezione successiva */
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+  }
+
+  /* col colore aperto la pagina sotto resta ferma, e lo snap è sospeso:
+     altrimenti scorrendo le parole scivolano sotto il cursore e ne aprono altre */
+  html.is-locked {
+    overflow: hidden;
+    scroll-snap-type: none;
+  }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Montserrat", "Avenir Next", system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ogni sezione è un punto di aggancio, sotto l'header sticky */
+  .snap {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    scroll-margin-top: var(--header-h);
+  }
+
+  /* con "mandatory" una sezione più alta dello schermo avrebbe il fondo
+     irraggiungibile: queste si agganciano alla fine, così si arriva in fondo */
+  .snap--tall {
+    scroll-snap-align: end;
+    scroll-snap-stop: normal;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-snap-type: none; scroll-behavior: auto; }
+  }
+
+  /* ═══════════════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════════════ */
+/* ---------- HEADER ---------- */
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, .88);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+
+  /* la riga di separazione compare solo quando si scrolla */
+  .site-header.is-scrolled {
+    border-bottom-color: var(--border);
+  }
+
+  .site-header__inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    height: var(--header-h);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+  }
+
+  /* --- logo: solo il simbolo; il nome compare all'hover --- */
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    flex: none;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+
+  .logo__mark {
+    height: 30px;
+    width: auto;
+    display: block;
+    fill: var(--ink);
+    flex: none;
+    transition: fill .18s ease;
+  }
+
+  /* il nome è montato ma nascosto: scorre in orizzontale e sfuma */
+  .logo__name {
+    display: block;
+    overflow: hidden;
+    max-width: 0;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition:
+      max-width .34s cubic-bezier(.4, 0, .2, 1),
+      opacity   .22s ease,
+      transform .34s cubic-bezier(.4, 0, .2, 1);
+  }
+
+  .logo__name svg {
+    height: 19px;
+    width: auto;
+    display: block;
+    fill: var(--ink);
+  }
+
+  .logo:hover .logo__name,
+  .logo:focus-visible .logo__name {
+    max-width: 160px;
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .logo:hover .logo__mark { fill: var(--accent); }
+
+  .logo:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo__name { transition: opacity .15s ease; }
+  }
+
+  /* --- navigazione --- */
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 38px;
+  }
+
+  .nav a {
+    position: relative;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -.01em;
+    white-space: nowrap;
+    padding: 6px 0;
+    transition: color .18s ease;
+  }
+
+  /* la sottolineatura cresce dal centro all'hover */
+  .nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform .22s cubic-bezier(.4, 0, .2, 1);
+  }
+
+  .nav a:hover { color: var(--accent); }
+  .nav a:hover::after { transform: scaleX(1); }
+
+  .nav a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 3px;
+  }
+
+  /* pagina corrente: sottolineatura fissa, testo pieno */
+  .nav a[aria-current="page"] { color: var(--ink); font-weight: 600; }
+  .nav a[aria-current="page"]::after { transform: scaleX(1); background: var(--ink); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav a::after, .logo svg, .site-header { transition: none; }
+  }
+
+  /* ═══════════════════════════════════════════════
+     HERO + NUMERI
+     ═══════════════════════════════════════════════ */
+/* ══════════ HERO ══════════ */
+
+  .hero {
+    position: relative;
+    background: var(--paper);
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding: calc(var(--header-h) + 4vh) 32px 8vh;
+  }
+
+  /* la grana di fondo dell'immagine, generata senza file esterni */
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+    opacity: .38;
+    pointer-events: none;
+  }
+
+  .hero__inner {
+    position: relative;
+    max-width: var(--wrap);
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* ── le tre parole a scalare ── */
+
+  .claim {
+    margin: 0 auto;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: fit-content;
+    gap: clamp(4px, 1.1vh, 16px);
+  }
+
+  .claim__item {
+    position: relative;
+  }
+
+  /* l'entrata è sulla parola, non sull'elemento: così il pannello a schermo
+     pieno non resta prigioniero della trasformazione del genitore */
+  .claim__word {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: pop .62s cubic-bezier(.22, 1, .36, 1) forwards;
+  }
+
+  /* la parola: è un pulsante, ma non lo sembra.
+     L'area sensibile è tutto il rettangolo, spazi tra le lettere compresi:
+     senza questo, il cursore cade nei buchi del contorno e l'hover salta. */
+  .claim__word {
+    display: block;
+    margin: 0;
+    padding: .08em .12em;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    position: relative; /* ancora per la lastra invisibile qui sotto */
+    white-space: nowrap; /* "Non profit" resta su una riga sola */
+
+    font-size: clamp(42px, 7.4vw, 104px);
+    font-weight: 900;
+    letter-spacing: .005em;
+    line-height: 1.06;
+    text-transform: uppercase;
+
+    /* il contorno bianco spesso + l'ombra morbida dell'adesivo */
+    -webkit-text-stroke: .13em #fff;
+    paint-order: stroke fill;
+    filter:
+      drop-shadow(0 3px 0 #fff)
+      drop-shadow(0 10px 14px rgba(14, 27, 44, .20));
+
+    transition: transform .28s cubic-bezier(.22, 1, .36, 1), filter .28s ease;
+  }
+
+  /* lastra invisibile davanti alla parola: intercetta il cursore anche
+     negli spazi tra una lettera e l'altra, dove il testo non c'è */
+  .claim__word::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  /* la parola attiva si solleva e stacca di più dal fondo */
+  .claim__item.is-open .claim__word,
+  .claim__word:hover {
+    transform: translateY(-4px) scale(1.02);
+    filter:
+      drop-shadow(0 3px 0 #fff)
+      drop-shadow(0 18px 24px rgba(14, 27, 44, .26));
+  }
+
+  .claim__word:focus-visible {
+    outline: 3px solid var(--ink);
+    outline-offset: 8px;
+    border-radius: 6px;
+  }
+
+  /* le altre due sbiadiscono quando una è aperta */
+  .claim.has-open .claim__item:not(.is-open) .claim__word {
+    opacity: .34;
+    filter: drop-shadow(0 3px 0 #fff);
+  }
+
+  /* la scalatura in diagonale, centrata sull'asse della pagina */
+  .claim__item:nth-child(1) { color: var(--green); margin-left: 0; }
+  .claim__item:nth-child(2) { color: var(--red);   margin-left: clamp(34px, 9vw, 150px); }
+  .claim__item:nth-child(3) { color: var(--blue);  margin-left: clamp(68px, 18vw, 300px); }
+
+  .claim__item:nth-child(1) .claim__word { animation-delay: .08s; }
+  .claim__item:nth-child(2) .claim__word { animation-delay: .22s; }
+  .claim__item:nth-child(3) .claim__word { animation-delay: .36s; }
+
+  /* ── il pannello che invade tutto lo schermo ── */
+
+  .pop {
+    position: fixed;
+    inset: 0;
+    z-index: 200; /* sopra l'header, che sta a 100 */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(14px, 2vh, 26px);
+    padding: clamp(28px, 6vw, 80px);
+    text-align: center;
+
+    /* il colore pieno arriva dalla parola */
+    background: currentColor;
+
+    text-transform: none;
+    letter-spacing: normal;
+    -webkit-text-stroke: 0;
+    filter: none;
+
+    /* la vernice si versa dal punto del cursore: la forma non è un cerchio
+       ma una macchia irregolare che cola, disegnata in SVG */
+    -webkit-mask-image: var(--blob);
+            mask-image: var(--blob);
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    /* la percentuale su mask-position allinea lo stesso punto della macchia
+       al punto della pagina: così cresce restando centrata sul cursore */
+    -webkit-mask-position: var(--x, 50%) var(--y, 50%);
+            mask-position: var(--x, 50%) var(--y, 50%);
+    /* misura in vmax su entrambi gli assi: così la macchia resta tonda
+       anche su schermi panoramici, invece di schiacciarsi in un ovale */
+    -webkit-mask-size: 0 0;
+            mask-size: 0 0;
+
+    visibility: hidden;
+    /* da chiuso non deve intercettare il mouse: copre tutto lo schermo e
+       ruberebbe i click destinati alle parole sotto */
+    pointer-events: none;
+    transition:
+      -webkit-mask-size .46s cubic-bezier(.4, 0, .2, 1),
+              mask-size .46s cubic-bezier(.4, 0, .2, 1),
+      visibility 0s linear .46s;
+  }
+
+  .claim__item.is-open .pop {
+    /* 260vmax su entrambi i lati: copre lo schermo da qualunque punto parta,
+       anche dall'angolo di "Non profit", restando tonda */
+    -webkit-mask-size: 260vmax 260vmax;
+            mask-size: 260vmax 260vmax;
+    visibility: visible;
+    pointer-events: auto; /* da aperto il pulsante e la X sono cliccabili */
+    transition:
+      -webkit-mask-size .6s cubic-bezier(.33, .9, .3, 1),
+              mask-size .6s cubic-bezier(.33, .9, .3, 1),
+      visibility 0s;
+  }
+
+  /* il contenuto entra dopo l'onda di colore */
+  .pop > * {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .3s ease, transform .45s cubic-bezier(.22, 1, .36, 1);
+  }
+  .claim__item.is-open .pop > * { opacity: 1; transform: none; }
+  .claim__item.is-open .pop > :nth-child(1) { transition-delay: .10s; }
+  .claim__item.is-open .pop > :nth-child(2) { transition-delay: .15s; }
+  .claim__item.is-open .pop > :nth-child(3) { transition-delay: .20s; }
+  .claim__item.is-open .pop > :nth-child(4) { transition-delay: .25s; }
+  .claim__item.is-open .pop > :nth-child(5) { transition-delay: .30s; }
+
+  .pop__k {
+    margin: 0;
+    font-size: clamp(38px, 9vw, 104px);
+    font-weight: 900;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: .01em;
+    color: rgba(255, 255, 255, .34);
+  }
+
+  .pop__t {
+    margin: 0;
+    max-width: 20ch;
+    font-size: clamp(24px, 3.6vw, 46px);
+    font-weight: 800;
+    line-height: 1.18;
+    color: #fff;
+  }
+
+  .pop__d {
+    margin: 0;
+    max-width: 46ch;
+    font-size: clamp(15px, 1.5vw, 19px);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, .88);
+  }
+
+  .pop__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+    padding: 16px 30px;
+    border-radius: 999px;
+    background: #fff;
+    color: currentColor;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: gap .18s ease, transform .18s ease;
+  }
+
+  .pop__cta > svg { width: 17px; height: 17px; flex: none; }
+  .pop__cta:hover { gap: 16px; transform: translateY(-2px); }
+  .pop__cta:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+
+  /* dice come si esce, senza rubare la scena */
+  .pop__hint {
+    margin: 0;
+    font-size: 13px;
+    letter-spacing: .04em;
+    color: rgba(255, 255, 255, .62);
+  }
+
+  /* la X per tornare indietro */
+  .pop__close {
+    position: absolute;
+    top: clamp(16px, 3vw, 30px);
+    right: clamp(16px, 3vw, 30px);
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .16);
+    color: #fff;
+    cursor: pointer;
+    transition: background-color .16s ease, transform .16s ease;
+  }
+  .pop__close:hover { background: rgba(255, 255, 255, .3); transform: rotate(90deg); }
+  .pop__close:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+  .pop__close svg { width: 20px; height: 20px; }
+
+  /* browser senza maschere CSS: si apre a cerchio, senza bordi colati */
+  @supports not ((mask-image: url("#x")) or (-webkit-mask-image: url("#x"))) {
+    .pop {
+      -webkit-mask-image: none; mask-image: none;
+      clip-path: circle(0% at var(--x, 50%) var(--y, 50%));
+      transition: clip-path .6s cubic-bezier(.5, 0, .75, 0), visibility 0s linear .6s;
+    }
+    .claim__item.is-open .pop {
+      clip-path: circle(150% at var(--x, 50%) var(--y, 50%));
+      transition: clip-path .7s cubic-bezier(.22, 1, .36, 1), visibility 0s;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pop {
+      -webkit-mask-image: none; mask-image: none;
+      clip-path: none;
+      opacity: 0;
+      transition: opacity .2s ease, visibility 0s linear .2s;
+    }
+    .claim__item.is-open .pop { transition: opacity .2s ease; opacity: 1; }
+    .pop > *, .claim__item.is-open .pop > * { transition: none; transform: none; opacity: 1; }
+  }
+
+  /* Secchiata di vernice: una massa irregolare e un fronte di schizzi.
+     Il pannello resta stabile finché non viene chiuso esplicitamente. */
+  .pop {
+    isolation: isolate;
+    overflow: hidden;
+    background: transparent;
+    -webkit-mask-image: none;
+            mask-image: none;
+    clip-path: none;
+    visibility: hidden;
+    pointer-events: none;
+    transition: visibility 0s linear .62s;
+  }
+
+  .pop::before,
+  .pop::after {
+    content: "";
+    position: fixed;
+    left: var(--px, 50vw);
+    top: var(--py, 50vh);
+    pointer-events: none;
+  }
+
+  .pop::before {
+    z-index: -2;
+    width: 210vmax;
+    height: 190vmax;
+    background: currentColor;
+    border-radius: 43% 57% 48% 52% / 55% 42% 58% 45%;
+    transform: translate(-50%, -50%) rotate(-7deg) scale(0);
+    transition: transform .72s cubic-bezier(.2, .9, .24, 1);
+  }
+
+  .pop::after {
+    z-index: -1;
+    width: 105vmax;
+    height: 105vmax;
+    background:
+      radial-gradient(circle at 4% 42%, currentColor 0 2.2%, transparent 2.4%),
+      radial-gradient(circle at 14% 10%, currentColor 0 3.1%, transparent 3.35%),
+      radial-gradient(circle at 31% 3%, currentColor 0 1.8%, transparent 2%),
+      radial-gradient(circle at 62% 6%, currentColor 0 2.5%, transparent 2.75%),
+      radial-gradient(circle at 88% 17%, currentColor 0 3.2%, transparent 3.45%),
+      radial-gradient(circle at 97% 48%, currentColor 0 1.9%, transparent 2.1%),
+      radial-gradient(circle at 87% 85%, currentColor 0 2.6%, transparent 2.85%),
+      radial-gradient(circle at 56% 97%, currentColor 0 3.1%, transparent 3.35%),
+      radial-gradient(circle at 23% 92%, currentColor 0 2.1%, transparent 2.35%),
+      radial-gradient(circle at 5% 73%, currentColor 0 3.4%, transparent 3.65%),
+      radial-gradient(ellipse at 50% 50%, currentColor 0 30%, transparent 30.3%);
+    transform: translate(-50%, -50%) rotate(9deg) scale(0);
+    opacity: 0;
+    transition: transform .58s cubic-bezier(.1, .85, .2, 1) .06s, opacity .12s ease .04s;
+  }
+
+  .claim__item.is-open .pop {
+    visibility: visible;
+    pointer-events: auto;
+    transition: visibility 0s;
+  }
+
+  .claim__item.is-open .pop::before {
+    transform: translate(-50%, -50%) rotate(-7deg) scale(1);
+  }
+
+  .claim__item.is-open .pop::after {
+    transform: translate(-50%, -50%) rotate(9deg) scale(1);
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pop::before, .pop::after { transition: none; }
+    .claim__item.is-open .pop::before,
+    .claim__item.is-open .pop::after { transform: translate(-50%, -50%) scale(1); }
+  }
+
+  @keyframes pop {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .claim__word { animation: none; opacity: 1; transform: none; }
+  }
+
+  /* ── testo e pulsanti ── */
+
+
+  /* ═══════════════════════════════════════════════
+     FOOTER — leggero: logo, navigazione, dati legali
+     ═══════════════════════════════════════════════ */
+
+  .foot {
+    position: relative;
+    background: var(--ink);
+    color: #fff;
+    padding: clamp(52px, 6vw, 72px) 32px clamp(28px, 3vw, 38px);
+    border-radius: 34px 34px 0 0;
+    overflow: hidden;
+  }
+
+  .foot::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 7px;
+    background: linear-gradient(90deg, var(--green) 0 33.333%, var(--red) 33.333% 66.666%, var(--blue) 66.666%);
+  }
+
+  .foot__inner { max-width: var(--wrap); margin: 0 auto; }
+
+  .foot__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 26px;
+    padding-bottom: clamp(26px, 3.5vw, 36px);
+    border-bottom: 1px solid rgba(255, 255, 255, .16);
+  }
+
+  .foot__brand { display: inline-flex; flex: none; border-radius: 4px; }
+  .foot__brand:focus-visible { outline: 2px solid #fff; outline-offset: 6px; }
+  .foot__mark { width: 52px; height: auto; fill: #fff; display: block; }
+
+  .foot__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 30px;
+  }
+
+  .foot__nav a {
+    color: rgba(255, 255, 255, .88);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, .14);
+    border-radius: 999px;
+    transition: color .16s ease;
+  }
+  .foot__nav a:hover { color: #fff; background: rgba(255, 255, 255, .09); }
+  .foot__nav a:focus-visible { outline: 2px solid #fff; outline-offset: 4px; border-radius: 3px; }
+
+  .fsoc { display: flex; gap: 10px; flex: none; }
+
+  .fsoc a {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .13);
+    color: #fff;
+    transition: background-color .16s ease;
+  }
+  .fsoc a:hover { background: rgba(255, 255, 255, .26); }
+  .fsoc a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  .fsoc svg { width: 17px; height: 17px; }
+
+  .foot__bottom {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    margin-top: clamp(20px, 2.5vw, 26px);
+    padding: 18px 20px;
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, .045);
+  }
+
+  .foot__legal {
+    margin: 0;
+    max-width: 76ch;
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, .55);
+  }
+
+  .foot__legal a { color: rgba(255, 255, 255, .78); text-decoration: none; }
+  .foot__legal a:hover { color: #fff; text-decoration: underline; }
+
+  .foot__copy {
+    margin: 0;
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, .55);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 720px) {
+    .foot__top { flex-direction: column; align-items: flex-start; gap: 22px; }
+    .foot__nav { gap: 10px 22px; }
+  }
+  @media (max-width: 520px) {
+    .hero { padding-left: 22px; padding-right: 22px; }
+    .foot { padding-left: 22px; padding-right: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header" id="header">
+  <div class="site-header__inner">
+
+    <a href="index.html" class="logo" aria-label="Interest — vai alla home">
+
+      <!-- simbolo: sempre visibile -->
+      <svg class="logo__mark" viewBox="0 0 271.6 182.06" role="img" aria-hidden="true" focusable="false">
+        <path d="M271.6,180.7c-33.7,0-65.31-5.5-93.97-16.35-23.09-8.74-44.29-20.94-63.02-36.27-15.34-12.55-26.51-25.16-34.07-35.04l-57.46,89.03L0,166.88,81.24,39.12l10.9,21.62c.2.38,3.28,6.12,9.61,14.44,5.98,7.86,16.19,19.72,30.87,31.55,16.42,13.24,35.02,23.79,55.26,31.36,25.41,9.49,53.58,14.31,83.72,14.31v28.31Z"/>
+        <circle cx="114.47" cy="20.13" r="20.13"/>
+        <path d="M271.6,132.76c-25.26,0-48.88-3.83-70.19-11.39-17.26-6.12-33.05-14.68-46.92-25.43-10-7.75-18.77-16.44-26.08-25.81-5.59-7.17-8.28-12.21-8.57-12.76l24.03-13.5-.04-.07c.08.15,8.44,15.4,28.21,30.38,11.56,8.76,24.75,15.74,39.19,20.75,18.21,6.32,38.52,9.52,60.37,9.52v28.31Z"/>
+      </svg>
+
+      <!-- nome: compare al passaggio del cursore -->
+      <span class="logo__name" aria-hidden="true">
+        <svg viewBox="0 0 806.48 137.98" role="img" focusable="false">
+          <g transform="translate(0,-238.94)">
+            <path d="M0,374.25v-135.31h31.31v135.31H0Z"/>
+            <path d="M58.26,374.25v-110.8h30.69v30.69l-5.77-9.27c3.98-7.41,9.68-13.11,17.09-17.09,7.41-3.98,15.86-5.97,25.33-5.97,8.79,0,16.65,1.75,23.58,5.25,6.93,3.5,12.39,8.86,16.37,16.06,3.98,7.21,5.97,16.44,5.97,27.7v63.43h-32.13v-58.49c0-8.92-1.96-15.51-5.87-19.77-3.91-4.25-9.44-6.38-16.58-6.38-5.08,0-9.65,1.07-13.7,3.19-4.05,2.13-7.21,5.39-9.47,9.78-2.27,4.4-3.4,10.02-3.4,16.89v54.78h-32.13Z"/>
+            <path d="M187.39,288.17v-24.71h76.82v24.71h-76.82ZM245.88,375.9c-13.05,0-23.21-3.33-30.48-9.99-7.28-6.66-10.92-16.58-10.92-29.76v-97.21h32.13v96.8c0,4.67,1.24,8.27,3.71,10.81,2.47,2.54,5.83,3.81,10.09,3.81,5.08,0,9.4-1.37,12.98-4.12l8.65,22.65c-3.29,2.34-7.24,4.09-11.84,5.25-4.6,1.17-9.37,1.75-14.31,1.75Z"/>
+            <path d="M341.65,375.9c-12.63,0-23.72-2.47-33.26-7.41-9.54-4.94-16.92-11.7-22.14-20.29-5.22-8.58-7.83-18.36-7.83-29.35s2.57-20.97,7.72-29.55c5.15-8.58,12.18-15.31,21.11-20.18,8.92-4.87,19.02-7.31,30.27-7.31s20.63,2.3,29.35,6.9c8.72,4.6,15.62,11.19,20.7,19.77,5.08,8.58,7.62,18.84,7.62,30.79,0,1.24-.07,2.65-.21,4.22-.14,1.58-.28,3.06-.41,4.43h-90v-18.74h73.11l-12.36,5.56c0-5.77-1.17-10.78-3.5-15.03-2.34-4.25-5.56-7.58-9.68-9.99-4.12-2.4-8.93-3.6-14.42-3.6s-10.33,1.2-14.52,3.6c-4.19,2.4-7.45,5.77-9.78,10.09-2.34,4.32-3.5,9.44-3.5,15.34v4.94c0,6.04,1.34,11.36,4.02,15.96,2.68,4.6,6.45,8.1,11.33,10.5,4.87,2.4,10.61,3.6,17.2,3.6,5.9,0,11.09-.89,15.55-2.68,4.46-1.78,8.55-4.46,12.25-8.03l17.09,18.54c-5.08,5.77-11.46,10.19-19.15,13.28-7.69,3.09-16.55,4.63-26.57,4.63Z"/>
+            <path d="M416.61,374.25v-110.8h30.69v31.3l-4.33-9.06c3.29-7.83,8.58-13.76,15.86-17.81,7.28-4.05,16.13-6.08,26.57-6.08v29.66c-1.37-.14-2.61-.24-3.71-.31-1.1-.07-2.26-.1-3.5-.1-8.79,0-15.89,2.51-21.32,7.52-5.42,5.01-8.13,12.8-8.13,23.38v52.31h-32.13Z"/>
+            <path d="M558.52,375.9c-12.63,0-23.72-2.47-33.26-7.41-9.54-4.94-16.92-11.7-22.14-20.29-5.22-8.58-7.83-18.36-7.83-29.35s2.57-20.97,7.72-29.55c5.15-8.58,12.18-15.31,21.11-20.18,8.92-4.87,19.02-7.31,30.28-7.31s20.63,2.3,29.35,6.9c8.72,4.6,15.62,11.19,20.7,19.77,5.08,8.58,7.62,18.84,7.62,30.79,0,1.24-.07,2.65-.21,4.22-.14,1.58-.28,3.06-.41,4.43h-90v-18.74h73.11l-12.36,5.56c0-5.77-1.17-10.78-3.5-15.03-2.34-4.25-5.56-7.58-9.68-9.99-4.12-2.4-8.93-3.6-14.42-3.6s-10.33,1.2-14.52,3.6c-4.19,2.4-7.45,5.77-9.78,10.09-2.34,4.32-3.5,9.44-3.5,15.34v4.94c0,6.04,1.34,11.36,4.02,15.96,2.68,4.6,6.45,8.1,11.33,10.5,4.87,2.4,10.61,3.6,17.2,3.6,5.9,0,11.09-.89,15.55-2.68,4.46-1.78,8.55-4.46,12.25-8.03l17.09,18.54c-5.08,5.77-11.47,10.19-19.15,13.28-7.69,3.09-16.55,4.63-26.57,4.63Z"/>
+            <path d="M670.76,375.9c-9.47,0-18.57-1.13-27.29-3.4-8.72-2.27-15.62-5.11-20.7-8.55l10.71-23.07c5.08,3.16,11.09,5.73,18.02,7.72,6.93,1.99,13.76,2.99,20.49,2.99,7.41,0,12.67-.89,15.75-2.68,3.09-1.78,4.63-4.25,4.63-7.41,0-2.61-1.2-4.56-3.6-5.87-2.4-1.3-5.6-2.3-9.58-2.99-3.98-.69-8.34-1.37-13.08-2.06-4.74-.69-9.51-1.61-14.31-2.78-4.81-1.17-9.2-2.92-13.18-5.25-3.98-2.33-7.18-5.49-9.58-9.47-2.4-3.98-3.6-9.13-3.6-15.45,0-7,2.02-13.18,6.08-18.54,4.05-5.35,9.92-9.58,17.61-12.67,7.69-3.09,16.89-4.63,27.6-4.63,7.55,0,15.24.82,23.07,2.47s14.35,4.05,19.57,7.21l-10.71,22.86c-5.35-3.16-10.75-5.32-16.17-6.49-5.43-1.17-10.68-1.75-15.76-1.75-7.14,0-12.36.96-15.65,2.88-3.29,1.92-4.94,4.4-4.94,7.41,0,2.75,1.2,4.81,3.6,6.18,2.4,1.37,5.59,2.47,9.58,3.3,3.98.82,8.34,1.54,13.08,2.16,4.74.62,9.51,1.54,14.31,2.78,4.8,1.24,9.17,2.99,13.08,5.25s7.11,5.35,9.58,9.27,3.71,9.03,3.71,15.34c0,6.87-2.06,12.94-6.18,18.23-4.12,5.29-10.06,9.44-17.81,12.46-7.76,3.02-17.2,4.53-28.32,4.53Z"/>
+            <path d="M729.66,288.17v-24.71h76.82v24.71h-76.82ZM788.15,375.9c-13.04,0-23.21-3.33-30.48-9.99-7.28-6.66-10.92-16.58-10.92-29.76v-97.21h32.13v96.8c0,4.67,1.24,8.27,3.71,10.81,2.47,2.54,5.83,3.81,10.09,3.81,5.08,0,9.4-1.37,12.98-4.12l8.65,22.65c-3.29,2.34-7.24,4.09-11.84,5.25-4.6,1.17-9.37,1.75-14.31,1.75Z"/>
+          </g>
+        </svg>
+      </span>
+
+    </a>
+
+    <nav class="nav" aria-label="Menu principale">
+      <a href="cosa-facciamo.html">Cosa facciamo</a>
+      <a href="chi-siamo.html">Chi siamo</a>
+      <a href="governance.html">Governance</a>
+      <a href="blog.html">Blog</a>
+      <a href="contattaci.html">Contattaci</a>
+    </nav>
+
+  </div>
+</header>
+
+<main>
+
+<section class="hero snap">
+  <div class="hero__inner">
+
+    <ul class="claim">
+
+      <li class="claim__item" data-key="curiosa">
+        <button class="claim__word" type="button" aria-expanded="false" aria-controls="pop-curiosa">
+          Curiosa
+        </button>
+        <div class="pop" id="pop-curiosa" role="dialog" aria-label="Cosa facciamo">
+          <button class="pop__close" type="button" aria-label="Chiudi">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+          </button>
+          <p class="pop__k">Curiosa</p>
+          <p class="pop__t">Non ci limitiamo ai seminari.</p>
+          <p class="pop__d">
+            Educazione finanziaria nelle scuole superiori, ricerca sulle competenze degli studenti
+            e un progetto pilota di microcredito a impatto.
+          </p>
+          <a class="pop__cta" href="cosa-facciamo.html">
+            Cosa facciamo
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <p class="pop__hint">Chiudi con × oppure premi Esc</p>
+        </div>
+      </li>
+
+      <li class="claim__item" data-key="giovane">
+        <button class="claim__word" type="button" aria-expanded="false" aria-controls="pop-giovane">
+          Giovane
+        </button>
+        <div class="pop" id="pop-giovane" role="dialog" aria-label="Chi siamo">
+          <button class="pop__close" type="button" aria-label="Chiudi">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+          </button>
+          <p class="pop__k">Giovane</p>
+          <p class="pop__t">Nata nel 2025, da under 25.</p>
+          <p class="pop__d">
+            A parlare agli studenti sono altri studenti, di qualche anno più grandi. Con al fianco
+            professionisti senior che ci fanno da bussola.
+          </p>
+          <a class="pop__cta" href="chi-siamo.html">
+            Chi siamo
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <p class="pop__hint">Chiudi con × oppure premi Esc</p>
+        </div>
+      </li>
+
+      <li class="claim__item" data-key="nonprofit">
+        <button class="claim__word" type="button" aria-expanded="false" aria-controls="pop-nonprofit">
+          Non&nbsp;profit
+        </button>
+        <div class="pop" id="pop-nonprofit" role="dialog" aria-label="Governance">
+          <button class="pop__close" type="button" aria-label="Chiudi">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+          </button>
+          <p class="pop__k">Non profit</p>
+          <p class="pop__t">Ente del Terzo Settore.</p>
+          <p class="pop__d">
+            Associazione di Promozione Sociale iscritta al RUNTS. Statuto, organi e documenti
+            sono pubblici: chiunque può verificarli.
+          </p>
+          <a class="pop__cta" href="governance.html">
+            Governance
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <p class="pop__hint">Chiudi con × oppure premi Esc</p>
+        </div>
+      </li>
+
+    </ul>
+
+
+  </div>
+</section>
+
+
+
+</main>
+
+<footer class="foot snap--tall">
+  <div class="foot__inner">
+
+    <div class="foot__top">
+
+      <a class="foot__brand" href="index.html" aria-label="Interest — vai alla home">
+        <svg class="foot__mark" viewBox="0 0 271.6 182.06" aria-hidden="true">
+          <path d="M271.6,180.7c-33.7,0-65.31-5.5-93.97-16.35-23.09-8.74-44.29-20.94-63.02-36.27-15.34-12.55-26.51-25.16-34.07-35.04l-57.46,89.03L0,166.88,81.24,39.12l10.9,21.62c.2.38,3.28,6.12,9.61,14.44,5.98,7.86,16.19,19.72,30.87,31.55,16.42,13.24,35.02,23.79,55.26,31.36,25.41,9.49,53.58,14.31,83.72,14.31v28.31Z"/>
+          <circle cx="114.47" cy="20.13" r="20.13"/>
+          <path d="M271.6,132.76c-25.26,0-48.88-3.83-70.19-11.39-17.26-6.12-33.05-14.68-46.92-25.43-10-7.75-18.77-16.44-26.08-25.81-5.59-7.17-8.28-12.21-8.57-12.76l24.03-13.5-.04-.07c.08.15,8.44,15.4,28.21,30.38,11.56,8.76,24.75,15.74,39.19,20.75,18.21,6.32,38.52,9.52,60.37,9.52v28.31Z"/>
+        </svg>
+      </a>
+
+      <nav class="foot__nav" aria-label="Informazioni legali">
+        <a href="/statuto.pdf">Statuto</a>
+        <a href="/bilancio.pdf">Bilancio</a>
+        <a href="/runts.pdf">RUNTS</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/cookie-policy">Cookie policy</a>
+      </nav>
+
+      <div class="fsoc">
+        <a href="https://www.linkedin.com/company/interest-edufin/" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95 4.02 0 4.76 2.5 4.76 5.75V21h-4v-5.6c0-1.34-.03-3.06-1.9-3.06-1.9 0-2.19 1.45-2.19 2.96V21h-4V9Z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.4 2.21 8.8 2.2 12 2.2Zm0 3.05a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5Zm0 11.13a4.38 4.38 0 1 1 0-8.76 4.38 4.38 0 0 1 0 8.76Zm8.6-11.4a1.58 1.58 0 1 1-3.15 0 1.58 1.58 0 0 1 3.15 0Z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 12s0-3.3-.42-4.88a2.53 2.53 0 0 0-1.78-1.79C19.22 4.9 12 4.9 12 4.9s-7.22 0-8.8.43c-.87.23-1.55.92-1.78 1.79C1 8.7 1 12 1 12s0 3.3.42 4.88c.23.87.91 1.56 1.78 1.79 1.58.43 8.8.43 8.8.43s7.22 0 8.8-.43a2.53 2.53 0 0 0 1.78-1.79C23 15.3 23 12 23 12ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+        </a>
+      </div>
+
+    </div>
+
+    <div class="foot__bottom">
+      <p class="foot__legal">
+        Interest Edufin APS — Associazione di Promozione Sociale iscritta al RUNTS, sezione B ·
+        C.F. 18028181008 · Via Francesco Patrizio da Cherso 30, 00143 Roma ·
+        <a href="mailto:team@buildinterest.it">team@buildinterest.it</a>
+      </p>
+      <p class="foot__copy">© 2026 Interest Edufin APS</p>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  /* ── header: la linea compare allo scroll ── */
+  const header = document.getElementById('header');
+  const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 12);
+  onScroll();
+  addEventListener('scroll', onScroll, { passive: true });
+
+  /* Apertura stabile: hover sui desktop, click/tap ovunque, chiusura solo
+     esplicita. Nessun calcolo sulla distanza del cursore o sullo scroll. */
+  (() => {
+    const claim = document.querySelector('.claim');
+    if (!claim) return;
+    claim.dataset.paintReady = 'true';
+    const items = [...claim.querySelectorAll('.claim__item')];
+    const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    const setOrigin = (item, event) => {
+      const word = item.querySelector('.claim__word');
+      const pop = item.querySelector('.pop');
+      const box = word.getBoundingClientRect();
+      const x = event?.clientX || box.left + box.width / 2;
+      const y = event?.clientY || box.top + box.height / 2;
+      pop.style.setProperty('--px', `${x}px`);
+      pop.style.setProperty('--py', `${y}px`);
+    };
+
+    const close = () => {
+      const active = claim.querySelector('.claim__item.is-open');
+      items.forEach(item => {
+        item.classList.remove('is-open');
+        item.querySelector('.claim__word').setAttribute('aria-expanded', 'false');
+      });
+      claim.classList.remove('has-open');
+      document.documentElement.classList.remove('is-locked');
+      return active;
+    };
+
+    const open = (item, event) => {
+      if (item.classList.contains('is-open')) return;
+      setOrigin(item, event);
+      close();
+      item.classList.add('is-open');
+      item.querySelector('.claim__word').setAttribute('aria-expanded', 'true');
+      claim.classList.add('has-open');
+      document.documentElement.classList.add('is-locked');
+    };
+
+    items.forEach(item => {
+      const word = item.querySelector('.claim__word');
+      const closeButton = item.querySelector('.pop__close');
+      if (fine) word.addEventListener('pointerenter', event => open(item, event));
+      word.addEventListener('click', event => open(item, event));
+      closeButton.addEventListener('click', () => {
+        close();
+        setTimeout(() => word.focus({ preventScroll: true }), 650);
+      });
+    });
+
+    addEventListener('keydown', event => {
+      if (event.key !== 'Escape') return;
+      const active = close();
+      if (active) setTimeout(() => active.querySelector('.claim__word').focus({ preventScroll: true }), 650);
+    });
+  })();
+
+  /* ── le tre parole e i loro riquadri ── */
+  (() => {
+    const claim = document.querySelector('.claim');
+    if (!claim || claim.dataset.paintReady === 'true') return;
+
+    const items = [...claim.querySelectorAll('.claim__item')];
+    const fine  = matchMedia('(hover: hover) and (pointer: fine)').matches;
+    let timer;
+    let apertoIl = 0;            // istante dell'apertura, per la breve immunità
+    let origineX = 0, origineY = 0; // punto in cui la vernice è stata versata
+    let chiusoIl = 0;            // istante dell'ultima chiusura
+
+    /* l'onda di colore parte dal punto in cui si trova il cursore */
+    const setOrigin = (item, ev) => {
+      const pop = item.querySelector('.pop');
+      const w = item.querySelector('.claim__word').getBoundingClientRect();
+      const x = ev && ev.clientX ? ev.clientX : w.left + w.width / 2;
+      const y = ev && ev.clientY ? ev.clientY : w.top + w.height / 2;
+      origineX = x;
+      origineY = y;
+      pop.style.setProperty('--x', (x / innerWidth * 100) + '%');
+      pop.style.setProperty('--y', (y / innerHeight * 100) + '%');
+    };
+
+    const open = (item, ev) => {
+      clearTimeout(timer);
+      setOrigin(item, ev);
+      items.forEach(i => {
+        const on = i === item;
+        i.classList.toggle('is-open', on);
+        i.querySelector('.claim__word').setAttribute('aria-expanded', String(on));
+      });
+      claim.classList.add('has-open');
+      apertoIl = performance.now();
+      /* il pannello copre tutto: scorrere muoverebbe una pagina che non si vede */
+      document.documentElement.classList.add('is-locked');
+    };
+
+    const closeAll = () => {
+      clearTimeout(timer);
+      const wasOpen = claim.querySelector('.claim__item.is-open');
+
+      /* la vernice si risucchia verso la parola da cui era uscita */
+      if (wasOpen) {
+        const pop = wasOpen.querySelector('.pop');
+        const w = wasOpen.querySelector('.claim__word').getBoundingClientRect();
+        pop.style.setProperty('--x', ((w.left + w.width / 2) / innerWidth * 100) + '%');
+        pop.style.setProperty('--y', ((w.top + w.height / 2) / innerHeight * 100) + '%');
+      }
+
+      items.forEach(i => {
+        i.classList.remove('is-open');
+        i.querySelector('.claim__word').setAttribute('aria-expanded', 'false');
+      });
+      claim.classList.remove('has-open');
+      document.documentElement.classList.remove('is-locked');
+      if (wasOpen) chiusoIl = performance.now();
+      return wasOpen;
+    };
+
+    items.forEach(item => {
+      const word = item.querySelector('.claim__word');
+      const pop  = item.querySelector('.pop');
+
+      /* passando col cursore il colore invade lo schermo */
+      if (fine) {
+        word.addEventListener('mouseenter', (e) => {
+          /* se un colore è già aperto non se ne apre un altro: scorrendo, le
+             parole scivolano sotto il cursore e aprirebbero pannelli a caso */
+          if (claim.classList.contains('has-open')) return;
+          /* dopo una chiusura il cursore è spesso ancora fermo su una parola:
+             senza questa pausa il pannello si riaprirebbe da solo */
+          if (performance.now() - chiusoIl < 350) return;
+          open(item, e);
+        });
+      }
+
+      /* da tastiera e col dito */
+      word.addEventListener('focus', () => open(item));
+
+      /* col mouse basta passare sopra: il click non deve fare nulla,
+         altrimenti richiude il pannello appena aperto dall'hover.
+         Sui dispositivi touch, dove l'hover non esiste, il tocco apre. */
+      word.addEventListener('click', (e) => {
+        if (fine) return;
+        item.classList.contains('is-open') ? closeAll() : open(item, e);
+      });
+
+      /* la X chiude e riporta il fuoco sulla parola */
+      pop.querySelector('.pop__close').addEventListener('click', () => {
+        closeAll();
+        word.focus();
+      });
+
+    });
+
+    /* allontanandosi dal centro la vernice si ritira.
+       L'ascolto è sulla finestra: se stesse sul pannello, muovendo il cursore
+       sopra il testo o il pulsante l'evento non arriverebbe mai. */
+    if (fine) {
+      addEventListener('mousemove', (e) => {
+        if (!claim.classList.contains('has-open')) return;
+
+        /* subito dopo l'apertura il cursore è ancora sulla parola, che può
+           trovarsi già oltre la soglia: senza questa pausa si richiuderebbe
+           all'istante, ed è il motivo per cui sembrava non funzionare */
+        if (performance.now() - apertoIl < 420) return;
+
+        /* il pulsante e il testo non devono mai far ritirare la vernice:
+           chi ci passa sopra sta leggendo, non uscendo */
+        if (e.target.closest('.pop__cta, .pop__close, .pop__t, .pop__d')) return;
+
+        /* la distanza si misura dal punto in cui la vernice è stata versata,
+           non dal centro dello schermo: le parole stanno in alto a sinistra
+           e sarebbero già oltre soglia nell'istante stesso dell'apertura */
+        const dx = (e.clientX - origineX) / (innerWidth  / 2);
+        const dy = (e.clientY - origineY) / (innerHeight / 2);
+        const d  = Math.hypot(dx, dy);
+
+        if (d > 0.46) closeAll();
+      }, { passive: true });
+
+      /* uscendo dalla finestra si ritira comunque */
+      document.addEventListener('mouseleave', () => {
+        if (claim.classList.contains('has-open')) closeAll();
+      });
+    }
+
+    /* Il gesto di scroll sul trackpad NON genera mousemove: il cursore resta
+       fermo mentre la pagina scorre. Senza questo, scorrendo col colore aperto
+       il pannello restava lì e le parole scivolavano sotto il cursore.
+       Ora il gesto di scorrimento chiude la vernice, come allontanarsi. */
+    const chiudiSuGesto = (e) => {
+      if (!claim.classList.contains('has-open')) return;
+      if (performance.now() - apertoIl < 300) return;
+      e.preventDefault();
+      closeAll();
+    };
+    addEventListener('wheel', chiudiSuGesto, { passive: false });
+    addEventListener('touchmove', chiudiSuGesto, { passive: false });
+
+    /* Esc chiude e riporta il fuoco sulla parola */
+    addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      const wasOpen = closeAll();
+      if (wasOpen) wasOpen.querySelector('.claim__word').focus();
+    });
+  })();
+</script>
+
+</body>
+</html>

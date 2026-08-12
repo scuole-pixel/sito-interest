@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero — buildinterest.it</title>
+<style>
+  :root {
+    /* colori di brand, presi dal CSS del sito attuale */
+    --green: #2fc6a0;
+    --red:   #fa6676;
+    --blue:  #007aff;
+
+    --ink:    #0e1b2c;
+    --muted:  #5a6b7d;
+    --accent: #0d7fd2;
+    --border: #e4ebf2;
+    --paper:  #f7f8fa;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: #fff;
+    color: var(--ink);
+    font-family: "Montserrat", "Avenir Next", system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ══════════ HERO ══════════ */
+
+  .hero {
+    position: relative;
+    background: var(--paper);
+    padding: clamp(56px, 9vh, 104px) 32px clamp(48px, 7vh, 88px);
+    overflow: hidden;
+  }
+
+  /* la grana di fondo dell'immagine, generata senza file esterni */
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+    opacity: .38;
+    pointer-events: none;
+  }
+
+  .hero__inner {
+    position: relative;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  /* ── le tre parole a scalare ── */
+
+  .claim {
+    margin: 0 auto;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: fit-content;
+    gap: clamp(2px, .6vw, 10px);
+  }
+
+  .claim li {
+    font-size: clamp(38px, 8.2vw, 116px);
+    font-weight: 800;
+    letter-spacing: -.005em;
+    line-height: 1.04;
+    text-transform: uppercase;
+
+    /* il contorno bianco spesso + l'ombra morbida dell'adesivo */
+    -webkit-text-stroke: .18em #fff;
+    paint-order: stroke fill;
+    filter: drop-shadow(0 6px 9px rgba(14, 27, 44, .17));
+
+    /* entrata: ogni parola sale e si assesta */
+    opacity: 0;
+    transform: translateY(14px);
+    animation: pop .62s cubic-bezier(.22, 1, .36, 1) forwards;
+  }
+
+  /* la scalatura in diagonale */
+  .claim li:nth-child(1) { color: var(--green); margin-left: 0;                    animation-delay: .08s; }
+  .claim li:nth-child(2) { color: var(--red);   margin-left: clamp(28px, 8vw, 132px);  animation-delay: .22s; }
+  .claim li:nth-child(3) { color: var(--blue);  margin-left: clamp(56px, 16vw, 264px); animation-delay: .36s; }
+
+  @keyframes pop {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .claim li { animation: none; opacity: 1; transform: none; }
+  }
+
+  /* ── testo e pulsanti ── */
+
+  .hero__body {
+    max-width: 60ch;
+    margin: clamp(36px, 5vw, 64px) auto 0;
+    text-align: center;
+  }
+
+  .hero__body p {
+    margin: 0;
+    font-size: clamp(16px, 1.35vw, 19px);
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .hero__body strong { color: var(--ink); font-weight: 600; }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 28px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 26px;
+    border-radius: 999px;
+    font-size: 15.5px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: transform .16s ease, background-color .16s ease, border-color .16s ease, color .16s ease;
+  }
+
+  .btn--primary { background: var(--accent); color: #fff; }
+  .btn--primary:hover { background: #0a6cb4; transform: translateY(-1px); }
+
+  .btn--ghost { color: var(--ink); border-color: var(--border); background: #fff; }
+  .btn--ghost:hover { border-color: var(--ink); transform: translateY(-1px); }
+
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn { transition: background-color .16s ease; }
+    .btn:hover { transform: none; }
+  }
+
+  /* ══════════ FASCIA NUMERI ══════════ */
+
+  .stats {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: clamp(40px, 6vw, 72px) 32px;
+  }
+
+  .stats__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+  }
+
+  .stat__n {
+    font-size: clamp(30px, 3.6vw, 46px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat:nth-child(1) .stat__n { color: var(--green); }
+  .stat:nth-child(2) .stat__n { color: var(--red); }
+  .stat:nth-child(3) .stat__n { color: var(--blue); }
+  .stat:nth-child(4) .stat__n { color: var(--ink); }
+
+  .stat__l {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+
+  .stats__goal {
+    margin: 28px 0 0;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 14.5px;
+    color: var(--muted);
+  }
+
+  .stats__goal b { color: var(--ink); font-weight: 600; }
+
+  @media (max-width: 860px) {
+    .stats__grid { grid-template-columns: repeat(2, 1fr); gap: 32px 24px; }
+  }
+  @media (max-width: 520px) {
+    .hero { padding-left: 22px; padding-right: 22px; }
+    .stats { padding-left: 22px; padding-right: 22px; }
+  }
+
+  .note {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px 120px;
+    color: var(--muted);
+    font-size: 14.5px;
+    line-height: 1.7;
+  }
+  .note code { background: #eef4f9; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero__inner">
+
+    <ul class="claim">
+      <li>Curiosa</li>
+      <li>Giovane</li>
+      <li>Non profit</li>
+    </ul>
+
+    <div class="hero__body">
+      <p>
+        Portiamo <strong>seminari gratuiti di educazione finanziaria</strong> nelle scuole superiori
+        italiane. Li teniamo noi: studenti universitari formati, di qualche anno più grandi dei ragazzi
+        che abbiamo davanti.
+      </p>
+      <div class="actions">
+        <a class="btn btn--primary" href="/scuole">Porta Interest nella tua scuola</a>
+        <a class="btn btn--ghost" href="/cosa-facciamo">Scopri i progetti</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats__grid">
+    <div class="stat">
+      <div class="stat__n">51</div>
+      <div class="stat__l">scuole nell'anno scolastico 2025/26</div>
+    </div>
+    <div class="stat">
+      <div class="stat__n">4.845</div>
+      <div class="stat__l">studenti raggiunti nel 2025/26</div>
+    </div>
+    <div class="stat">
+      <div class="stat__n">8,52<span style="font-size:.55em">/10</span></div>
+      <div class="stat__l">la valutazione che ci danno gli studenti</div>
+    </div>
+    <div class="stat">
+      <div class="stat__n">46,5<span style="font-size:.55em">%</span></div>
+      <div class="stat__l">scuole in aree fragili</div>
+    </div>
+  </div>
+  <p class="stats__goal">Il nostro obiettivo: <b>oltre 100 scuole entro il 2027</b>.</p>
+</section>
+
+<div class="note">
+  <p>
+    <strong>Note per la revisione.</strong> Le tre parole usano i colori di brand presi dal CSS del sito
+    attuale: verde <code>#2fc6a0</code>, rosso <code>#fa6676</code>, blu <code>#007aff</code>. Il font è
+    Montserrat ExtraBold, in attesa di quello vero che mi mandi: quando arriva si sostituisce in un punto
+    solo. Il contorno bianco e l'ombra sono fatti in CSS, non è un'immagine — quindi restano nitidi a
+    ogni dimensione e il testo resta selezionabile e leggibile da Google.
+  </p>
+  <p>
+    Ricaricando la pagina vedi le tre parole entrare una dopo l'altra. Se il sistema ha attivo
+    &laquo;riduci animazioni&raquo;, compaiono ferme.
+  </p>
+</div>
+
+</body>
+</html>
