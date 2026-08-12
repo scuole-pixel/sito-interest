@@ -1,0 +1,10 @@
+.DS_Store
+**/.DS_Store
+
+# Appunti e bozze locali non usati dal sito pubblico
+DA-RIAGGIUNGERE.md
+header.html
+hero.html
+assets/_orig.css
+assets/blog/Screenshot *.png
+assets/blog/*.svg
