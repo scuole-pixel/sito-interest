@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contatti — Interest Edufin APS</title>
-<meta name="description" content="Scrivi a Interest Edufin APS: seminari nelle scuole, partnership, microcredito e ricerca. team@buildinterest.it · +39 392 365 5752.">
+<meta name="description" content="Scrivi a Interest Edufin APS: seminari nelle scuole, partnership, microcredito, ricerca e volontariato. Trova il contatto giusto o prepara una mail dal sito.">
 <link rel="stylesheet" href="assets/base.css?v=20260812b">
 <link rel="stylesheet" href="assets/progetto.css?v=20260812b">
 <style>
@@ -88,56 +88,34 @@
         <strong>Entra<br>nel team.</strong>
         <small>Candidatura spontanea <b>↗</b></small>
       </a>
-      <a class="contact-signal contact-signal--ink" href="tel:+393923655752">
-        <span>Per chi odia le email</span>
-        <strong>Parliamone<br>a voce.</strong>
-        <small>+39 392 365 5752 <b>↗</b></small>
-      </a>
-    </div>
-
-    <div class="contact-compose">
-      <div class="contact-compose__intro">
-        <p>Canale aperto</p>
-        <h2>Oppure scrivi<br>senza etichette.</h2>
-        <span>Il modulo prepara una mail nella tua app. Rispondiamo di solito entro due o tre giorni.</span>
-      </div>
-
-      <form class="form contact-form" id="contatti" novalidate>
+      <div class="contact-signal contact-signal--form">
+        <span>Per tutto il resto</span>
+        <strong>Scrivici qui.</strong>
+        <form class="form contact-form" id="contatti" novalidate>
         <div class="contact-form__row">
           <div class="form__r">
-            <label for="nome">Come ti chiami?</label>
-            <input id="nome" name="nome" type="text" required autocomplete="name" placeholder="Nome e cognome">
+            <label for="nome">Nome</label>
+            <input id="nome" name="nome" type="text" required autocomplete="name" placeholder="Come ti chiami?">
           </div>
           <div class="form__r">
-            <label for="email">Dove rispondiamo?</label>
+            <label for="email">Email</label>
             <input id="email" name="email" type="email" required autocomplete="email" placeholder="nome@email.it">
           </div>
         </div>
         <div class="form__r">
-          <label for="motivo">La conversazione parte da…</label>
-          <select id="motivo" name="motivo" required>
-            <option value="">Scegli un punto di partenza</option>
-            <option>Un seminario nella mia scuola</option>
-            <option>Una partnership o una donazione</option>
-            <option>Il microcredito Micro for Macro</option>
-            <option>La ricerca e i dati</option>
-            <option>Diventare volontario o speaker</option>
-            <option>Un'idea che non è nella lista</option>
-          </select>
-        </div>
-        <div class="form__r">
-          <label for="msg">Vai, raccontaci.</label>
-          <textarea id="msg" name="msg" rows="5" required placeholder="Non serve essere formali."></textarea>
+          <label for="msg">Messaggio</label>
+          <textarea id="msg" name="msg" rows="3" required placeholder="Non serve essere formali."></textarea>
         </div>
         <div class="contact-form__send">
-          <button class="b" type="submit">Apri la conversazione →</button>
-          <p class="form__p">Dati usati solo per risponderti. <a href="privacy.html">Privacy</a>.</p>
+          <button class="b" type="submit">Prepara la mail →</button>
+          <p class="form__p"><a href="privacy.html">Privacy</a></p>
         </div>
-      </form>
+        </form>
 
-      <p class="form__ok" id="formOk" role="status" hidden>
-        Il messaggio è pronto nella tua app email. A presto.
-      </p>
+        <p class="form__ok" id="formOk" role="status" hidden>
+          La mail è pronta. A presto.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -212,7 +190,7 @@
     const corpo = `Nome: ${v('nome')}\nEmail: ${v('email')}\n\n${v('msg')}`;
 
     location.href = 'mailto:team@buildinterest.it'
-      + '?subject=' + encodeURIComponent(v('motivo'))
+      + '?subject=' + encodeURIComponent('Messaggio dal sito — ' + v('nome'))
       + '&body=' + encodeURIComponent(corpo);
 
     f.hidden = true;

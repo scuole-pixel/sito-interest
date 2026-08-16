@@ -61,129 +61,111 @@
     <h1 class="op__h">La nostra storia, dall'inizio.</h1>
     <p class="op__d">
       Interest Edufin APS fa educazione finanziaria nelle scuole superiori italiane.
-      Scegli una data e segui il percorso: dal primo esperimento in cinque scuole
-      al prossimo traguardo nazionale.
+      Scorri la timeline: dal primo esperimento in cinque scuole al prossimo
+      traguardo nazionale. La data ti accompagna mentre la storia avanza.
     </p>
   </div>
 </section>
 
-<!-- ══════ CRONOLOGIA: un solo calendario, una storia alla volta ══════ -->
-<section class="chronicle" aria-labelledby="chronicleTitle">
-  <header class="chronicle__head">
+<!-- ══════ CRONOLOGIA: timeline verticale e calendario persistente ══════ -->
+<section class="story-scroll" aria-labelledby="chronicleTitle">
+  <header class="story-scroll__head">
     <p>La nostra storia</p>
     <h2 id="chronicleTitle">Da cinque scuole<br>a un progetto nazionale.</h2>
     <span>Nove passaggi che hanno cambiato la scala, il metodo o la direzione di Interest.</span>
   </header>
 
-  <div class="chronicle__shell">
-    <aside class="chronicle__calendar" aria-live="polite" aria-atomic="true">
-      <span class="chronicle__calendar-k">Tappa <b id="chronicleCount">01</b> / 09</span>
-      <strong id="chronicleMonth">Ottobre</strong>
-      <em id="chronicleYear">2024</em>
-      <span class="chronicle__calendar-note" id="chronicleDateNote">Il primo esperimento</span>
+  <div class="story-scroll__layout">
+    <aside class="story-date" aria-live="polite" aria-atomic="true">
+      <span class="story-date__top">Tappa <b id="chronicleCount">01</b> / 09</span>
+      <span class="story-date__when">
+        <strong id="chronicleMonth">Ottobre</strong>
+        <em id="chronicleYear">2024</em>
+      </span>
+      <span class="story-date__note" id="chronicleDateNote">Il primo esperimento</span>
     </aside>
 
-    <div class="chronicle__body">
-      <nav class="chronicle__rail" aria-label="Scegli una tappa della storia">
-        <button type="button" class="is-active" data-step="0" aria-current="step"><span>Ott</span><b>24</b></button>
-        <button type="button" data-step="1"><span>Mar</span><b>25</b></button>
-        <button type="button" data-step="2"><span>Giu</span><b>25</b></button>
-        <button type="button" data-step="3"><span>Set</span><b>25</b></button>
-        <button type="button" data-step="4"><span>Gen</span><b>26</b></button>
-        <button type="button" data-step="5"><span>Giu</span><b>26</b></button>
-        <button type="button" data-step="6"><span>Lug</span><b>26</b></button>
-        <button type="button" data-step="7"><span>Ago</span><b>26</b></button>
-        <button type="button" data-step="8"><span>Giu</span><b>27</b></button>
-      </nav>
-
-      <div class="chronicle__slides">
-        <article class="chronicle__event is-active" data-month="Ottobre" data-year="2024" data-note="Il primo esperimento">
+    <div class="story-scroll__events">
+        <article class="story-event is-active" data-month="Ottobre" data-year="2024" data-note="Il primo esperimento">
           <p>Da un'idea a una classe vera</p>
           <h3>Cinque scuole per capire se poteva funzionare.</h3>
-          <div class="chronicle__copy">
+          <div class="story-event__copy">
             <p>Non esiste ancora un'associazione. Un gruppo di studenti prova il formato in cinque istituti e scopre che il peer-to-peer funziona: chi ha appena lasciato le superiori sa ancora quali domande non osava fare.</p>
             <strong><b>5</b> scuole pilota</strong>
           </div>
         </article>
 
-        <article class="chronicle__event" data-month="Marzo" data-year="2025" data-note="Nasce Interest Edufin APS" hidden>
+        <article class="story-event" data-month="Marzo" data-year="2025" data-note="Nasce Interest Edufin APS">
           <p>La costituzione</p>
           <h3>L'esperimento diventa un'associazione.</h3>
-          <div class="chronicle__copy">
+          <div class="story-event__copy">
             <p>Il 17 marzo sette firmatari costituiscono Interest Edufin APS. Il 2 aprile arriva l'iscrizione al RUNTS: da quel momento il progetto è un ente del Terzo Settore, con responsabilità e regole precise.</p>
             <strong><b>7</b> soci fondatori</strong>
           </div>
         </article>
 
-        <article class="chronicle__event" data-month="Giugno" data-year="2025" data-note="Il primo anno" hidden>
+        <article class="story-event" data-month="Giugno" data-year="2025" data-note="Il primo anno">
           <p>La prima prova di scala</p>
           <h3>Il primo anno si chiude con 16 scuole.</h3>
-          <div class="chronicle__copy">
+          <div class="story-event__copy">
             <p>Circa 1.400 studenti incontrati. È abbastanza per capire cosa coinvolge davvero una classe, quali parti vanno riscritte e perché la gratuità deve restare un principio del progetto.</p>
             <strong><b>1.400</b> studenti</strong>
           </div>
         </article>
 
-        <article class="chronicle__event" data-month="Settembre" data-year="2025" data-note="Si riparte da Stresa" hidden>
+        <article class="story-event" data-month="Settembre" data-year="2025" data-note="Si riparte da Stresa">
           <p>Il secondo anno</p>
           <h3>Da incontri occasionali a un calendario continuo.</h3>
-          <div class="chronicle__copy">
+          <div class="story-event__copy">
             <p>Il 19 settembre parte il nuovo anno scolastico. Da quel momento gli incontri diventano quasi settimanali: quarantanove appuntamenti tra gennaio e maggio, dal Nord alla Sicilia.</p>
             <strong><b>49</b> incontri in cinque mesi</strong>
           </div>
         </article>
 
-        <article class="chronicle__event" data-month="Gennaio" data-year="2026" data-note="Arrivano i partner" hidden>
+        <article class="story-event" data-month="Gennaio" data-year="2026" data-note="Arrivano i partner">
           <p>La struttura cresce</p>
           <h3>Il progetto smette di crescere da solo.</h3>
-          <div class="chronicle__copy">
+          <div class="story-event__copy">
             <p>CAPZA sostiene il programma, Italiacamp ETS misura l'impatto e Factanza contribuisce ai contenuti. Competenze diverse entrano nello stesso sistema e permettono ai seminari di restare gratuiti.</p>
             <strong><b>3</b> partner strategici</strong>
           </div>
         </article>
 
-        <article class="chronicle__event" data-month="Giugno" data-year="2026" data-note="Il salto di scala" hidden>
+        <article class="story-event" data-month="Giugno" data-year="2026" data-note="Il salto di scala">
           <p>Un anno dopo</p>
           <h3>51 scuole, quasi 5.000 studenti.</h3>
-          <div class="chronicle__copy">
+          <div class="story-event__copy">
             <p>Le scuole raggiunte triplicano. Ma il dato più importante è un altro: quelle in aree fragili passano dal 10% al 46,5%. Crescere ha senso solo se l'educazione arriva dove arriverebbe meno facilmente.</p>
             <strong><b>+218%</b> scuole in un anno</strong>
           </div>
         </article>
 
-        <article class="chronicle__event" data-month="Luglio" data-year="2026" data-note="Tre progetti, una missione" hidden>
+        <article class="story-event" data-month="Luglio" data-year="2026" data-note="Tre progetti, una missione">
           <p>Oltre i seminari</p>
           <h3>Educazione, ricerca e microcredito.</h3>
-          <div class="chronicle__copy">
+          <div class="story-event__copy">
             <p>Ai seminari si affiancano la ricerca sulle competenze finanziarie e Micro for Macro, il fondo di microcredito a tasso zero. Nello stesso mese Banca d'Italia seleziona il progetto per il suo bando.</p>
             <strong><b>3</b> progetti attivi</strong>
           </div>
         </article>
 
-        <article class="chronicle__event" data-month="Agosto" data-year="2026" data-note="Le persone dietro Interest" hidden>
+        <article class="story-event" data-month="Agosto" data-year="2026" data-note="Le persone dietro Interest">
           <p>Chi c'è dentro</p>
           <h3>Un'organizzazione giovane, interamente volontaria.</h3>
-          <div class="chronicle__copy">
+          <div class="story-event__copy">
             <p>Trentatré soci, quindici peer educator, un consiglio direttivo e un comitato scientifico. Competenze e generazioni diverse lavorano insieme; nessuno viene retribuito per entrare in aula.</p>
-            <div class="chronicle__links"><a href="governance.html">Scopri la governance →</a><a href="cosa-facciamo.html">Esplora i progetti →</a></div>
+            <div class="story-event__links"><a href="governance.html">Scopri la governance →</a><a href="cosa-facciamo.html">Esplora i progetti →</a></div>
           </div>
         </article>
 
-        <article class="chronicle__event chronicle__event--goal" data-month="Giugno" data-year="2027" data-note="Il prossimo traguardo" hidden>
+        <article class="story-event story-event--goal" data-month="Giugno" data-year="2027" data-note="Il prossimo traguardo">
           <p>La direzione</p>
           <h3>Portare Interest in oltre 100 scuole.</h3>
-          <div class="chronicle__copy">
+          <div class="story-event__copy">
             <p>Non è una previsione, è il traguardo del progetto triennale. Oggi più di otto nuove scuole su dieci arrivano tramite il passaparola di un altro istituto: è da lì che vogliamo continuare.</p>
             <strong><b>100+</b> scuole entro giugno</strong>
           </div>
         </article>
-      </div>
-
-      <div class="chronicle__controls">
-        <button type="button" class="chronicle__prev" aria-label="Tappa precedente">←</button>
-        <span id="chronicleProgress"><i></i></span>
-        <button type="button" class="chronicle__next" aria-label="Tappa successiva">→</button>
-      </div>
     </div>
   </div>
 </section>
@@ -257,62 +239,57 @@
   addEventListener('scroll', onScroll, { passive: true });
 
   (() => {
-    const chronicle = document.querySelector('.chronicle');
-    if (!chronicle) return;
+    const story = document.querySelector('.story-scroll');
+    if (!story) return;
 
-    const events = [...chronicle.querySelectorAll('.chronicle__event')];
-    const rail = chronicle.querySelector('.chronicle__rail');
-    const steps = [...rail.querySelectorAll('button')];
-    const previous = chronicle.querySelector('.chronicle__prev');
-    const next = chronicle.querySelector('.chronicle__next');
+    const events = [...story.querySelectorAll('.story-event')];
     const month = document.getElementById('chronicleMonth');
     const year = document.getElementById('chronicleYear');
     const note = document.getElementById('chronicleDateNote');
     const count = document.getElementById('chronicleCount');
-    const progress = document.querySelector('#chronicleProgress i');
-    let active = 0;
+    let active = -1;
 
     const show = (index) => {
-      active = Math.max(0, Math.min(events.length - 1, index));
-      const selected = events[active];
-
-      events.forEach((event, i) => {
-        const on = i === active;
-        event.hidden = !on;
-        event.classList.toggle('is-active', on);
-      });
-
-      steps.forEach((step, i) => {
-        const on = i === active;
-        step.classList.toggle('is-active', on);
-        if (on) step.setAttribute('aria-current', 'step');
-        else step.removeAttribute('aria-current');
-      });
-
+      if (index === active) return;
+      active = index;
+      const selected = events[index];
+      events.forEach((event, i) => event.classList.toggle('is-active', i === index));
       month.textContent = selected.dataset.month;
       year.textContent = selected.dataset.year;
       note.textContent = selected.dataset.note;
-      count.textContent = String(active + 1).padStart(2, '0');
-      progress.style.width = `${((active + 1) / events.length) * 100}%`;
-      previous.disabled = active === 0;
-      next.disabled = active === events.length - 1;
-      const selectedStep = steps[active];
-      rail.scrollTo({
-        left: selectedStep.offsetLeft - (rail.clientWidth - selectedStep.offsetWidth) / 2,
-        behavior: 'smooth'
-      });
+      count.textContent = String(index + 1).padStart(2, '0');
     };
 
-    steps.forEach((step, index) => step.addEventListener('click', () => show(index)));
-    previous.addEventListener('click', () => show(active - 1));
-    next.addEventListener('click', () => show(active + 1));
+    let queued = false;
+    const updateFromScroll = () => {
+      queued = false;
+      const target = innerHeight * .52;
+      let nearest = 0;
+      let distance = Infinity;
 
-    chronicle.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowLeft') { event.preventDefault(); show(active - 1); }
-      if (event.key === 'ArrowRight') { event.preventDefault(); show(active + 1); }
-    });
+      events.forEach((event, index) => {
+        const rect = event.getBoundingClientRect();
+        const eventCenter = rect.top + rect.height / 2;
+        const nextDistance = Math.abs(eventCenter - target);
+        if (nextDistance < distance) {
+          distance = nextDistance;
+          nearest = index;
+        }
+      });
 
+      show(nearest);
+    };
+
+    const requestUpdate = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(updateFromScroll);
+    };
+
+    addEventListener('scroll', requestUpdate, { passive: true });
+    addEventListener('resize', requestUpdate);
     show(0);
+    requestUpdate();
   })();
 </script>
 

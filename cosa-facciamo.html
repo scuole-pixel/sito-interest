@@ -145,7 +145,8 @@
     transform: translateX(0);
   }
 
-  .logo:hover .logo__mark { fill: var(--accent); }
+  .logo:hover .logo__mark,
+  .logo:focus-visible .logo__mark { fill: var(--ink); }
 
   .logo:focus-visible {
     outline: 2px solid var(--accent);
@@ -184,13 +185,13 @@
     right: 0;
     bottom: 0;
     height: 2px;
-    background: var(--accent);
+    background: var(--ink);
     transform: scaleX(0);
     transform-origin: center;
     transition: transform .22s cubic-bezier(.4, 0, .2, 1);
   }
 
-  .nav a:hover { color: var(--accent); }
+  .nav a:hover { color: var(--ink); }
   .nav a:hover::after { transform: scaleX(1); }
 
   .nav a:focus-visible {
@@ -593,11 +594,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 12px 28px;
-    margin-top: clamp(20px, 2.5vw, 26px);
-    padding: 18px 20px;
-    border: 1px solid rgba(255, 255, 255, .1);
-    border-radius: 16px;
-    background: rgba(255, 255, 255, .045);
+    padding-top: clamp(20px, 2.5vw, 26px);
   }
 
   .foot__legal {

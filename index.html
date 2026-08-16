@@ -147,7 +147,8 @@
     transform: translateX(0);
   }
 
-  .logo:hover .logo__mark { fill: var(--accent); }
+  .logo:hover .logo__mark,
+  .logo:focus-visible .logo__mark { fill: var(--ink); }
 
   .logo:focus-visible {
     outline: 2px solid var(--accent);
@@ -186,13 +187,13 @@
     right: 0;
     bottom: 0;
     height: 2px;
-    background: var(--accent);
+    background: var(--ink);
     transform: scaleX(0);
     transform-origin: center;
     transition: transform .22s cubic-bezier(.4, 0, .2, 1);
   }
 
-  .nav a:hover { color: var(--accent); }
+  .nav a:hover { color: var(--ink); }
   .nav a:hover::after { transform: scaleX(1); }
 
   .nav a:focus-visible {
@@ -271,7 +272,7 @@
   .claim__word {
     display: block;
     margin: 0;
-    padding: .08em .12em;
+    padding: .13em .20em;
     border: 0;
     background: none;
     font: inherit;
@@ -670,11 +671,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 12px 28px;
-    margin-top: clamp(20px, 2.5vw, 26px);
-    padding: 18px 20px;
-    border: 1px solid rgba(255, 255, 255, .1);
-    border-radius: 16px;
-    background: rgba(255, 255, 255, .045);
+    padding-top: clamp(20px, 2.5vw, 26px);
   }
 
   .foot__legal {
@@ -885,64 +882,6 @@
   onScroll();
   addEventListener('scroll', onScroll, { passive: true });
 
-  /* Apertura stabile: hover sui desktop, click/tap ovunque, chiusura solo
-     esplicita. Nessun calcolo sulla distanza del cursore o sullo scroll. */
-  (() => {
-    const claim = document.querySelector('.claim');
-    if (!claim) return;
-    claim.dataset.paintReady = 'true';
-    const items = [...claim.querySelectorAll('.claim__item')];
-    const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-    const setOrigin = (item, event) => {
-      const word = item.querySelector('.claim__word');
-      const pop = item.querySelector('.pop');
-      const box = word.getBoundingClientRect();
-      const x = event?.clientX || box.left + box.width / 2;
-      const y = event?.clientY || box.top + box.height / 2;
-      pop.style.setProperty('--px', `${x}px`);
-      pop.style.setProperty('--py', `${y}px`);
-    };
-
-    const close = () => {
-      const active = claim.querySelector('.claim__item.is-open');
-      items.forEach(item => {
-        item.classList.remove('is-open');
-        item.querySelector('.claim__word').setAttribute('aria-expanded', 'false');
-      });
-      claim.classList.remove('has-open');
-      document.documentElement.classList.remove('is-locked');
-      return active;
-    };
-
-    const open = (item, event) => {
-      if (item.classList.contains('is-open')) return;
-      setOrigin(item, event);
-      close();
-      item.classList.add('is-open');
-      item.querySelector('.claim__word').setAttribute('aria-expanded', 'true');
-      claim.classList.add('has-open');
-      document.documentElement.classList.add('is-locked');
-    };
-
-    items.forEach(item => {
-      const word = item.querySelector('.claim__word');
-      const closeButton = item.querySelector('.pop__close');
-      if (fine) word.addEventListener('pointerenter', event => open(item, event));
-      word.addEventListener('click', event => open(item, event));
-      closeButton.addEventListener('click', () => {
-        close();
-        setTimeout(() => word.focus({ preventScroll: true }), 650);
-      });
-    });
-
-    addEventListener('keydown', event => {
-      if (event.key !== 'Escape') return;
-      const active = close();
-      if (active) setTimeout(() => active.querySelector('.claim__word').focus({ preventScroll: true }), 650);
-    });
-  })();
-
   /* ── le tre parole e i loro riquadri ── */
   (() => {
     const claim = document.querySelector('.claim');
@@ -952,7 +891,6 @@
     const fine  = matchMedia('(hover: hover) and (pointer: fine)').matches;
     let timer;
     let apertoIl = 0;            // istante dell'apertura, per la breve immunità
-    let origineX = 0, origineY = 0; // punto in cui la vernice è stata versata
     let chiusoIl = 0;            // istante dell'ultima chiusura
 
     /* l'onda di colore parte dal punto in cui si trova il cursore */
@@ -961,14 +899,15 @@
       const w = item.querySelector('.claim__word').getBoundingClientRect();
       const x = ev && ev.clientX ? ev.clientX : w.left + w.width / 2;
       const y = ev && ev.clientY ? ev.clientY : w.top + w.height / 2;
-      origineX = x;
-      origineY = y;
       pop.style.setProperty('--x', (x / innerWidth * 100) + '%');
       pop.style.setProperty('--y', (y / innerHeight * 100) + '%');
+      pop.style.setProperty('--px', `${x}px`);
+      pop.style.setProperty('--py', `${y}px`);
     };
 
     const open = (item, ev) => {
       clearTimeout(timer);
+      timer = null;
       setOrigin(item, ev);
       items.forEach(i => {
         const on = i === item;
@@ -983,14 +922,19 @@
 
     const closeAll = () => {
       clearTimeout(timer);
+      timer = null;
       const wasOpen = claim.querySelector('.claim__item.is-open');
 
       /* la vernice si risucchia verso la parola da cui era uscita */
       if (wasOpen) {
         const pop = wasOpen.querySelector('.pop');
         const w = wasOpen.querySelector('.claim__word').getBoundingClientRect();
-        pop.style.setProperty('--x', ((w.left + w.width / 2) / innerWidth * 100) + '%');
-        pop.style.setProperty('--y', ((w.top + w.height / 2) / innerHeight * 100) + '%');
+        const x = w.left + w.width / 2;
+        const y = w.top + w.height / 2;
+        pop.style.setProperty('--x', (x / innerWidth * 100) + '%');
+        pop.style.setProperty('--y', (y / innerHeight * 100) + '%');
+        pop.style.setProperty('--px', `${x}px`);
+        pop.style.setProperty('--py', `${y}px`);
       }
 
       items.forEach(i => {
@@ -1020,14 +964,11 @@
         });
       }
 
-      /* da tastiera e col dito */
-      word.addEventListener('focus', () => open(item));
-
-      /* col mouse basta passare sopra: il click non deve fare nulla,
+      /* Col mouse basta passare sopra: il click non deve fare nulla,
          altrimenti richiude il pannello appena aperto dall'hover.
-         Sui dispositivi touch, dove l'hover non esiste, il tocco apre. */
+         Su touch e da tastiera il click nativo del pulsante apre. */
       word.addEventListener('click', (e) => {
-        if (fine) return;
+        if (fine && e.detail > 0) return;
         item.classList.contains('is-open') ? closeAll() : open(item, e);
       });
 
@@ -1039,9 +980,8 @@
 
     });
 
-    /* allontanandosi dal centro la vernice si ritira.
-       L'ascolto è sulla finestra: se stesse sul pannello, muovendo il cursore
-       sopra il testo o il pulsante l'evento non arriverebbe mai. */
+    /* La zona sensibile comprende la parola, il contenuto aperto e il corridoio
+       fra i due: così si può raggiungere il pulsante senza chiudere il pannello. */
     if (fine) {
       addEventListener('mousemove', (e) => {
         if (!claim.classList.contains('has-open')) return;
@@ -1051,18 +991,32 @@
            all'istante, ed è il motivo per cui sembrava non funzionare */
         if (performance.now() - apertoIl < 420) return;
 
-        /* il pulsante e il testo non devono mai far ritirare la vernice:
-           chi ci passa sopra sta leggendo, non uscendo */
-        if (e.target.closest('.pop__cta, .pop__close, .pop__t, .pop__d')) return;
+        const openItem = claim.querySelector('.claim__item.is-open');
+        if (!openItem) return;
+        const interactiveParts = [
+          openItem.querySelector('.claim__word'),
+          ...openItem.querySelectorAll('.pop__k, .pop__t, .pop__d, .pop__cta, .pop__hint')
+        ];
+        const rects = interactiveParts.map(part => part.getBoundingClientRect());
+        const zone = rects.reduce((area, rect) => ({
+          left: Math.min(area.left, rect.left),
+          right: Math.max(area.right, rect.right),
+          top: Math.min(area.top, rect.top),
+          bottom: Math.max(area.bottom, rect.bottom)
+        }), { left: innerWidth, right: 0, top: innerHeight, bottom: 0 });
+        const padX = 32;
+        const padY = 26;
+        const inside = e.clientX >= zone.left - padX
+          && e.clientX <= zone.right + padX
+          && e.clientY >= zone.top - padY
+          && e.clientY <= zone.bottom + padY;
 
-        /* la distanza si misura dal punto in cui la vernice è stata versata,
-           non dal centro dello schermo: le parole stanno in alto a sinistra
-           e sarebbero già oltre soglia nell'istante stesso dell'apertura */
-        const dx = (e.clientX - origineX) / (innerWidth  / 2);
-        const dy = (e.clientY - origineY) / (innerHeight / 2);
-        const d  = Math.hypot(dx, dy);
-
-        if (d > 0.46) closeAll();
+        if (inside) {
+          clearTimeout(timer);
+          timer = null;
+        } else if (!timer) {
+          timer = setTimeout(closeAll, 180);
+        }
       }, { passive: true });
 
       /* uscendo dalla finestra si ritira comunque */
