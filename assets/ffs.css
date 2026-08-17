@@ -623,6 +623,11 @@
   line-height: 1.6;
 }
 
+/* La CTA e il footer sono un'unica chiusura: niente spicchi chiari tra le due fasce. */
+
+.ffs-page .ffs-cta { position: relative; z-index: 1; }
+.ffs-page .foot { margin-top: -1px; border-radius: 0; }
+
 @media (max-width: 1020px) {
   .ffs-hero__grid {
     grid-template-columns: minmax(0, 1fr) minmax(330px, .8fr);
