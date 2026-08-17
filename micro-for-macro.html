@@ -5,13 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Micro for Macro — prestiti a tasso zero per imprese | Interest Edufin APS</title>
 <meta name="description" content="Prestiti a tasso zero per imprese artigiane e PMI: nessun interesse, restituzione entro 12 mesi, nessuna garanzia richiesta. Come funziona e come richiederlo.">
-<link rel="stylesheet" href="assets/base.css?v=20260812b">
-<link rel="stylesheet" href="assets/progetto.css?v=20260812e">
-<style>
-  body { --c: var(--red); }
-</style>
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/mfm.css?v=20260817a">
 </head>
-<body class="page-end-joined">
+<body class="mfm-page">
 
 <header class="site-header" id="header">
   <div class="site-header__inner">
@@ -50,63 +47,128 @@
 </header>
 
 
-<main>
+<main class="mfm">
 
-<section class="op">
-  <span class="op__i" aria-hidden="true">03</span>
-  <div class="op__in">
-    <a class="op__back" href="cosa-facciamo.html">
-      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14 8H3M7 4L3 8l4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Cosa facciamo
-    </a>
-    <p class="op__k">Micro for Macro</p>
-    <h1 class="op__h">Un fondo alimentato da una donazione. Un prestito per far crescere un'impresa.</h1>
-    <p class="op__d">
-      Il capitale nasce da un'erogazione liberale; Banco BPM valida ed eroga i prestiti,
-      mentre Interest seleziona e accompagna microimprese, artigiani e PMI. Il denaro
-      finanzia un acquisto produttivo, rientra entro dodici mesi e viene prestato di nuovo.
-    </p>
-    <div class="op__row">
-      <a class="b b--w" href="#richiedi">Come si richiede</a>
+<section class="mfm-hero">
+  <div class="mfm-shell mfm-hero__grid">
+
+    <div class="mfm-hero__copy">
+      <a class="mfm-back" href="cosa-facciamo.html">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14 8H3M7 4L3 8l4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Cosa facciamo
+      </a>
+
+      <p class="mfm-eyebrow">Micro for Macro</p>
+      <h1>Restituisci esattamente ciò che ricevi.</h1>
+      <p class="mfm-hero__lead">
+        Un fondo nato da una donazione presta a tasso zero a microimprese, artigiani e PMI:
+        il denaro finanzia un acquisto produttivo, rientra entro dodici mesi e viene
+        prestato di nuovo.
+      </p>
+
+      <ul class="mfm-hero__meta" aria-label="Condizioni principali">
+        <li>Tasso zero</li>
+        <li>Rientro in 12 mesi</li>
+        <li>Nessuna garanzia</li>
+      </ul>
+
+      <div class="mfm-actions">
+        <a class="mfm-button mfm-button--primary" href="mailto:microcredito@buildinterest.it?subject=Micro%20for%20Macro%20%E2%80%94%20richiesta">
+          Raccontaci cosa ti serve
+          <span aria-hidden="true">→</span>
+        </a>
+        <a class="mfm-button mfm-button--quiet" href="#richiedi">Come si richiede</a>
+      </div>
     </div>
+
+    <figure class="mfm-cycle">
+      <p class="mfm-cycle__k">Il meccanismo, in un giro</p>
+      <h2>Un fondo che gira, non un contributo che si esaurisce.</h2>
+
+      <ol class="mfm-cycle__loop">
+        <li>
+          <b>Una donazione crea il capitale</b>
+          <p>Un'erogazione liberale alimenta il fondo. Non raccolto tra i beneficiari, nessun profitto.</p>
+        </li>
+        <li>
+          <b>Banco BPM valida ed eroga</b>
+          <p>Il partner bancario gestisce il passaggio tracciato del denaro.</p>
+        </li>
+        <li>
+          <b>L'impresa compra un bene produttivo</b>
+          <p>Un macchinario, un'attrezzatura, uno strumento di lavoro.</p>
+        </li>
+        <li>
+          <b>Il capitale rientra entro dodici mesi</b>
+          <p>Solo il capitale: niente interessi, commissioni o costi di istruttoria.</p>
+        </li>
+      </ol>
+
+      <p class="mfm-cycle__again"><span aria-hidden="true">↺</span> E riparte subito verso un'altra impresa come la tua.</p>
+
+      <figcaption>
+        Interest seleziona e accompagna, non tocca il denaro e non guadagna sui prestiti.
+      </figcaption>
+    </figure>
+
   </div>
 </section>
 
-<div class="wrap">
+<section class="mfm-brief" aria-label="Condizioni in sintesi">
+  <div class="mfm-shell">
+    <ul>
+      <li><b>0%</b><span>Interessi e commissioni</span></li>
+      <li><b>12 mesi</b><span>Per restituire il capitale</span></li>
+      <li><b>0 garanzie</b><span>Né garante, né patrimonio</span></li>
+      <li><b>1 acquisto</b><span>Produttivo e documentato</span></li>
+      <li><b>Banco BPM</b><span>Partner bancario che eroga</span></li>
+    </ul>
+  </div>
+</section>
 
-  <!-- 1. posso accedere? è la prima domanda che si fa un imprenditore -->
-  <section class="s">
-    <p class="s__k">Il primo filtro</p>
-    <h2 class="s__h">Questo prestito fa per te se…</h2>
-    <div class="two">
-      <div>
-        <ul class="li li--big">
-          <li>Hai un'<b>impresa già avviata</b>: artigiana, piccola o media. Non finanziamo idee sulla carta.</li>
-          <li>Ti serve una cifra <b>troppo piccola perché una banca istruisca la pratica</b>, ma troppo grande per pagarla di tasca tua.</li>
-          <li>Sai <b>a cosa serve</b>: un macchinario, un'attrezzatura, uno strumento di lavoro.</li>
-          <li>Puoi <b>restituirla entro dodici mesi</b> con quello che l'attività produce.</li>
-        </ul>
-      </div>
-      <div class="pan">
-        <p class="pan__t">Non fa per te se</p>
-        <ul class="li li--no">
+<section class="mfm-section" id="per-te">
+  <div class="mfm-shell">
+    <div class="mfm-heading">
+      <p class="mfm-eyebrow">Il primo filtro</p>
+      <h2>Questo prestito fa per te se…</h2>
+      <p>
+        Non è credito per tutti e non vuole esserlo: copre la fascia che le banche non
+        istruiscono e che le tasche non reggono.
+      </p>
+    </div>
+
+    <div class="mfm-filter">
+      <ul class="mfm-yes">
+        <li>Hai un'<b>impresa già avviata</b>: artigiana, piccola o media. Non finanziamo idee sulla carta.</li>
+        <li>Ti serve una cifra <b>troppo piccola perché una banca istruisca la pratica</b>, ma troppo grande per pagarla di tasca tua.</li>
+        <li>Sai <b>a cosa serve</b>: un macchinario, un'attrezzatura, uno strumento di lavoro.</li>
+        <li>Puoi <b>restituirla entro dodici mesi</b> con quello che l'attività produce.</li>
+      </ul>
+
+      <aside class="mfm-no" aria-label="Quando il prestito non è adatto">
+        <p class="mfm-no__t">Non fa per te se</p>
+        <ul>
           <li>Devi coprire debiti arretrati o passività pregresse</li>
           <li>Ti servono soldi per spese non legate all'attività</li>
           <li>L'impresa non è ancora costituita</li>
         </ul>
-        <p class="pan__p" style="margin-top:16px">
+        <p class="mfm-no__p">
           In questi casi non possiamo aiutarti noi, ma esistono strumenti pubblici dedicati:
           l'Ente Nazionale per il Microcredito è il punto di partenza.
         </p>
-      </div>
+      </aside>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- 2. cosa ci compro -->
-  <section class="s">
-    <p class="s__k">Cosa puoi finanziare</p>
-    <h2 class="s__h">Le cose che fanno lavorare l'impresa.</h2>
-    <ul class="stick">
+<section class="mfm-section mfm-things">
+  <div class="mfm-shell">
+    <div class="mfm-heading">
+      <p class="mfm-eyebrow">Cosa puoi finanziare</p>
+      <h2>Le cose che fanno lavorare l'impresa.</h2>
+    </div>
+
+    <ul class="mfm-tags" aria-label="Esempi di acquisti finanziabili">
       <li>Un forno</li>
       <li>Un tornio</li>
       <li>Un impianto</li>
@@ -116,118 +178,127 @@
       <li>Una dotazione</li>
       <li>Un investimento produttivo</li>
     </ul>
-    <p class="s__p" style="margin-top:26px">
-      La regola è semplice: <b>deve aumentare quello che l'impresa riesce a fare</b>. Se dopo
-      l'acquisto lavori di più, meglio o a costi minori, rientra.
+
+    <p class="mfm-things__rule">
+      La regola è semplice: <b>deve aumentare quello che l'impresa riesce a fare</b>.
+      Se dopo l'acquisto lavori di più, meglio o a costi minori, rientra.
     </p>
-  </section>
+  </div>
+</section>
 
-  <!-- 3. il tasso zero: la condizione che conta -->
-  <section class="s">
-    <div class="big">
-      <p class="big__n">0<i>%</i><u>di interessi</u></p>
-      <div>
-        <p class="big__t">Restituisci esattamente ciò che ricevi.</p>
-        <p class="big__d">
-          Nemmeno un centesimo in più. Niente interessi, niente commissioni, niente costi di
-          istruttoria. L'unica condizione è il rientro <b>entro dodici mesi</b>: quel denaro
-          serve subito a un'altra impresa come la tua. È un fondo che gira, non un
-          contributo che si esaurisce.
-        </p>
-      </div>
+<section class="mfm-lab">
+  <div class="mfm-shell mfm-lab__grid">
+    <div class="mfm-lab__intro">
+      <p class="mfm-eyebrow">Provalo per trenta secondi</p>
+      <h2>Quale richiesta passa il primo filtro?</h2>
+      <p>È la stessa domanda che ci facciamo noi davanti a ogni mail: non chi sei, ma a cosa servono i soldi.</p>
     </div>
-  </section>
 
-  <!-- 4. cosa devo fare -->
-  <section class="s" id="richiedi">
-    <p class="s__k">Come si richiede</p>
-    <h2 class="s__h">Dalla mail all'erogazione.</h2>
-    <div class="two two--wide">
-      <div>
-        <ol class="steps">
-          <li>
-            <b>Ci scrivi</b>
-            <span>Due righe: cosa fa la tua impresa, cosa ti serve e quanto costa. Niente moduli in questa fase.</span>
-          </li>
-          <li>
-            <b>Ci parliamo un quarto d'ora</b>
-            <span>Una call per capire l'attività e il bisogno. Serve a entrambi: spesso è qui che si vede se lo strumento è adatto.</span>
-          </li>
-          <li>
-            <b>Documenti e colloquio</b>
-            <span>Visura, ultimo bilancio o dichiarazione, preventivo di quello che vuoi acquistare. Poi una conversazione sul progetto.</span>
-          </li>
-          <li>
-            <b>Valutazione scritta</b>
-            <span>Non un punteggio automatico: chi decide mette per iscritto perché. In caso di no, ti diciamo il motivo.</span>
-          </li>
-          <li>
-            <b>Erogazione</b>
-            <span>Firma dell'accordo e bonifico tracciato tramite il partner bancario. Poi qualche verifica leggera lungo l'anno.</span>
-          </li>
-        </ol>
+    <div class="mfm-choice" data-mfm-choice>
+      <p class="mfm-choice__question">Tre richieste vere. Scegline una:</p>
+      <div class="mfm-choice__options">
+        <button type="button" data-feedback="Non passa. Il fondo non copre debiti arretrati o passività pregresse: per queste situazioni il punto di partenza è l'Ente Nazionale per il Microcredito.">
+          «10.000 € per chiudere i debiti con un fornitore»
+        </button>
+        <button type="button" data-feedback="Passa. Impresa avviata, acquisto produttivo, rientro plausibile con quello che l'attività genera: è esattamente il caso per cui il fondo esiste.">
+          «7.000 € per un tornio che raddoppia la produzione»
+        </button>
+        <button type="button" data-feedback="Non ancora. Finanziamo imprese già costituite e avviate, non idee sulla carta: quando l'attività esiste e lavora, riparliamone.">
+          «15.000 € per lanciare un'idea non ancora costituita»
+        </button>
       </div>
-      <div class="pan pan--ink">
-        <p class="pan__t">Cosa tenere pronto</p>
-        <ul class="li">
-          <li>Visura camerale</li>
-          <li>Ultimo bilancio o dichiarazione dei redditi</li>
-          <li>Preventivo dell'acquisto</li>
-          <li>Due righe su come rientri in dodici mesi</li>
-        </ul>
-        <p class="pan__p" style="margin-top:18px">
-          Non serve niente di tutto questo per il primo contatto: bastano una mail e
-          un quarto d'ora.
-        </p>
-      </div>
+      <p class="mfm-choice__result" aria-live="polite">Scegli una richiesta. Poi ti diciamo come la valutiamo.</p>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- 5. provenienza e destinazione del denaro -->
-  <section class="s money" aria-labelledby="moneyTitle">
-    <p class="s__k">Il percorso del denaro</p>
-    <h2 class="s__h" id="moneyTitle">Da chi arriva. A chi va.</h2>
-    <p class="s__p">
-      Qui i ruoli sono separati: <b>una donazione alimenta il fondo</b>,
-      <b>Banco BPM valida ed eroga</b>, <b>Interest seleziona e accompagna</b> e il
-      beneficiario usa il prestito per un acquisto che aumenta la capacità di lavorare.
-    </p>
+<section class="mfm-section" id="percorso">
+  <div class="mfm-shell">
+    <div class="mfm-heading mfm-heading--row">
+      <div>
+        <p class="mfm-eyebrow">Il percorso del denaro</p>
+        <h2>Da chi arriva. A chi va.</h2>
+      </div>
+      <p>
+        I ruoli sono separati: una donazione alimenta il fondo, Banco BPM valida ed eroga,
+        Interest seleziona e accompagna. Il beneficiario usa il prestito per lavorare di più.
+      </p>
+    </div>
 
-    <ol class="money-flow" aria-label="Percorso del capitale">
+    <ol class="mfm-journey" aria-label="Percorso del capitale">
       <li>
-        <span>01 · Da dove parte</span>
-        <strong>Un'erogazione liberale</strong>
+        <span class="mfm-journey__step">01 · Da dove parte</span>
+        <b>Un'erogazione liberale</b>
         <p>La donazione crea il capitale del fondo. Non è raccolto tra i beneficiari e non genera profitto.</p>
       </li>
       <li>
-        <span>02 · Chi eroga</span>
-        <strong>Banco BPM</strong>
+        <span class="mfm-journey__step">02 · Chi eroga</span>
+        <b>Banco BPM</b>
         <p>È il partner bancario: valida le pratiche e gestisce il passaggio tracciato del denaro.</p>
       </li>
       <li>
-        <span>03 · Chi sceglie</span>
-        <strong>Interest Edufin APS</strong>
+        <span class="mfm-journey__step">03 · Chi sceglie</span>
+        <b>Interest Edufin APS</b>
         <p>Valuta impresa, acquisto e capacità di rientro; poi accompagna il progetto.</p>
       </li>
       <li>
-        <span>04 · A chi va</span>
-        <strong>Imprese già attive</strong>
+        <span class="mfm-journey__step">04 · A chi va</span>
+        <b>Imprese già attive</b>
         <p>Microimprese, artigiani e PMI comprano un bene produttivo; poi restituiscono solo il capitale.</p>
       </li>
     </ol>
 
-    <p class="money__note">
+    <p class="mfm-money__note">
       Interest non trattiene interessi o commissioni e non guadagna sui prestiti.
       Entro dodici mesi il capitale torna al fondo e può sostenere un'altra impresa.
       La banca gestisce il denaro; Interest gestisce selezione e accompagnamento.
     </p>
-  </section>
+  </div>
+</section>
 
-  <!-- 6. le domande vere -->
-  <section class="s">
-    <p class="s__k">Domande frequenti</p>
-    <h2 class="s__h">Quello che ci chiedono tutti.</h2>
-    <dl class="faq">
+<section class="mfm-section mfm-things" id="richiedi">
+  <div class="mfm-shell mfm-organise">
+    <div class="mfm-organise__pitch">
+      <p class="mfm-eyebrow">Come si richiede</p>
+      <h2>Dalla mail all'erogazione.</h2>
+      <p>
+        Nessun modulo per iniziare: bastano due righe e un quarto d'ora di conversazione.
+        La valutazione è scritta da persone, non da un punteggio automatico — e in caso
+        di no, ti diciamo il motivo.
+      </p>
+      <ul class="mfm-checks" aria-label="Cosa tenere pronto">
+        <li>Visura camerale</li>
+        <li>Ultimo bilancio o dichiarazione</li>
+        <li>Preventivo dell'acquisto</li>
+        <li>Due righe su come rientri in 12 mesi</li>
+      </ul>
+      <p class="mfm-checks__note">
+        Niente di tutto questo serve per il primo contatto: bastano una mail e un quarto d'ora.
+      </p>
+      <a class="mfm-button mfm-button--primary" href="mailto:microcredito@buildinterest.it?subject=Micro%20for%20Macro%20%E2%80%94%20richiesta">
+        Scrivici due righe
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <ol class="mfm-steps">
+      <li><span>01</span><div><b>Ci scrivi</b><p>Cosa fa la tua impresa, cosa ti serve e quanto costa.</p></div></li>
+      <li><span>02</span><div><b>Ci parliamo un quarto d'ora</b><p>Una call per capire l'attività: spesso è qui che si vede se lo strumento è adatto.</p></div></li>
+      <li><span>03</span><div><b>Documenti e colloquio</b><p>Visura, bilancio, preventivo. Poi una conversazione sul progetto.</p></div></li>
+      <li><span>04</span><div><b>Valutazione scritta</b><p>Chi decide mette per iscritto perché. In caso di no, ti diciamo il motivo.</p></div></li>
+      <li><span>05</span><div><b>Erogazione</b><p>Firma e bonifico tracciato tramite il partner bancario, poi verifiche leggere lungo l'anno.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="mfm-section" id="faq">
+  <div class="mfm-shell">
+    <div class="mfm-heading">
+      <p class="mfm-eyebrow">Domande frequenti</p>
+      <h2>Quello che ci chiedono tutti.</h2>
+    </div>
+
+    <dl class="mfm-faq">
       <div>
         <dt>Quanto posso chiedere?</dt>
         <dd>Cifre piccole, pensate per un singolo acquisto. Ne parliamo alla prima call, guardando il preventivo.</dd>
@@ -253,37 +324,40 @@
         <dd>In genere sì, ma dipende dalla misura. Diccelo alla prima call e verifichiamo insieme.</dd>
       </div>
     </dl>
-  </section>
+  </div>
+</section>
 
-  <!-- lo stato, dichiarato -->
-  <section class="s">
-    <div class="state">
-      <p class="state__k">Trasparenza — agosto 2026</p>
-      <p class="state__t">Il progetto è appena partito.</p>
-      <p class="state__d">
+<section class="mfm-state">
+  <div class="mfm-shell">
+    <div class="mfm-state__card">
+      <div>
+        <p class="mfm-state__k">Trasparenza — agosto 2026</p>
+        <h2>Il progetto è appena partito.</h2>
+      </div>
+      <p>
         Le prime imprese sono state selezionate e le pratiche sono in attesa di validazione:
         <b>nessun prestito è ancora stato erogato</b>. Te lo diciamo prima che ce lo chiedi,
         perché è giusto sapere con chi si ha a che fare. Se cerchi un ente con dieci anni di
         storico alle spalle, non siamo noi.
       </p>
     </div>
-  </section>
-
-</div>
-
-<section class="end">
-  <h2 class="end__h">Raccontaci cosa ti serve.</h2>
-  <p class="end__p">
-    Due righe su cosa fa la tua impresa e cosa vorresti comprare. Rispondiamo a tutti, anche
-    quando la risposta è no.
-  </p>
-  <div class="end__row">
-    <a class="b b--w" href="mailto:microcredito@buildinterest.it?subject=Micro%20for%20Macro%20%E2%80%94%20richiesta">microcredito@buildinterest.it</a>
   </div>
-  <p class="end__n">
-    Sei una banca, una fondazione o un ente che vuole mettere capitale in circolo sul proprio
-    territorio? <a href="mailto:microcredito@buildinterest.it?subject=Micro%20for%20Macro%20%E2%80%94%20partnership">Parliamone anche noi</a>.
-  </p>
+</section>
+
+<section class="mfm-cta">
+  <div class="mfm-shell">
+    <p class="mfm-eyebrow">Il prossimo prestito può far crescere la tua impresa</p>
+    <h2>Raccontaci cosa ti serve.</h2>
+    <p>Due righe su cosa fa la tua impresa e cosa vorresti comprare. Rispondiamo a tutti, anche quando la risposta è no.</p>
+    <a class="mfm-button mfm-button--light" href="mailto:microcredito@buildinterest.it?subject=Micro%20for%20Macro%20%E2%80%94%20richiesta">
+      microcredito@buildinterest.it
+      <span aria-hidden="true">→</span>
+    </a>
+    <p class="mfm-cta__partner">
+      Sei una banca, una fondazione o un ente che vuole mettere capitale in circolo sul proprio
+      territorio? <a href="mailto:microcredito@buildinterest.it?subject=Micro%20for%20Macro%20%E2%80%94%20partnership">Parliamone anche noi</a>.
+    </p>
+  </div>
 </section>
 
 </main>
@@ -338,6 +412,26 @@
   const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 12);
   onScroll();
   addEventListener('scroll', onScroll, { passive: true });
+
+  const choice = document.querySelector('[data-mfm-choice]');
+
+  if (choice) {
+    const buttons = [...choice.querySelectorAll('button[data-feedback]')];
+    const result = choice.querySelector('.mfm-choice__result');
+
+    buttons.forEach((button) => {
+      button.setAttribute('aria-pressed', 'false');
+
+      button.addEventListener('click', () => {
+        buttons.forEach((item) => {
+          item.setAttribute('aria-pressed', String(item === button));
+        });
+
+        result.textContent = button.dataset.feedback;
+        result.classList.add('is-visible');
+      });
+    });
+  }
 </script>
 
 </body>
