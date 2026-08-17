@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="Marzo 2025 — Nasce l'associazione">
+  <rect width="800" height="1000" fill="#edf2f1"/>
+  <circle cx="180" cy="260" r="270" fill="#2fc6a0" opacity=".16"/>
+  <circle cx="660" cy="800" r="340" fill="#2fc6a0" opacity=".08"/>
+  <circle cx="180" cy="800" r="88" fill="#0e1b2c" opacity=".05"/>
+  <text x="60" y="838" font-family="'Archivo Black','Arial Black',sans-serif" font-size="168" letter-spacing="-8" fill="#0e1b2c">02</text>
+  <text x="64" y="898" font-family="Inter,'Helvetica Neue',sans-serif" font-size="30" font-weight="600" fill="#5a6b7d">Nasce l'associazione</text>
+  <text x="64" y="940" font-family="Inter,'Helvetica Neue',sans-serif" font-size="24" fill="#8ba0b3">Marzo 2025</text>
+</svg>
