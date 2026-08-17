@@ -711,7 +711,7 @@
 
 .mfm-cta {
   padding: clamp(72px, 9vw, 120px) 0 clamp(82px, 10vw, 132px);
-  background: var(--mfm-red-dark);
+  background: var(--red);
   color: #fff;
   text-align: center;
 }
