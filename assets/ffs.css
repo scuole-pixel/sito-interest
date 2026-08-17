@@ -742,41 +742,6 @@
   .ffs-numbers div:first-child { border-top: 0; }
 }
 
-/* Footer snellito: link legali senza ovali in alto,
-   logo a sinistra e social a destra nella riga bassa. */
-
-.foot--slim {
-  padding: clamp(30px, 4vw, 44px) 32px clamp(22px, 3vw, 30px);
-}
-
-.foot--slim .foot__top {
-  justify-content: flex-start;
-  padding-bottom: clamp(16px, 2vw, 22px);
-}
-
-.foot--slim .foot__nav a {
-  padding: 4px 0;
-  border: 0;
-  border-radius: 0;
-}
-
-.foot--slim .foot__bottom {
-  align-items: center;
-  gap: 16px 26px;
-  padding-top: clamp(16px, 2vw, 22px);
-}
-
-.foot--slim .foot__mark { width: 42px; }
-
-.foot--slim .foot__legal { flex: 1 1 420px; }
-
-@media (max-width: 720px) {
-  .foot--slim .foot__bottom {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 18px;
-  }
-}
 
 @media (prefers-reduced-motion: reduce) {
   .ffs-chart__bar { animation: none; }
