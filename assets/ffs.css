@@ -72,21 +72,6 @@
     linear-gradient(180deg, #fff 0%, var(--paper) 100%);
 }
 
-.ffs-hero::after {
-  content: "01";
-  position: absolute;
-  right: max(18px, calc((100vw - var(--wrap)) / 2 - 70px));
-  bottom: -36px;
-  color: rgba(14, 27, 44, .035);
-  font-family: var(--display);
-  font-size: clamp(180px, 25vw, 380px);
-  font-weight: 900;
-  line-height: .8;
-  letter-spacing: -.09em;
-  pointer-events: none;
-  user-select: none;
-}
-
 .ffs-hero__grid {
   position: relative;
   z-index: 1;
@@ -614,43 +599,7 @@
   line-height: 1.5;
 }
 
-/* Credibilità e chiusura. */
-
-.ffs-partners { padding: 32px 0; border-top: 1px solid var(--border); background: #fff; }
-
-.ffs-partners .ffs-shell {
-  display: flex;
-  align-items: center;
-  gap: clamp(30px, 6vw, 82px);
-}
-
-.ffs-partners p {
-  flex: none;
-  margin-bottom: 0;
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: .11em;
-  text-transform: uppercase;
-}
-
-.ffs-partners ul {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.ffs-partners li {
-  color: var(--ink);
-  font-size: 13px;
-  font-weight: 800;
-  text-align: center;
-}
+/* Chiusura. */
 
 .ffs-cta {
   padding: clamp(72px, 9vw, 120px) 0 clamp(82px, 10vw, 132px);
@@ -693,9 +642,6 @@
   }
 
   .ffs-brief li:nth-child(5) { border-top: 1px solid rgba(255, 255, 255, .14); }
-
-  .ffs-partners .ffs-shell { align-items: flex-start; flex-direction: column; gap: 20px; }
-  .ffs-partners ul { flex-wrap: wrap; justify-content: flex-start; }
 }
 
 @media (max-width: 820px) {
@@ -789,7 +735,42 @@
   }
 
   .ffs-numbers div:first-child { border-top: 0; }
-  .ffs-partners li { text-align: left; }
+}
+
+/* Footer snellito: link legali senza ovali in alto,
+   logo a sinistra e social a destra nella riga bassa. */
+
+.foot--slim {
+  padding: clamp(30px, 4vw, 44px) 32px clamp(22px, 3vw, 30px);
+}
+
+.foot--slim .foot__top {
+  justify-content: flex-start;
+  padding-bottom: clamp(16px, 2vw, 22px);
+}
+
+.foot--slim .foot__nav a {
+  padding: 4px 0;
+  border: 0;
+  border-radius: 0;
+}
+
+.foot--slim .foot__bottom {
+  align-items: center;
+  gap: 16px 26px;
+  padding-top: clamp(16px, 2vw, 22px);
+}
+
+.foot--slim .foot__mark { width: 42px; }
+
+.foot--slim .foot__legal { flex: 1 1 420px; }
+
+@media (max-width: 720px) {
+  .foot--slim .foot__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
