@@ -88,7 +88,8 @@ body { --c: var(--red); }
 
 /* ── persone ──
    Al passaggio la riga si apre e mostra percorso, progetti seguiti e link;
-   il riquadro della foto si allarga e passa a destra, col testo a sinistra.
+   il riquadro della foto resta a sinistra e cresce dalla base, col testo
+   a destra e la figura che sbuca oltre il bordo del riquadro.
    L'altezza si anima con grid-template-rows: 0fr → 1fr, l'unico modo di
    passare da "niente" all'altezza reale del contenuto senza fissarla a mano. */
 
@@ -96,15 +97,15 @@ body { --c: var(--red); }
 
 .ppl li {
   position: relative;
-  display: grid;
-  grid-template-columns: 56px 1fr;
-  gap: 20px;
-  align-items: start;
-  padding: 18px 18px;
+  display: block;
+  min-height: 92px;
+  padding: 18px 48px 18px 94px;
   margin: 0 -18px;
   border-top: 1px solid var(--border);
   border-radius: 16px;
-  transition: background-color .3s ease, opacity .3s ease, box-shadow .3s ease;
+  transition: background-color .3s ease, opacity .3s ease, box-shadow .3s ease,
+              padding .42s cubic-bezier(.22, 1, .36, 1),
+              min-height .42s cubic-bezier(.22, 1, .36, 1);
 }
 
 .ppl li:not(.ppl--todo)::after {
@@ -116,13 +117,14 @@ body { --c: var(--red); }
   font-size: 27px;
   line-height: 1;
   color: var(--c);
-  transition: transform .3s cubic-bezier(.22, 1, .36, 1), color .2s ease;
+  transition: transform .3s cubic-bezier(.22, 1, .36, 1), opacity .25s ease;
 }
 
+/* aperta, il segno sparisce: niente × sopra la foto */
 .ppl li:not(.ppl--todo):hover::after,
 .ppl li:not(.ppl--todo):focus-within::after {
   transform: rotate(45deg) scale(1.15);
-  color: var(--ink);
+  opacity: 0;
 }
 
 .ppl li:first-child { border-top: 0; }
@@ -139,45 +141,55 @@ body { --c: var(--red); }
 .ppl li:hover + li,
 .ppl li:focus-within + li { border-top-color: transparent; }
 
-/* aperta: il riquadro della foto passa a destra e si allarga,
-   il testo gli resta a sinistra. Il riquadro cresce perché è
-   pensato per ospitare un'immagine grande della persona. */
+/* aperta: il riquadro della foto resta a sinistra e cresce sul posto,
+   il testo si sposta a destra. Meno strada da fare = movimento più
+   fluido: anima solo il padding sinistro e le misure del riquadro. */
 .ppl li:not(.ppl--todo):hover,
 .ppl li:not(.ppl--todo):focus-within {
-  grid-template-columns: 1fr 150px;
+  padding-left: 188px;
+  min-height: 226px;
 }
 
 /* le altre si smorzano, così l'occhio va su quella aperta */
 .ppl:hover li:not(:hover):not(:focus-within) { opacity: .45; }
 
-/* il posto della foto: tondo, con le iniziali finché non c'è */
+/* il posto della foto: tondo, con le iniziali finché non c'è.
+   È in assoluto così left/width/height interpolano e il passaggio
+   da cerchietto a riquadro grande è un unico movimento fluido. */
 .ppl__ph {
+  position: absolute;
+  top: 18px;
+  left: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  overflow: hidden;
   background: var(--paper);
   font-family: var(--display);
   font-size: 17px;
   color: var(--c);
   transition: background-color .3s ease,
-              width .3s cubic-bezier(.22, 1, .36, 1),
-              height .3s cubic-bezier(.22, 1, .36, 1),
-              border-radius .3s cubic-bezier(.22, 1, .36, 1),
-              font-size .3s cubic-bezier(.22, 1, .36, 1);
+              width .42s cubic-bezier(.22, 1, .36, 1),
+              height .42s cubic-bezier(.22, 1, .36, 1),
+              border-radius .42s cubic-bezier(.22, 1, .36, 1),
+              font-size .42s cubic-bezier(.22, 1, .36, 1);
 }
 
-/* la foto è un ritaglio PNG senza sfondo: intera, appoggiata sul
-   fondo del riquadro, mai ritagliata dai bordi */
+/* la foto è un ritaglio senza sfondo: intera, ancorata alla base del
+   riquadro. Cresce dalla base e, aperta, sbuca un po' oltre il bordo
+   superiore del riquadro (il riquadro non la ritaglia). */
 .ppl__ph img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
   object-position: bottom center;
   display: block;
+  transition: height .42s cubic-bezier(.22, 1, .36, 1);
 }
 
 /* quando la foto c'è, le iniziali non servono */
@@ -185,7 +197,6 @@ body { --c: var(--red); }
 
 .ppl li:not(.ppl--todo):hover .ppl__ph,
 .ppl li:not(.ppl--todo):focus-within .ppl__ph {
-  order: 2;
   width: 150px;
   height: 190px;
   border-radius: 20px;
@@ -193,12 +204,11 @@ body { --c: var(--red); }
   background: #fff;
 }
 
-/* col riquadro a destra, il testo non deve più scansare il segno "+" */
-.ppl li:not(.ppl--todo):hover .ppl__b,
-.ppl li:not(.ppl--todo):focus-within .ppl__b { padding-right: 0; }
-
-.ppl__b { min-width: 0; }
-.ppl li:not(.ppl--todo) .ppl__b { padding-right: 30px; }
+/* la figura esce dal riquadro: più alta del suo contenitore, base ferma */
+.ppl li:not(.ppl--todo):hover .ppl__ph img,
+.ppl li:not(.ppl--todo):focus-within .ppl__ph img {
+  height: 112%;
+}
 
 .ppl b { display: block; font-size: 17.5px; font-weight: 750; letter-spacing: -.01em; }
 
@@ -346,7 +356,7 @@ body { --c: var(--red); }
 .lnk:hover { opacity: .75; }
 
 @media (prefers-reduced-motion: reduce) {
-  .ppl li, .ppl__ph, .ppl__x, .docs a, .docs a::after { transition: none; }
+  .ppl li, .ppl__ph, .ppl__ph img, .ppl__x, .docs a, .docs a::after { transition: none; }
   .ppl:hover li:not(:hover) { opacity: 1; }
   .ppl li:hover .ppl__ph { transform: none; }
   /* niente apertura animata: il testo esteso è sempre visibile */
@@ -359,7 +369,7 @@ body { --c: var(--red); }
   .org > div { grid-template-columns: 1fr; gap: 6px; }
   /* sugli schermi stretti il riquadro aperto resta più contenuto */
   .ppl li:not(.ppl--todo):hover,
-  .ppl li:not(.ppl--todo):focus-within { grid-template-columns: 1fr 104px; }
+  .ppl li:not(.ppl--todo):focus-within { padding-left: 142px; min-height: 168px; }
   .ppl li:not(.ppl--todo):hover .ppl__ph,
   .ppl li:not(.ppl--todo):focus-within .ppl__ph { width: 104px; height: 132px; font-size: 26px; border-radius: 16px; }
   .docs a { flex-direction: column; gap: 4px; }
