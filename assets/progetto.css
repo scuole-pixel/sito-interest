@@ -1904,7 +1904,7 @@ a.card { text-decoration: none; }
 .contact-hub__head h2 { margin: 0; font-size: clamp(38px, 6vw, 74px); line-height: .98; }
 .contact-hub__head > p:last-child { margin: 0 0 6px; max-width: 40ch; font-size: 17px; line-height: 1.6; color: var(--muted); }
 
-.contact-signals { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.contact-signals { position: relative; display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
 .contact-signal {
   min-height: 270px;
   display: flex;
@@ -1952,28 +1952,43 @@ a.card { text-decoration: none; }
   pointer-events: none;
 }
 .contact-signal--toggle > * { position: relative; z-index: 1; }
-.contact-signal--toggle.is-open small b { transform: rotate(180deg); }
-.contact-signal--toggle.is-open:hover small b { transform: rotate(180deg) translate(4px, -4px); }
 
-/* Il pannello del modulo: occupa tutta la griglia, alto quanto
-   i quattro riquadri messi assieme (2 × 270px + il gap). */
+/* Il pannello del modulo: si sovrappone alla griglia e copre
+   tutti e quattro i riquadri. Si chiude con la × o con Esc. */
 .contact-panel {
-  position: relative;
-  grid-column: 1 / -1;
+  position: absolute;
+  inset: 0;
+  z-index: 5;
   display: flex;
   flex-direction: column;
-  min-height: 554px;
-  padding: clamp(28px, 5vw, 56px);
+  padding: clamp(24px, 3.5vw, 46px);
   border-radius: 26px;
   background: var(--ink);
   color: #fff;
   overflow: hidden;
 }
 .contact-panel[hidden] { display: none; }
-.contact-panel:not([hidden]) { animation: contact-panel-in .35s cubic-bezier(.22, 1, .36, 1); }
+.contact-panel:not([hidden]) { animation: contact-panel-in .3s cubic-bezier(.22, 1, .36, 1); }
 @keyframes contact-panel-in {
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: scale(.98); }
 }
+.contact-panel .contact-panel__close {
+  position: absolute;
+  top: clamp(18px, 2.4vw, 30px);
+  right: clamp(18px, 2.4vw, 30px);
+  z-index: 2;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,.14);
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .2s ease, transform .2s ease;
+}
+.contact-panel .contact-panel__close:hover { background: rgba(255,255,255,.26); transform: rotate(90deg); }
 .contact-panel::before {
   content: "@";
   position: absolute;
@@ -1986,14 +2001,14 @@ a.card { text-decoration: none; }
   pointer-events: none;
 }
 .contact-panel > * { position: relative; z-index: 1; }
-.contact-panel__head { margin-bottom: 26px; }
+.contact-panel__head { margin-bottom: 18px; padding-right: 60px; }
 .contact-panel__head span { display: block; margin-bottom: 10px; font-size: 11.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; opacity: .78; }
 .contact-panel__head strong { font-family: var(--display); font-size: clamp(31px, 4.2vw, 54px); line-height: .98; letter-spacing: -.035em; }
 .contact-panel .contact-form { display: flex; flex-direction: column; flex: 1; }
-.contact-panel .form__r { margin-bottom: 14px; }
+.contact-panel .form__r { margin-bottom: 12px; }
 .contact-panel .form__r label { margin-bottom: 6px; color: rgba(255,255,255,.76); }
 .contact-panel .contact-form__msg { display: flex; flex: 1; flex-direction: column; }
-.contact-panel .contact-form__msg textarea { flex: 1; min-height: 160px; }
+.contact-panel .contact-form__msg textarea { flex: 1; min-height: 88px; }
 .contact-panel .contact-form__send { margin-top: auto; }
 .contact-panel .contact-form__send .b { background: #fff; color: var(--ink); }
 .contact-panel .contact-form__send .form__p { color: rgba(255,255,255,.65); }
@@ -2048,7 +2063,6 @@ a.card { text-decoration: none; }
 
 @media (max-width: 760px) {
   .contact-signals { grid-template-columns: 1fr; }
-  .contact-panel { min-height: 0; }
 }
 
 @media (max-width: 600px) {
