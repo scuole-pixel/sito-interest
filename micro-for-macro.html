@@ -6,7 +6,7 @@
 <title>Micro for Macro — prestiti a tasso zero per imprese | Interest Edufin APS</title>
 <meta name="description" content="Prestiti a tasso zero per imprese artigiane e PMI: nessun interesse, restituzione entro 12 mesi, nessuna garanzia richiesta. Come funziona e come richiederlo.">
 <link rel="stylesheet" href="assets/base.css">
-<link rel="stylesheet" href="assets/mfm.css?v=20260817a">
+<link rel="stylesheet" href="assets/mfm.css?v=20260817b">
 </head>
 <body class="mfm-page">
 
@@ -183,32 +183,6 @@
       La regola è semplice: <b>deve aumentare quello che l'impresa riesce a fare</b>.
       Se dopo l'acquisto lavori di più, meglio o a costi minori, rientra.
     </p>
-  </div>
-</section>
-
-<section class="mfm-lab">
-  <div class="mfm-shell mfm-lab__grid">
-    <div class="mfm-lab__intro">
-      <p class="mfm-eyebrow">Provalo per trenta secondi</p>
-      <h2>Quale richiesta passa il primo filtro?</h2>
-      <p>È la stessa domanda che ci facciamo noi davanti a ogni mail: non chi sei, ma a cosa servono i soldi.</p>
-    </div>
-
-    <div class="mfm-choice" data-mfm-choice>
-      <p class="mfm-choice__question">Tre richieste vere. Scegline una:</p>
-      <div class="mfm-choice__options">
-        <button type="button" data-feedback="Non passa. Il fondo non copre debiti arretrati o passività pregresse: per queste situazioni il punto di partenza è l'Ente Nazionale per il Microcredito.">
-          «10.000 € per chiudere i debiti con un fornitore»
-        </button>
-        <button type="button" data-feedback="Passa. Impresa avviata, acquisto produttivo, rientro plausibile con quello che l'attività genera: è esattamente il caso per cui il fondo esiste.">
-          «7.000 € per un tornio che raddoppia la produzione»
-        </button>
-        <button type="button" data-feedback="Non ancora. Finanziamo imprese già costituite e avviate, non idee sulla carta: quando l'attività esiste e lavora, riparliamone.">
-          «15.000 € per lanciare un'idea non ancora costituita»
-        </button>
-      </div>
-      <p class="mfm-choice__result" aria-live="polite">Scegli una richiesta. Poi ti diciamo come la valutiamo.</p>
-    </div>
   </div>
 </section>
 
@@ -412,26 +386,6 @@
   const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 12);
   onScroll();
   addEventListener('scroll', onScroll, { passive: true });
-
-  const choice = document.querySelector('[data-mfm-choice]');
-
-  if (choice) {
-    const buttons = [...choice.querySelectorAll('button[data-feedback]')];
-    const result = choice.querySelector('.mfm-choice__result');
-
-    buttons.forEach((button) => {
-      button.setAttribute('aria-pressed', 'false');
-
-      button.addEventListener('click', () => {
-        buttons.forEach((item) => {
-          item.setAttribute('aria-pressed', String(item === button));
-        });
-
-        result.textContent = button.dataset.feedback;
-        result.classList.add('is-visible');
-      });
-    });
-  }
 </script>
 
 </body>

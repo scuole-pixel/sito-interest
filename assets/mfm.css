@@ -335,7 +335,6 @@
 
 .mfm-heading h2,
 .mfm-organise h2,
-.mfm-lab h2,
 .mfm-cta h2 {
   margin-bottom: 21px;
   font-size: clamp(36px, 4.8vw, 64px);
@@ -343,8 +342,7 @@
 }
 
 .mfm-heading > p:last-child,
-.mfm-organise__pitch > p,
-.mfm-lab__intro > p:last-child {
+.mfm-organise__pitch > p {
   margin-bottom: 0;
   color: var(--muted);
   font-size: clamp(16px, 1.45vw, 19px);
@@ -498,96 +496,6 @@
 }
 
 .mfm-things__rule b { color: var(--ink); }
-
-/* Il mini test: il primo filtro provato in trenta secondi. */
-
-.mfm-lab { padding: clamp(76px, 9vw, 120px) 0; background: var(--ink); color: #fff; }
-
-.mfm-lab__grid {
-  display: grid;
-  grid-template-columns: minmax(0, .82fr) minmax(420px, 1.18fr);
-  gap: clamp(60px, 9vw, 132px);
-  align-items: start;
-}
-
-.mfm-lab .mfm-eyebrow { color: var(--red); }
-.mfm-lab h2 { max-width: 14ch; }
-
-.mfm-lab__intro > p:last-child {
-  max-width: 46ch;
-  color: rgba(255, 255, 255, .65);
-}
-
-.mfm-choice { padding-top: 5px; }
-
-.mfm-choice__question {
-  margin-bottom: 17px;
-  color: rgba(255, 255, 255, .62);
-  font-size: 13px;
-  font-weight: 750;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-}
-
-.mfm-choice__options { display: grid; gap: 10px; }
-
-.mfm-choice button {
-  position: relative;
-  width: 100%;
-  min-height: 58px;
-  padding: 15px 54px 15px 19px;
-  border: 1px solid rgba(255, 255, 255, .22);
-  border-radius: 13px;
-  background: transparent;
-  color: #fff;
-  font: inherit;
-  font-size: 15px;
-  font-weight: 700;
-  text-align: left;
-  cursor: pointer;
-  transition: border-color .18s ease, background-color .18s ease, color .18s ease;
-}
-
-.mfm-choice button::after {
-  content: "→";
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  color: rgba(255, 255, 255, .42);
-  font-size: 20px;
-  transform: translateY(-50%);
-}
-
-.mfm-choice button:hover {
-  border-color: rgba(255, 255, 255, .58);
-  background: rgba(255, 255, 255, .055);
-}
-
-.mfm-choice button[aria-pressed="true"] {
-  border-color: var(--red);
-  background: var(--red);
-  color: var(--ink);
-}
-
-.mfm-choice button[aria-pressed="true"]::after {
-  content: "✓";
-  color: var(--ink);
-  font-weight: 900;
-}
-
-.mfm-choice__result {
-  min-height: 76px;
-  margin: 22px 0 0;
-  padding: 18px 0 0 20px;
-  border-top: 1px solid rgba(255, 255, 255, .18);
-  border-left: 3px solid rgba(255, 255, 255, .28);
-  color: rgba(255, 255, 255, .65);
-  font-size: 14px;
-  line-height: 1.6;
-  transition: color .2s ease, border-color .2s ease;
-}
-
-.mfm-choice__result.is-visible { border-left-color: var(--red); color: #fff; }
 
 /* Il percorso del denaro: ruoli separati, capitale tracciato. */
 
@@ -851,8 +759,6 @@
 
   .mfm-hero__copy h1 { font-size: clamp(41px, 5.6vw, 58px); }
 
-  .mfm-lab__grid { grid-template-columns: 1fr 1fr; gap: 54px; }
-
   .mfm-brief ul { grid-template-columns: repeat(3, 1fr); }
 
   .mfm-brief li:nth-child(4) {
@@ -868,7 +774,6 @@
 
 @media (max-width: 820px) {
   .mfm-hero__grid,
-  .mfm-lab__grid,
   .mfm-heading--row,
   .mfm-organise,
   .mfm-filter,
@@ -898,7 +803,6 @@
 
   .mfm-journey li::before { top: 0; left: -9px; }
   .mfm-journey b { min-height: 0; }
-  .mfm-lab__grid { gap: 44px; }
   .mfm-heading--row { gap: 25px; }
   .mfm-heading--row > p { max-width: 62ch; }
   .mfm-organise { gap: 60px; }
@@ -940,9 +844,7 @@
 @media (prefers-reduced-motion: reduce) {
   .mfm-back,
   .mfm-button,
-  .mfm-button span,
-  .mfm-choice button,
-  .mfm-choice__result { transition: none; }
+  .mfm-button span { transition: none; }
 
   .mfm-button:hover { transform: none; }
 }
