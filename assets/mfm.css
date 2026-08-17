@@ -72,21 +72,6 @@
     linear-gradient(180deg, #fff 0%, var(--paper) 100%);
 }
 
-.mfm-hero::after {
-  content: "03";
-  position: absolute;
-  right: max(18px, calc((100vw - var(--wrap)) / 2 - 70px));
-  bottom: -36px;
-  color: rgba(14, 27, 44, .035);
-  font-family: var(--display);
-  font-size: clamp(180px, 25vw, 380px);
-  font-weight: 900;
-  line-height: .8;
-  letter-spacing: -.09em;
-  pointer-events: none;
-  user-select: none;
-}
-
 .mfm-hero__grid {
   position: relative;
   z-index: 1;
@@ -497,7 +482,12 @@
 
 .mfm-things__rule b { color: var(--ink); }
 
-/* Il percorso del denaro: ruoli separati, capitale tracciato. */
+/* Il percorso del denaro: ruoli separati, capitale tracciato.
+   La fascia scura dà respiro tra le due metà chiare della pagina. */
+
+.mfm-money { background: var(--ink); color: #fff; }
+.mfm-money .mfm-eyebrow { color: var(--red); }
+.mfm-money .mfm-heading > p:last-child { color: rgba(255, 255, 255, .65); }
 
 .mfm-journey {
   position: relative;
@@ -516,7 +506,7 @@
   left: 4px;
   right: 4px;
   height: 2px;
-  background: linear-gradient(90deg, var(--red), var(--red) 76%, #cfd8df);
+  background: linear-gradient(90deg, var(--red), var(--red) 76%, rgba(255, 255, 255, .28));
 }
 
 .mfm-journey li { position: relative; padding-top: 41px; }
@@ -528,7 +518,7 @@
   left: 0;
   width: 16px;
   height: 16px;
-  border: 4px solid var(--paper);
+  border: 4px solid var(--ink);
   border-radius: 50%;
   background: var(--red);
   box-shadow: 0 0 0 1px var(--red);
@@ -537,7 +527,7 @@
 .mfm-journey__step {
   display: block;
   margin-bottom: 17px;
-  color: var(--mfm-red-dark);
+  color: var(--red);
   font-size: 12px;
   font-weight: 850;
   letter-spacing: .1em;
@@ -554,7 +544,7 @@
 
 .mfm-journey p {
   margin-bottom: 0;
-  color: var(--muted);
+  color: rgba(255, 255, 255, .62);
   font-size: 14px;
   line-height: 1.62;
 }
@@ -564,7 +554,7 @@
   margin: clamp(40px, 5vw, 58px) 0 0;
   padding: 20px 0 0 22px;
   border-left: 3px solid var(--red);
-  color: var(--muted);
+  color: rgba(255, 255, 255, .72);
   font-size: 14.5px;
   line-height: 1.7;
 }
@@ -750,6 +740,11 @@
 }
 
 .mfm-cta__partner a { color: #fff; text-underline-offset: 3px; }
+
+/* La CTA e il footer sono un'unica chiusura: niente spicchi chiari tra le due fasce. */
+
+.mfm-page .mfm-cta { position: relative; z-index: 1; }
+.mfm-page .foot { margin-top: -1px; border-radius: 0; }
 
 @media (max-width: 1020px) {
   .mfm-hero__grid {
