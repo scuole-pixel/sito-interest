@@ -88,7 +88,8 @@ body { --c: var(--red); }
 
 /* ── persone ──
    Al passaggio la riga si apre e mostra percorso, progetti seguiti e link;
-   il riquadro della foto scivola a destra e si allarga, col testo a sinistra.
+   il riquadro della foto resta a sinistra e cresce dalla base, col testo
+   a destra e la figura che sbuca oltre il bordo del riquadro.
    L'altezza si anima con grid-template-rows: 0fr → 1fr, l'unico modo di
    passare da "niente" all'altezza reale del contenuto senza fissarla a mano. */
 
@@ -140,13 +141,12 @@ body { --c: var(--red); }
 .ppl li:hover + li,
 .ppl li:focus-within + li { border-top-color: transparent; }
 
-/* aperta: il riquadro della foto scivola a destra e si allarga,
-   il testo gli resta a sinistra. Tutto interpola (padding, left,
-   misure): niente scatti di layout. */
+/* aperta: il riquadro della foto resta a sinistra e cresce sul posto,
+   il testo si sposta a destra. Meno strada da fare = movimento più
+   fluido: anima solo il padding sinistro e le misure del riquadro. */
 .ppl li:not(.ppl--todo):hover,
 .ppl li:not(.ppl--todo):focus-within {
-  padding-left: 18px;
-  padding-right: 188px;
+  padding-left: 188px;
   min-height: 226px;
 }
 
@@ -166,27 +166,30 @@ body { --c: var(--red); }
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  overflow: hidden;
   background: var(--paper);
   font-family: var(--display);
   font-size: 17px;
   color: var(--c);
   transition: background-color .3s ease,
-              left .42s cubic-bezier(.22, 1, .36, 1),
               width .42s cubic-bezier(.22, 1, .36, 1),
               height .42s cubic-bezier(.22, 1, .36, 1),
               border-radius .42s cubic-bezier(.22, 1, .36, 1),
               font-size .42s cubic-bezier(.22, 1, .36, 1);
 }
 
-/* la foto è un ritaglio PNG senza sfondo: intera, appoggiata sul
-   fondo del riquadro, mai ritagliata dai bordi */
+/* la foto è un ritaglio senza sfondo: intera, ancorata alla base del
+   riquadro. Cresce dalla base e, aperta, sbuca un po' oltre il bordo
+   superiore del riquadro (il riquadro non la ritaglia). */
 .ppl__ph img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
   object-position: bottom center;
   display: block;
+  transition: height .42s cubic-bezier(.22, 1, .36, 1);
 }
 
 /* quando la foto c'è, le iniziali non servono */
@@ -194,12 +197,17 @@ body { --c: var(--red); }
 
 .ppl li:not(.ppl--todo):hover .ppl__ph,
 .ppl li:not(.ppl--todo):focus-within .ppl__ph {
-  left: calc(100% - 168px);
   width: 150px;
   height: 190px;
   border-radius: 20px;
   font-size: 34px;
   background: #fff;
+}
+
+/* la figura esce dal riquadro: più alta del suo contenitore, base ferma */
+.ppl li:not(.ppl--todo):hover .ppl__ph img,
+.ppl li:not(.ppl--todo):focus-within .ppl__ph img {
+  height: 112%;
 }
 
 .ppl b { display: block; font-size: 17.5px; font-weight: 750; letter-spacing: -.01em; }
@@ -348,7 +356,7 @@ body { --c: var(--red); }
 .lnk:hover { opacity: .75; }
 
 @media (prefers-reduced-motion: reduce) {
-  .ppl li, .ppl__ph, .ppl__x, .docs a, .docs a::after { transition: none; }
+  .ppl li, .ppl__ph, .ppl__ph img, .ppl__x, .docs a, .docs a::after { transition: none; }
   .ppl:hover li:not(:hover) { opacity: 1; }
   .ppl li:hover .ppl__ph { transform: none; }
   /* niente apertura animata: il testo esteso è sempre visibile */
@@ -361,9 +369,9 @@ body { --c: var(--red); }
   .org > div { grid-template-columns: 1fr; gap: 6px; }
   /* sugli schermi stretti il riquadro aperto resta più contenuto */
   .ppl li:not(.ppl--todo):hover,
-  .ppl li:not(.ppl--todo):focus-within { padding-left: 18px; padding-right: 140px; min-height: 168px; }
+  .ppl li:not(.ppl--todo):focus-within { padding-left: 142px; min-height: 168px; }
   .ppl li:not(.ppl--todo):hover .ppl__ph,
-  .ppl li:not(.ppl--todo):focus-within .ppl__ph { left: calc(100% - 122px); width: 104px; height: 132px; font-size: 26px; border-radius: 16px; }
+  .ppl li:not(.ppl--todo):focus-within .ppl__ph { width: 104px; height: 132px; font-size: 26px; border-radius: 16px; }
   .docs a { flex-direction: column; gap: 4px; }
   .docs a::after { display: none; }
 }
