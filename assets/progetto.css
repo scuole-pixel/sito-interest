@@ -2372,7 +2372,6 @@ a.card { text-decoration: none; }
 #video,
 #articoli { scroll-margin-top: calc(var(--header-h) + 14px); }
 
-.video-section { border-top: 0 !important; }
 .video-section__k { margin: 0 0 12px; color: #ff0033; font-size: 11.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
 .video-section__note { margin: 0; max-width: 34ch; font-size: 15px; line-height: 1.55; color: var(--muted); }
 .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
