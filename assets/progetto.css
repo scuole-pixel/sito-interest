@@ -1929,35 +1929,75 @@ a.card { text-decoration: none; }
 .contact-signal:nth-child(even):hover { transform: translateY(-8px) rotate(.6deg); border-radius: 19px 44px 22px 38px; }
 .contact-signal:hover small b { transform: translate(4px, -4px); }
 
-.contact-signal--form {
-  min-height: 0;
-  justify-content: flex-start;
+/* Il riquadro nero: solo la scritta, una @ enorme tagliata a sinistra,
+   e al click apre il pannello col modulo. */
+.contact-signal--toggle {
+  position: relative;
+  appearance: none;
+  border: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.contact-signal--toggle::before {
+  content: "@";
+  position: absolute;
+  left: -.16em;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--display);
+  font-size: clamp(180px, 17vw, 260px);
+  line-height: 1;
+  color: rgba(255,255,255,.09);
+  pointer-events: none;
+}
+.contact-signal--toggle > * { position: relative; z-index: 1; }
+.contact-signal--toggle.is-open small b { transform: rotate(180deg); }
+.contact-signal--toggle.is-open:hover small b { transform: rotate(180deg) translate(4px, -4px); }
+
+/* Il pannello del modulo: occupa tutta la griglia, alto quanto
+   i quattro riquadri messi assieme (2 × 270px + il gap). */
+.contact-panel {
+  position: relative;
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  min-height: 554px;
+  padding: clamp(28px, 5vw, 56px);
+  border-radius: 26px;
   background: var(--ink);
   color: #fff;
-  cursor: default;
+  overflow: hidden;
 }
-
-.contact-signal--form:hover,
-.contact-signal--form:nth-child(even):hover {
-  transform: none;
-  border-radius: 26px;
-  box-shadow: none;
+.contact-panel[hidden] { display: none; }
+.contact-panel:not([hidden]) { animation: contact-panel-in .35s cubic-bezier(.22, 1, .36, 1); }
+@keyframes contact-panel-in {
+  from { opacity: 0; transform: translateY(14px); }
 }
-
-.contact-signal--form > strong {
-  margin: 9px 0 20px;
-  font-size: clamp(29px, 3.5vw, 44px);
+.contact-panel::before {
+  content: "@";
+  position: absolute;
+  left: -4vw;
+  bottom: -10vw;
+  font-family: var(--display);
+  font-size: clamp(260px, 36vw, 520px);
+  line-height: 1;
+  color: rgba(255,255,255,.06);
+  pointer-events: none;
 }
-
-.contact-signal--form .contact-form { width: 100%; }
-.contact-signal--form .form__r { margin-bottom: 11px; }
-.contact-signal--form .form__r label { margin-bottom: 5px; color: rgba(255,255,255,.76); font-size: 11px; }
-.contact-signal--form .form__r input,
-.contact-signal--form .form__r textarea { padding: 10px 12px; border: 0; background: #fff; font-size: 14px; }
-.contact-signal--form .form__r textarea { min-height: 72px; }
-.contact-signal--form .contact-form__send .b { padding: 12px 18px; background: #fff; color: var(--ink); font-size: 13.5px; }
-.contact-signal--form .contact-form__send .form__p { color: rgba(255,255,255,.65); font-size: 12px; }
-.contact-signal--form .form__ok { padding: 14px 16px; border: 0; background: #fff; color: var(--ink); font-size: 14px; }
+.contact-panel > * { position: relative; z-index: 1; }
+.contact-panel__head { margin-bottom: 26px; }
+.contact-panel__head span { display: block; margin-bottom: 10px; font-size: 11.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; opacity: .78; }
+.contact-panel__head strong { font-family: var(--display); font-size: clamp(31px, 4.2vw, 54px); line-height: .98; letter-spacing: -.035em; }
+.contact-panel .contact-form { display: flex; flex-direction: column; flex: 1; }
+.contact-panel .form__r { margin-bottom: 14px; }
+.contact-panel .form__r label { margin-bottom: 6px; color: rgba(255,255,255,.76); }
+.contact-panel .contact-form__msg { display: flex; flex: 1; flex-direction: column; }
+.contact-panel .contact-form__msg textarea { flex: 1; min-height: 160px; }
+.contact-panel .contact-form__send { margin-top: auto; }
+.contact-panel .contact-form__send .b { background: #fff; color: var(--ink); }
+.contact-panel .contact-form__send .form__p { color: rgba(255,255,255,.65); }
+.contact-panel .form__ok { border: 0; background: #fff; color: var(--ink); }
 
 .contact-compose {
   position: relative;
@@ -2008,6 +2048,7 @@ a.card { text-decoration: none; }
 
 @media (max-width: 760px) {
   .contact-signals { grid-template-columns: 1fr; }
+  .contact-panel { min-height: 0; }
 }
 
 @media (max-width: 600px) {

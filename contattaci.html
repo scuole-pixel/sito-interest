@@ -6,7 +6,7 @@
 <title>Contatti — Interest Edufin APS</title>
 <meta name="description" content="Scrivi a Interest Edufin APS: seminari nelle scuole, partnership, microcredito, ricerca e volontariato. Trova il contatto giusto o prepara una mail dal sito.">
 <link rel="stylesheet" href="assets/base.css?v=20260812b">
-<link rel="stylesheet" href="assets/progetto.css?v=20260812b">
+<link rel="stylesheet" href="assets/progetto.css?v=20260817">
 <style>
   body { --c: var(--blue); }
 </style>
@@ -88,9 +88,18 @@
         <strong>Entra<br>nel team.</strong>
         <small>Candidatura spontanea <b>↗</b></small>
       </a>
-      <div class="contact-signal contact-signal--form">
+      <button class="contact-signal contact-signal--ink contact-signal--toggle" type="button" id="formToggle" aria-expanded="false" aria-controls="formPanel">
         <span>Per tutto il resto</span>
-        <strong>Scrivici qui.</strong>
+        <strong>Scrivici<br>qui.</strong>
+        <small><span class="contact-signal__cta">Apri il modulo</span> <b>↗</b></small>
+      </button>
+
+      <div class="contact-panel" id="formPanel" hidden>
+        <div class="contact-panel__head">
+          <span>Per tutto il resto</span>
+          <strong>Due righe bastano.</strong>
+        </div>
+
         <form class="form contact-form" id="contatti" novalidate>
         <div class="contact-form__row">
           <div class="form__r">
@@ -102,9 +111,9 @@
             <input id="email" name="email" type="email" required autocomplete="email" placeholder="nome@email.it">
           </div>
         </div>
-        <div class="form__r">
+        <div class="form__r contact-form__msg">
           <label for="msg">Messaggio</label>
-          <textarea id="msg" name="msg" rows="3" required placeholder="Non serve essere formali."></textarea>
+          <textarea id="msg" name="msg" rows="6" required placeholder="Non serve essere formali."></textarea>
         </div>
         <div class="contact-form__send">
           <button class="b" type="submit">Prepara la mail →</button>
@@ -173,6 +182,23 @@
   const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 12);
   onScroll();
   addEventListener('scroll', onScroll, { passive: true });
+
+  /* Il riquadro nero è chiuso di default: al click si apre il pannello
+     a tutta larghezza con il modulo. */
+  const toggle = document.getElementById('formToggle');
+  const panel = document.getElementById('formPanel');
+  const cta = toggle.querySelector('.contact-signal__cta');
+  toggle.addEventListener('click', () => {
+    const apri = panel.hidden;
+    panel.hidden = !apri;
+    toggle.setAttribute('aria-expanded', apri);
+    toggle.classList.toggle('is-open', apri);
+    cta.textContent = apri ? 'Chiudi il modulo' : 'Apri il modulo';
+    if (apri) {
+      panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      document.getElementById('nome').focus({ preventScroll: true });
+    }
+  });
 
   /* Il modulo non ha ancora un servizio dietro: per ora apre il programma di posta
      con i campi già compilati, così il messaggio parte davvero.
