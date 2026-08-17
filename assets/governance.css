@@ -87,7 +87,8 @@ body { --c: var(--red); }
 .org--fitta dt, .org--fitta dd { font-size: 15.5px; }
 
 /* ── persone ──
-   Al passaggio la riga si apre e mostra percorso, progetti seguiti e link.
+   Al passaggio la riga si apre e mostra percorso, progetti seguiti e link;
+   il riquadro della foto si allarga e passa a destra, col testo a sinistra.
    L'altezza si anima con grid-template-rows: 0fr → 1fr, l'unico modo di
    passare da "niente" all'altezza reale del contenuto senza fissarla a mano. */
 
@@ -107,7 +108,7 @@ body { --c: var(--red); }
 }
 
 .ppl li:not(.ppl--todo)::after {
-  content: "*";
+  content: "+";
   position: absolute;
   top: 17px;
   right: 18px;
@@ -138,6 +139,14 @@ body { --c: var(--red); }
 .ppl li:hover + li,
 .ppl li:focus-within + li { border-top-color: transparent; }
 
+/* aperta: il riquadro della foto passa a destra e si allarga,
+   il testo gli resta a sinistra. Il riquadro cresce perché è
+   pensato per ospitare un'immagine grande della persona. */
+.ppl li:not(.ppl--todo):hover,
+.ppl li:not(.ppl--todo):focus-within {
+  grid-template-columns: 1fr 150px;
+}
+
 /* le altre si smorzano, così l'occhio va su quella aperta */
 .ppl:hover li:not(:hover):not(:focus-within) { opacity: .45; }
 
@@ -154,13 +163,39 @@ body { --c: var(--red); }
   font-family: var(--display);
   font-size: 17px;
   color: var(--c);
-  transition: background-color .3s ease, transform .3s cubic-bezier(.22, 1, .36, 1);
+  transition: background-color .3s ease,
+              width .3s cubic-bezier(.22, 1, .36, 1),
+              height .3s cubic-bezier(.22, 1, .36, 1),
+              border-radius .3s cubic-bezier(.22, 1, .36, 1),
+              font-size .3s cubic-bezier(.22, 1, .36, 1);
 }
 
-.ppl__ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* la foto è un ritaglio PNG senza sfondo: intera, appoggiata sul
+   fondo del riquadro, mai ritagliata dai bordi */
+.ppl__ph img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  display: block;
+}
 
-.ppl li:hover .ppl__ph,
-.ppl li:focus-within .ppl__ph { background: #fff; transform: scale(1.08); }
+/* quando la foto c'è, le iniziali non servono */
+.ppl__ph:has(img) > span { display: none; }
+
+.ppl li:not(.ppl--todo):hover .ppl__ph,
+.ppl li:not(.ppl--todo):focus-within .ppl__ph {
+  order: 2;
+  width: 150px;
+  height: 190px;
+  border-radius: 20px;
+  font-size: 34px;
+  background: #fff;
+}
+
+/* col riquadro a destra, il testo non deve più scansare il segno "+" */
+.ppl li:not(.ppl--todo):hover .ppl__b,
+.ppl li:not(.ppl--todo):focus-within .ppl__b { padding-right: 0; }
 
 .ppl__b { min-width: 0; }
 .ppl li:not(.ppl--todo) .ppl__b { padding-right: 30px; }
@@ -322,6 +357,11 @@ body { --c: var(--red); }
 @media (max-width: 640px) {
   .gov { padding-left: 22px; padding-right: 22px; }
   .org > div { grid-template-columns: 1fr; gap: 6px; }
+  /* sugli schermi stretti il riquadro aperto resta più contenuto */
+  .ppl li:not(.ppl--todo):hover,
+  .ppl li:not(.ppl--todo):focus-within { grid-template-columns: 1fr 104px; }
+  .ppl li:not(.ppl--todo):hover .ppl__ph,
+  .ppl li:not(.ppl--todo):focus-within .ppl__ph { width: 104px; height: 132px; font-size: 26px; border-radius: 16px; }
   .docs a { flex-direction: column; gap: 4px; }
   .docs a::after { display: none; }
 }
