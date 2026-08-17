@@ -170,13 +170,24 @@ body { --c: var(--red); }
               font-size .3s cubic-bezier(.22, 1, .36, 1);
 }
 
-.ppl__ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* la foto è un ritaglio PNG senza sfondo: intera, appoggiata sul
+   fondo del riquadro, mai ritagliata dai bordi */
+.ppl__ph img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  display: block;
+}
+
+/* quando la foto c'è, le iniziali non servono */
+.ppl__ph:has(img) > span { display: none; }
 
 .ppl li:not(.ppl--todo):hover .ppl__ph,
 .ppl li:not(.ppl--todo):focus-within .ppl__ph {
   order: 2;
   width: 150px;
-  height: 150px;
+  height: 190px;
   border-radius: 20px;
   font-size: 34px;
   background: #fff;
@@ -350,7 +361,7 @@ body { --c: var(--red); }
   .ppl li:not(.ppl--todo):hover,
   .ppl li:not(.ppl--todo):focus-within { grid-template-columns: 1fr 104px; }
   .ppl li:not(.ppl--todo):hover .ppl__ph,
-  .ppl li:not(.ppl--todo):focus-within .ppl__ph { width: 104px; height: 104px; font-size: 26px; border-radius: 16px; }
+  .ppl li:not(.ppl--todo):focus-within .ppl__ph { width: 104px; height: 132px; font-size: 26px; border-radius: 16px; }
   .docs a { flex-direction: column; gap: 4px; }
   .docs a::after { display: none; }
 }
