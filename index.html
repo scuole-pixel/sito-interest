@@ -321,16 +321,20 @@
     border-radius: 6px;
   }
 
+  /* Dopo Esc il focus torna sulla parola per non interrompere la navigazione
+     da tastiera, ma senza lasciare il rettangolo nero sullo schermo. */
+  .claim__word.is-focus-restored:focus-visible { outline: none; }
+
   /* le altre due sbiadiscono quando una è aperta */
   .claim.has-open .claim__item:not(.is-open) .claim__word {
     opacity: .34;
     filter: drop-shadow(0 3px 0 #fff);
   }
 
-  /* la scalatura in diagonale, centrata sull'asse della pagina */
+  /* Una diagonale regolare: ogni parola avanza dello stesso passo. */
   .claim__item:nth-child(1) { color: var(--green); margin-left: 0; }
-  .claim__item:nth-child(2) { color: var(--red);   margin-left: clamp(34px, 9vw, 150px); }
-  .claim__item:nth-child(3) { color: var(--blue);  margin-left: clamp(68px, 18vw, 300px); }
+  .claim__item:nth-child(2) { color: var(--red);   margin-left: clamp(22px, 4vw, 64px); }
+  .claim__item:nth-child(3) { color: var(--blue);  margin-left: clamp(44px, 8vw, 128px); }
 
   .claim__item:nth-child(1) .claim__word { animation-delay: .08s; }
   .claim__item:nth-child(2) .claim__word { animation-delay: .22s; }
@@ -390,7 +394,7 @@
     -webkit-mask-size: 260vmax 260vmax;
             mask-size: 260vmax 260vmax;
     visibility: visible;
-    pointer-events: auto; /* da aperto il pulsante e la X sono cliccabili */
+    pointer-events: auto;
     transition:
       -webkit-mask-size .6s cubic-bezier(.33, .9, .3, 1),
               mask-size .6s cubic-bezier(.33, .9, .3, 1),
@@ -398,12 +402,14 @@
   }
 
   /* il contenuto entra dopo l'onda di colore */
-  .pop > * {
+  .pop > :not(.pop__photo) {
+    position: relative;
+    z-index: 2;
     opacity: 0;
     transform: translateY(18px);
     transition: opacity .3s ease, transform .45s cubic-bezier(.22, 1, .36, 1);
   }
-  .claim__item.is-open .pop > * { opacity: 1; transform: none; }
+  .claim__item.is-open .pop > :not(.pop__photo) { opacity: 1; transform: none; }
   .claim__item.is-open .pop > :nth-child(1) { transition-delay: .10s; }
   .claim__item.is-open .pop > :nth-child(2) { transition-delay: .15s; }
   .claim__item.is-open .pop > :nth-child(3) { transition-delay: .20s; }
@@ -464,25 +470,53 @@
     color: rgba(255, 255, 255, .62);
   }
 
-  /* la X per tornare indietro */
-  .pop__close {
+  /* Un soggetto diverso per ogni idea, come livello fotografico e non come card. */
+  .pop__photo {
     position: absolute;
-    top: clamp(16px, 3vw, 30px);
-    right: clamp(16px, 3vw, 30px);
-    width: 46px;
-    height: 46px;
-    display: grid;
-    place-items: center;
-    border: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, .16);
-    color: #fff;
-    cursor: pointer;
-    transition: background-color .16s ease, transform .16s ease;
+    right: clamp(-90px, -4vw, -42px);
+    bottom: -5vh;
+    z-index: 0;
+    height: min(92vh, 900px);
+    width: auto;
+    max-width: 64vw;
+    object-fit: contain;
+    object-position: right bottom;
+    pointer-events: none;
+    opacity: 0;
+    filter: saturate(.78) contrast(1.04);
+    transform: translate3d(5%, 28px, 0) scale(.97);
+    transition: opacity .42s ease .18s, transform .72s cubic-bezier(.22, 1, .36, 1) .12s;
   }
-  .pop__close:hover { background: rgba(255, 255, 255, .3); transform: rotate(90deg); }
-  .pop__close:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
-  .pop__close svg { width: 20px; height: 20px; }
+
+  .claim__item.is-open .pop__photo {
+    opacity: .38;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  .claim__item[data-key="nonprofit"] .pop__photo {
+    right: -7vw;
+    bottom: -9vh;
+    width: min(74vw, 1080px);
+    height: auto;
+    max-width: none;
+  }
+
+  @media (max-width: 720px) {
+    .pop__photo {
+      right: -34vw;
+      bottom: -2vh;
+      height: 68vh;
+      max-width: none;
+    }
+
+    .claim__item.is-open .pop__photo { opacity: .24; }
+
+    .claim__item[data-key="nonprofit"] .pop__photo {
+      right: -48vw;
+      bottom: -1vh;
+      width: 138vw;
+    }
+  }
 
   /* browser senza maschere CSS: si apre a cerchio, senza bordi colati */
   @supports not ((mask-image: url("#x")) or (-webkit-mask-image: url("#x"))) {
@@ -505,7 +539,9 @@
       transition: opacity .2s ease, visibility 0s linear .2s;
     }
     .claim__item.is-open .pop { transition: opacity .2s ease; opacity: 1; }
-    .pop > *, .claim__item.is-open .pop > * { transition: none; transform: none; opacity: 1; }
+    .pop > :not(.pop__photo),
+    .claim__item.is-open .pop > :not(.pop__photo),
+    .pop__photo { transition: none; transform: none; }
   }
 
   /* Secchiata di vernice: una massa irregolare e un fronte di schizzi.
@@ -757,9 +793,6 @@
           Curiosa
         </button>
         <div class="pop" id="pop-curiosa" role="dialog" aria-label="Cosa facciamo">
-          <button class="pop__close" type="button" aria-label="Chiudi">
-            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-          </button>
           <p class="pop__k">Curiosa</p>
           <p class="pop__t">Non ci limitiamo ai seminari.</p>
           <p class="pop__d">
@@ -770,7 +803,8 @@
             Cosa facciamo
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <p class="pop__hint">Chiudi con × oppure premi Esc</p>
+          <p class="pop__hint">Allontana il cursore oppure premi Esc</p>
+          <img class="pop__photo" src="assets/home/curiosa.png" alt="" aria-hidden="true" decoding="async">
         </div>
       </li>
 
@@ -779,9 +813,6 @@
           Giovane
         </button>
         <div class="pop" id="pop-giovane" role="dialog" aria-label="Chi siamo">
-          <button class="pop__close" type="button" aria-label="Chiudi">
-            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-          </button>
           <p class="pop__k">Giovane</p>
           <p class="pop__t">Nata nel 2025, da under 25.</p>
           <p class="pop__d">
@@ -792,7 +823,8 @@
             Chi siamo
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <p class="pop__hint">Chiudi con × oppure premi Esc</p>
+          <p class="pop__hint">Allontana il cursore oppure premi Esc</p>
+          <img class="pop__photo" src="assets/home/giovane.png" alt="" aria-hidden="true" decoding="async">
         </div>
       </li>
 
@@ -801,9 +833,6 @@
           Non&nbsp;profit
         </button>
         <div class="pop" id="pop-nonprofit" role="dialog" aria-label="Governance">
-          <button class="pop__close" type="button" aria-label="Chiudi">
-            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-          </button>
           <p class="pop__k">Non profit</p>
           <p class="pop__t">Ente del Terzo Settore.</p>
           <p class="pop__d">
@@ -814,7 +843,8 @@
             Governance
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <p class="pop__hint">Chiudi con × oppure premi Esc</p>
+          <p class="pop__hint">Allontana il cursore oppure premi Esc</p>
+          <img class="pop__photo" src="assets/home/non-profit.png" alt="" aria-hidden="true" decoding="async">
         </div>
       </li>
 
@@ -856,9 +886,6 @@
         <a href="https://www.instagram.com/" aria-label="Instagram">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.4 2.21 8.8 2.2 12 2.2Zm0 3.05a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5Zm0 11.13a4.38 4.38 0 1 1 0-8.76 4.38 4.38 0 0 1 0 8.76Zm8.6-11.4a1.58 1.58 0 1 1-3.15 0 1.58 1.58 0 0 1 3.15 0Z"/></svg>
         </a>
-        <a href="https://www.youtube.com/" aria-label="YouTube">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 12s0-3.3-.42-4.88a2.53 2.53 0 0 0-1.78-1.79C19.22 4.9 12 4.9 12 4.9s-7.22 0-8.8.43c-.87.23-1.55.92-1.78 1.79C1 8.7 1 12 1 12s0 3.3.42 4.88c.23.87.91 1.56 1.78 1.79 1.58.43 8.8.43 8.8.43s7.22 0 8.8-.43a2.53 2.53 0 0 0 1.78-1.79C23 15.3 23 12 23 12ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
-        </a>
       </div>
 
     </div>
@@ -867,7 +894,7 @@
       <p class="foot__legal">
         Interest Edufin APS — Associazione di Promozione Sociale iscritta al RUNTS, sezione B ·
         C.F. 18028181008 · Via Francesco Patrizio da Cherso 30, 00143 Roma ·
-        <a href="mailto:team@buildinterest.it">team@buildinterest.it</a>
+        <a href="mailto:scuole@buildinterest.it">scuole@buildinterest.it</a>
       </p>
       <p class="foot__copy">© 2026 Interest Edufin APS</p>
     </div>
@@ -972,12 +999,6 @@
         item.classList.contains('is-open') ? closeAll() : open(item, e);
       });
 
-      /* la X chiude e riporta il fuoco sulla parola */
-      pop.querySelector('.pop__close').addEventListener('click', () => {
-        closeAll();
-        word.focus();
-      });
-
     });
 
     /* La zona sensibile comprende la parola, il contenuto aperto e il corridoio
@@ -1038,11 +1059,15 @@
     addEventListener('wheel', chiudiSuGesto, { passive: false });
     addEventListener('touchmove', chiudiSuGesto, { passive: false });
 
-    /* Esc chiude e riporta il fuoco sulla parola */
+    /* Esc chiude e restituisce il focus senza mostrare un falso stato attivo. */
     addEventListener('keydown', (e) => {
       if (e.key !== 'Escape') return;
       const wasOpen = closeAll();
-      if (wasOpen) wasOpen.querySelector('.claim__word').focus();
+      if (!wasOpen) return;
+      const word = wasOpen.querySelector('.claim__word');
+      word.classList.add('is-focus-restored');
+      word.focus({ preventScroll: true });
+      word.addEventListener('blur', () => word.classList.remove('is-focus-restored'), { once: true });
     });
   })();
 </script>
