@@ -287,14 +287,16 @@
     line-height: 1.06;
     text-transform: uppercase;
 
-    /* il contorno bianco spesso + l'ombra morbida dell'adesivo */
+    /* il contorno bianco spesso + l'ombra morbida dell'adesivo.
+       L'ombra è fissa: transizionare un drop-shadow sfocato su testo
+       così grande costringe a ridisegnare tutto a ogni frame */
     -webkit-text-stroke: .13em #fff;
     paint-order: stroke fill;
     filter:
       drop-shadow(0 3px 0 #fff)
       drop-shadow(0 10px 14px rgba(14, 27, 44, .20));
 
-    transition: transform .28s cubic-bezier(.22, 1, .36, 1), filter .28s ease;
+    transition: transform .28s cubic-bezier(.22, 1, .36, 1);
   }
 
   /* lastra invisibile davanti alla parola: intercetta il cursore anche
@@ -306,13 +308,11 @@
     z-index: 1;
   }
 
-  /* la parola attiva si solleva e stacca di più dal fondo */
+  /* la parola attiva si solleva: solo transform, che il compositore
+     anima senza ridisegnare nulla */
   .claim__item.is-open .claim__word,
   .claim__word:hover {
     transform: translateY(-4px) scale(1.02);
-    filter:
-      drop-shadow(0 3px 0 #fff)
-      drop-shadow(0 18px 24px rgba(14, 27, 44, .26));
   }
 
   .claim__word:focus-visible {
@@ -483,7 +483,8 @@
     object-position: right bottom;
     pointer-events: none;
     opacity: 0;
-    filter: saturate(.78) contrast(1.04);
+    /* la desaturazione è cotta dentro il file: un filter qui costerebbe
+       un passaggio di resa in più su un'immagine grande */
     transform: translate3d(5%, 28px, 0) scale(.97);
     transition: opacity .42s ease .18s, transform .72s cubic-bezier(.22, 1, .36, 1) .12s;
   }
@@ -551,12 +552,18 @@
     left: var(--px, 50vw);
     top: var(--py, 50vh);
     pointer-events: none;
+    /* i layer nascono già al caricamento: senza, il primo hover paga
+       la rasterizzazione delle macchie e perde qualche frame */
+    will-change: transform;
   }
 
+  /* Le due macchie hanno misure dimezzate e raddoppiano in scala:
+     la texture da rasterizzare è 4 volte più piccola (era ~3000px di
+     lato) e i bordi ingranditi finiscono comunque fuori dallo schermo. */
   .pop::before {
     z-index: -2;
-    width: 210vmax;
-    height: 190vmax;
+    width: 105vmax;
+    height: 95vmax;
     background: currentColor;
     border-radius: 43% 57% 48% 52% / 55% 42% 58% 45%;
     transform: translate(-50%, -50%) rotate(-7deg) scale(0);
@@ -565,8 +572,8 @@
 
   .pop::after {
     z-index: -1;
-    width: 105vmax;
-    height: 105vmax;
+    width: 52.5vmax;
+    height: 52.5vmax;
     background:
       radial-gradient(circle at 4% 42%, currentColor 0 2.2%, transparent 2.4%),
       radial-gradient(circle at 14% 10%, currentColor 0 3.1%, transparent 3.35%),
@@ -591,18 +598,18 @@
   }
 
   .claim__item.is-open .pop::before {
-    transform: translate(-50%, -50%) rotate(-7deg) scale(1);
+    transform: translate(-50%, -50%) rotate(-7deg) scale(2);
   }
 
   .claim__item.is-open .pop::after {
-    transform: translate(-50%, -50%) rotate(9deg) scale(1);
+    transform: translate(-50%, -50%) rotate(9deg) scale(2);
     opacity: 1;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .pop::before, .pop::after { transition: none; }
     .claim__item.is-open .pop::before,
-    .claim__item.is-open .pop::after { transform: translate(-50%, -50%) scale(1); }
+    .claim__item.is-open .pop::after { transform: translate(-50%, -50%) scale(2); }
   }
 
   @keyframes pop {
@@ -888,7 +895,7 @@
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <p class="pop__hint">Allontana il cursore oppure premi Esc</p>
-          <img class="pop__photo" src="assets/home/curiosa.png" alt="" aria-hidden="true" decoding="async">
+          <img class="pop__photo" src="assets/home/curiosa.webp" alt="" aria-hidden="true" decoding="async">
         </div>
       </li>
 
@@ -908,7 +915,7 @@
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <p class="pop__hint">Allontana il cursore oppure premi Esc</p>
-          <img class="pop__photo" src="assets/home/giovane.png" alt="" aria-hidden="true" decoding="async">
+          <img class="pop__photo" src="assets/home/giovane.webp" alt="" aria-hidden="true" decoding="async">
         </div>
       </li>
 
@@ -928,7 +935,7 @@
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <p class="pop__hint">Allontana il cursore oppure premi Esc</p>
-          <img class="pop__photo" src="assets/home/non-profit.png" alt="" aria-hidden="true" decoding="async">
+          <img class="pop__photo" src="assets/home/non-profit.webp" alt="" aria-hidden="true" decoding="async">
         </div>
       </li>
 
@@ -994,6 +1001,12 @@
     let apertoIl = 0;            // istante dell'apertura, per la breve immunità
     let chiusoIl = 0;            // istante dell'ultima chiusura
 
+    /* le foto dei pannelli sono nascoste finché non si apre un colore:
+       decodificarle subito evita lo scatto al primo hover */
+    claim.querySelectorAll('.pop__photo').forEach(img => {
+      if (img.decode) img.decode().catch(() => {});
+    });
+
     /* l'onda di colore parte dal punto in cui si trova il cursore */
     const setOrigin = (item, ev) => {
       const pop = item.querySelector('.pop');
@@ -1019,6 +1032,10 @@
       apertoIl = performance.now();
       /* il pannello copre tutto: scorrere muoverebbe una pagina che non si vede */
       document.documentElement.classList.add('is-locked');
+      /* i listener non-passivi vivono solo a pannello aperto: tenerli sempre
+         attivi obbligherebbe il browser ad aspettare il JS a ogni tick di scroll */
+      addEventListener('wheel', chiudiSuGesto, { passive: false });
+      addEventListener('touchmove', chiudiSuGesto, { passive: false });
     };
 
     const closeAll = () => {
@@ -1044,6 +1061,8 @@
       });
       claim.classList.remove('has-open');
       document.documentElement.classList.remove('is-locked');
+      removeEventListener('wheel', chiudiSuGesto, { passive: false });
+      removeEventListener('touchmove', chiudiSuGesto, { passive: false });
       if (wasOpen) chiusoIl = performance.now();
       return wasOpen;
     };
@@ -1078,7 +1097,14 @@
     /* La zona sensibile comprende la parola, il contenuto aperto e il corridoio
        fra i due: così si può raggiungere il pulsante senza chiudere il pannello. */
     if (fine) {
-      addEventListener('mousemove', (e) => {
+      /* al massimo una misurazione per frame: getBoundingClientRect a ogni
+         singolo mousemove forzerebbe il layout decine di volte al secondo */
+      let ultimoMove = null;
+      let rafMove = 0;
+      addEventListener('mousemove', (ev) => { ultimoMove = ev; if (!rafMove) rafMove = requestAnimationFrame(controllaZona); }, { passive: true });
+      const controllaZona = () => {
+        rafMove = 0;
+        const e = ultimoMove;
         if (!claim.classList.contains('has-open')) return;
 
         /* subito dopo l'apertura il cursore è ancora sulla parola, che può
@@ -1112,7 +1138,7 @@
         } else if (!timer) {
           timer = setTimeout(closeAll, 180);
         }
-      }, { passive: true });
+      };
 
       /* uscendo dalla finestra si ritira comunque */
       document.addEventListener('mouseleave', () => {
@@ -1130,8 +1156,7 @@
       e.preventDefault();
       closeAll();
     };
-    addEventListener('wheel', chiudiSuGesto, { passive: false });
-    addEventListener('touchmove', chiudiSuGesto, { passive: false });
+    /* agganciati in open() e sganciati in closeAll(), vedi sopra */
 
     /* Esc chiude e restituisce il focus senza mostrare un falso stato attivo. */
     addEventListener('keydown', (e) => {
