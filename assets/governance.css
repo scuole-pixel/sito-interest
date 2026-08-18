@@ -192,8 +192,10 @@ body { --c: var(--red); }
   transition: height .42s cubic-bezier(.22, 1, .36, 1);
 }
 
-/* quando la foto c'è, le iniziali non servono */
+/* quando la foto c'è, le iniziali non servono — e nemmeno lo sfondo:
+   il ritaglio poggia direttamente sulla pagina */
 .ppl__ph:has(img) > span { display: none; }
+.ppl__ph:has(img) { background: transparent; }
 
 .ppl li:not(.ppl--todo):hover .ppl__ph,
 .ppl li:not(.ppl--todo):focus-within .ppl__ph {
@@ -201,7 +203,8 @@ body { --c: var(--red); }
   height: 190px;
   border-radius: 20px;
   font-size: 34px;
-  background: #fff;
+  /* niente lastra bianca dietro la figura: resta immersa nella pagina */
+  background: transparent;
 }
 
 /* la figura esce dal riquadro: più alta del suo contenitore, base ferma */
