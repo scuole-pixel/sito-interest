@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="assets/progetto.css?v=20260817a">
 <style>
   body { --c: var(--blue); }
+
 </style>
 </head>
 <body>
@@ -38,13 +39,19 @@
       </span>
     </a>
 
-    <nav class="nav" aria-label="Menu principale">
+    <nav class="nav" id="site-nav" aria-label="Menu principale">
       <a href="cosa-facciamo.html">Cosa facciamo</a>
       <a href="chi-siamo.html">Chi siamo</a>
       <a href="governance.html">Governance</a>
       <a href="blog.html" aria-current="page">Blog</a>
       <a href="contattaci.html">Contattaci</a>
     </nav>
+
+    <button class="nav-toggle" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="site-nav">
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+    </button>
 
   </div>
 </header>
@@ -220,12 +227,12 @@
         </svg>
       </a>
 
-      <p class="foot__legal">
-        Interest Edufin APS — Associazione di Promozione Sociale iscritta al RUNTS, sezione B ·
-        C.F. 18028181008 · Via Francesco Patrizio da Cherso 30, 00143 Roma ·
-        <a href="mailto:scuole@buildinterest.it">scuole@buildinterest.it</a> ·
-        © 2026 Interest Edufin APS
-      </p>
+      <div class="foot__legal">
+        <p class="foot__org">Interest Edufin APS</p>
+        <p>Associazione di Promozione Sociale iscritta al RUNTS, sezione B · C.F. 18028181008</p>
+        <p>Via Francesco Patrizio da Cherso 30, 00143 Roma · <a href="mailto:scuole@buildinterest.it">scuole@buildinterest.it</a></p>
+        <p class="foot__copy">© 2026 Interest Edufin APS</p>
+      </div>
 
       <div class="fsoc">
         <a href="https://www.linkedin.com/company/interest-edufin/" aria-label="LinkedIn">
@@ -247,6 +254,8 @@
   onScroll();
   addEventListener('scroll', onScroll, { passive: true });
 </script>
+
+<script src="assets/nav.js"></script>
 
 </body>
 </html>
