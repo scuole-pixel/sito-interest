@@ -29,6 +29,7 @@
     --paper:  #f7f8fa;
 
     --header-h: 76px;
+    --logo-h: 28px;   /* simbolo e scritta alti uguali */
     --wrap: 1180px;
 
     /* la macchia di vernice: forma morbida, appena irregolare.
@@ -118,7 +119,7 @@
   }
 
   .logo__mark {
-    height: 30px;
+    height: var(--logo-h);
     width: auto;
     display: block;
     fill: var(--ink);
@@ -140,7 +141,7 @@
   }
 
   .logo__name svg {
-    height: 19px;
+    height: var(--logo-h);
     width: auto;
     display: block;
     fill: var(--ink);
@@ -148,7 +149,7 @@
 
   .logo:hover .logo__name,
   .logo:focus-visible .logo__name {
-    max-width: 160px;
+    max-width: 170px;   /* la scritta a 28px misura 164px: 160 la tagliava */
     opacity: 1;
     transform: translateX(0);
   }
@@ -279,7 +280,7 @@
 
   .foot__legal p { margin: 0; }
 
-  /* il nome apre il blocco, in chiaro; il copyright chiude, in sordina */
+  /* il nome apre il blocco, in chiaro; i dati seguono in sordina */
   .foot__legal .foot__org {
     margin-bottom: 5px;
     font-size: 14px;
@@ -288,11 +289,6 @@
     color: #fff;
   }
 
-  .foot__legal .foot__copy {
-    margin-top: 9px;
-    font-size: 11.5px;
-    color: rgba(255, 255, 255, .4);
-  }
 
   .foot__legal a { color: rgba(255, 255, 255, .78); text-decoration: none; }
   .foot__legal a:hover { color: #fff; text-decoration: underline; }

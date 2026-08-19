@@ -21,6 +21,12 @@
     --paper:  #f7f8fa;
 
     --header-h: 76px;
+    --logo-h: 28px;   /* simbolo e scritta alti uguali */
+
+    /* misure della secchiata, in vmax. Le legge anche il JS per calcolare
+       quanto deve crescere: vanno cambiate solo qui */
+    --blob-w: 210;
+    --blob-h: 190;
     --wrap: 1180px;
 
     /* Una secchiata vera: corpo irregolare, punte, schizzi e gocce. */
@@ -112,7 +118,7 @@
   }
 
   .logo__mark {
-    height: 30px;
+    height: var(--logo-h);
     width: auto;
     display: block;
     fill: var(--ink);
@@ -134,7 +140,7 @@
   }
 
   .logo__name svg {
-    height: 19px;
+    height: var(--logo-h);
     width: auto;
     display: block;
     fill: var(--ink);
@@ -142,7 +148,7 @@
 
   .logo:hover .logo__name,
   .logo:focus-visible .logo__name {
-    max-width: 160px;
+    max-width: 170px;
     opacity: 1;
     transform: translateX(0);
   }
@@ -218,10 +224,13 @@
   .hero {
     position: relative;
     background: var(--paper);
-    min-height: 100svh;
+    /* l'header e sticky: occupa gia il suo spazio nel flusso, quindi qui va
+       sottratto e non sommato, altrimenti le parole cadono sotto il centro
+       e la hero sporge oltre la prima schermata */
+    min-height: calc(100svh - var(--header-h));
     display: flex;
     align-items: center;
-    padding: calc(var(--header-h) + 4vh) 32px 8vh;
+    padding: 4vh 32px 8vh;
   }
 
   /* la grana di fondo dell'immagine, generata senza file esterni */
@@ -251,7 +260,7 @@
     flex-direction: column;
     align-items: center;
     width: fit-content;
-    gap: clamp(4px, 1.1vh, 16px);
+    gap: clamp(10px, 2vh, 22px);
   }
 
   .claim__item {
@@ -407,14 +416,19 @@
     z-index: 2;
     opacity: 0;
     transform: translateY(18px);
-    transition: opacity .3s ease, transform .45s cubic-bezier(.22, 1, .36, 1);
+    /* uscita: il testo se ne va prima che il colore si ritiri */
+    transition: opacity .21s ease, transform .32s cubic-bezier(.4, .1, .7, .5);
   }
-  .claim__item.is-open .pop > :not(.pop__photo) { opacity: 1; transform: none; }
-  .claim__item.is-open .pop > :nth-child(1) { transition-delay: .10s; }
-  .claim__item.is-open .pop > :nth-child(2) { transition-delay: .15s; }
-  .claim__item.is-open .pop > :nth-child(3) { transition-delay: .20s; }
+  .claim__item.is-open .pop > :not(.pop__photo) {
+    opacity: 1;
+    transform: none;
+    transition: opacity .31s ease, transform .46s cubic-bezier(.33, .85, .3, 1);
+  }
+  .claim__item.is-open .pop > :nth-child(1) { transition-delay: .11s; }
+  .claim__item.is-open .pop > :nth-child(2) { transition-delay: .16s; }
+  .claim__item.is-open .pop > :nth-child(3) { transition-delay: .2s; }
   .claim__item.is-open .pop > :nth-child(4) { transition-delay: .25s; }
-  .claim__item.is-open .pop > :nth-child(5) { transition-delay: .30s; }
+  .claim__item.is-open .pop > :nth-child(5) { transition-delay: .31s; }
 
   .pop__k {
     margin: 0;
@@ -428,16 +442,20 @@
 
   .pop__t {
     margin: 0;
-    max-width: 20ch;
+    max-width: 22ch;
+    text-wrap: balance;
     font-size: clamp(24px, 3.6vw, 46px);
     font-weight: 800;
     line-height: 1.18;
     color: #fff;
   }
 
+  .pop__d b { color: #fff; font-weight: 700; }
+
   .pop__d {
     margin: 0;
     max-width: 46ch;
+    text-wrap: pretty;
     font-size: clamp(15px, 1.5vw, 19px);
     line-height: 1.6;
     color: rgba(255, 255, 255, .88);
@@ -448,24 +466,24 @@
     align-items: center;
     gap: 10px;
     margin-top: 6px;
-    padding: 16px 30px;
+    padding: 19px 38px;
     border-radius: 999px;
     background: #fff;
     color: currentColor;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
     text-decoration: none;
     transition: gap .18s ease, transform .18s ease;
   }
 
-  .pop__cta > svg { width: 17px; height: 17px; flex: none; }
+  .pop__cta > svg { width: 19px; height: 19px; flex: none; }
   .pop__cta:hover { gap: 16px; transform: translateY(-2px); }
   .pop__cta:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
 
   /* dice come si esce, senza rubare la scena */
   .pop__hint {
     margin: 0;
-    font-size: 13px;
+    font-size: 15px;
     letter-spacing: .04em;
     color: rgba(255, 255, 255, .62);
   }
@@ -476,32 +494,50 @@
     right: clamp(-90px, -4vw, -42px);
     bottom: -5vh;
     z-index: 0;
-    height: min(92vh, 900px);
+    /* 92vh e il massimo, ma sui monitor stretti la foto si restringe quanto
+       serve per restare a fianco del testo e non sopra: a 1280px e oltre
+       vince 92vh, sotto vince la larghezza che avanza accanto alla colonna */
+    height: min(92vh, 900px, calc(75vw - 312px));
     width: auto;
     max-width: 64vw;
     object-fit: contain;
     object-position: right bottom;
     pointer-events: none;
     opacity: 0;
-    filter: saturate(.78) contrast(1.04);
+    /* bordo bianco netto intorno alla figura scontornata, come il contorno
+       delle tre parole: quattro ombre nette sui due assi si compongono
+       in un profilo continuo, diagonali comprese */
+    filter:
+      drop-shadow(5px 0 0 #fff) drop-shadow(-5px 0 0 #fff)
+      drop-shadow(0 5px 0 #fff) drop-shadow(0 -5px 0 #fff);
     transform: translate3d(5%, 28px, 0) scale(.97);
-    transition: opacity .42s ease .18s, transform .72s cubic-bezier(.22, 1, .36, 1) .12s;
+    will-change: transform, opacity;
+    transition: opacity .24s ease, transform .36s cubic-bezier(.4, .1, .7, .5);
   }
 
   .claim__item.is-open .pop__photo {
-    opacity: .38;
+    opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
+    transition: opacity .43s ease .18s,
+                transform .74s cubic-bezier(.4, .75, .3, 1) .13s;
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 1000px) {
+    /* a colori pieni la foto non puo passare sotto al testo: le si riserva
+       la fascia bassa e il testo si centra nello spazio che resta sopra */
+    .pop { padding-bottom: 48vh; }
+
     .pop__photo {
-      right: -34vw;
-      bottom: -2vh;
-      height: 68vh;
+      right: -18vw;
+      bottom: 0;
+      height: 46vh;
       max-width: none;
+      filter:
+        drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff)
+        drop-shadow(0 3px 0 #fff) drop-shadow(0 -3px 0 #fff);
     }
 
-    .claim__item.is-open .pop__photo { opacity: .24; }
+    .claim__item.is-open .pop__photo { opacity: 1; }
   }
 
   /* browser senza maschere CSS: si apre a cerchio, senza bordi colati */
@@ -530,8 +566,8 @@
     .pop__photo { transition: none; transform: none; }
   }
 
-  /* Secchiata di vernice: una massa irregolare e un fronte di schizzi.
-     Il pannello resta stabile finché non viene chiuso esplicitamente. */
+  /* Secchiata di vernice: una massa irregolare che si versa dal punto del
+     cursore. Il pannello resta stabile finché non viene chiuso esplicitamente. */
   .pop {
     isolation: isolate;
     overflow: hidden;
@@ -541,11 +577,12 @@
     clip-path: none;
     visibility: hidden;
     pointer-events: none;
-    transition: visibility 0s linear .62s;
+    /* .51s = esattamente la durata del ritiro della macchia. Va tenuta
+       allineata: se resta piu corta, la fine del ritiro viene tagliata */
+    transition: visibility 0s linear .51s;
   }
 
-  .pop::before,
-  .pop::after {
+  .pop::before {
     content: "";
     position: fixed;
     left: var(--px, 50vw);
@@ -555,33 +592,16 @@
 
   .pop::before {
     z-index: -2;
-    width: 210vmax;
-    height: 190vmax;
+    width: calc(var(--blob-w) * 1vmax);
+    height: calc(var(--blob-h) * 1vmax);
     background: currentColor;
-    border-radius: 43% 57% 48% 52% / 55% 42% 58% 45%;
-    transform: translate(-50%, -50%) rotate(-7deg) scale(0);
-    transition: transform .72s cubic-bezier(.2, .9, .24, 1);
-  }
-
-  .pop::after {
-    z-index: -1;
-    width: 105vmax;
-    height: 105vmax;
-    background:
-      radial-gradient(circle at 4% 42%, currentColor 0 2.2%, transparent 2.4%),
-      radial-gradient(circle at 14% 10%, currentColor 0 3.1%, transparent 3.35%),
-      radial-gradient(circle at 31% 3%, currentColor 0 1.8%, transparent 2%),
-      radial-gradient(circle at 62% 6%, currentColor 0 2.5%, transparent 2.75%),
-      radial-gradient(circle at 88% 17%, currentColor 0 3.2%, transparent 3.45%),
-      radial-gradient(circle at 97% 48%, currentColor 0 1.9%, transparent 2.1%),
-      radial-gradient(circle at 87% 85%, currentColor 0 2.6%, transparent 2.85%),
-      radial-gradient(circle at 56% 97%, currentColor 0 3.1%, transparent 3.35%),
-      radial-gradient(circle at 23% 92%, currentColor 0 2.1%, transparent 2.35%),
-      radial-gradient(circle at 5% 73%, currentColor 0 3.4%, transparent 3.65%),
-      radial-gradient(ellipse at 50% 50%, currentColor 0 30%, transparent 30.3%);
-    transform: translate(-50%, -50%) rotate(9deg) scale(0);
-    opacity: 0;
-    transition: transform .58s cubic-bezier(.1, .85, .2, 1) .06s, opacity .12s ease .04s;
+    /* da chiusa e quasi tonda e piu ruotata: crescendo la sagoma si deforma e
+       raddrizza, cosi la crescita non si legge come lo zoom di una figura rigida */
+    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+    transform: translate(-50%, -50%) rotate(-22deg) scale(0);
+    will-change: transform;
+    transition: transform .51s cubic-bezier(.4, .1, .7, .5),
+                border-radius .51s cubic-bezier(.4, .1, .7, .5);
   }
 
   .claim__item.is-open .pop {
@@ -591,18 +611,19 @@
   }
 
   .claim__item.is-open .pop::before {
-    transform: translate(-50%, -50%) rotate(-7deg) scale(1);
-  }
-
-  .claim__item.is-open .pop::after {
-    transform: translate(-50%, -50%) rotate(9deg) scale(1);
-    opacity: 1;
+    border-radius: 43% 57% 48% 52% / 55% 42% 58% 45%;
+    /* --s la calcola il JS: quanto basta a coprire lo schermo da QUEL punto.
+       Prima cresceva sempre fino a 1, ma dal 60% di scala in poi era tutto
+       fuori schermo e il 72% della durata non si vedeva */
+    transform: translate(-50%, -50%) rotate(-7deg) scale(var(--s, 1));
+    /* curva distribuita: la copertura si completa verso la fine, non a meta */
+    transition: transform .735s cubic-bezier(.35, .3, .55, .9),
+                border-radius .735s cubic-bezier(.35, .3, .55, .9);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .pop::before, .pop::after { transition: none; }
-    .claim__item.is-open .pop::before,
-    .claim__item.is-open .pop::after { transform: translate(-50%, -50%) scale(1); }
+    .pop::before { transition: none; }
+    .claim__item.is-open .pop::before { transform: translate(-50%, -50%) scale(1); }
   }
 
   @keyframes pop {
@@ -637,7 +658,9 @@
     background: linear-gradient(90deg, var(--green) 0 33.333%, var(--red) 33.333% 66.666%, var(--blue) 66.666%);
   }
 
-  .foot__inner { max-width: var(--wrap); margin: 0 auto; }
+  /* stesso perimetro utile dell'header (1180px MENO i 32px di bordo per lato,
+     che lì stanno dentro al box): logo sotto logo, Instagram sotto "Contattaci" */
+  .foot__inner { max-width: calc(var(--wrap) - 64px); margin: 0 auto; }
 
   .foot__brand { display: inline-flex; flex: none; border-radius: 4px; }
   .foot__brand:focus-visible { outline: 2px solid #fff; outline-offset: 6px; }
@@ -659,52 +682,40 @@
   .fsoc a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
   .fsoc svg { width: 17px; height: 17px; }
 
-  .foot__bottom {
-    display: flex;
+  /* riga unica a tre zone: 1fr-auto-1fr tiene i dati al centro esatto
+     anche se il logo e i social occupano larghezze diverse */
+  .foot__top {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px 26px;
+    gap: 26px;
   }
+  .foot__top .foot__brand { justify-self: start; }
+  .foot__top .fsoc { justify-self: end; }
 
   .foot__legal {
     margin: 0;
-    max-width: 72ch;
-    flex: 1 1 420px;
+    text-align: center;
     font-size: 12.5px;
-    line-height: 1.75;
+    line-height: 1.8;
     color: rgba(255, 255, 255, .62);
   }
 
   .foot__legal p { margin: 0; }
 
-  /* il nome apre il blocco, in chiaro; il copyright chiude, in sordina */
+  /* il nome in chiaro apre la riga; i dati seguono in sordina */
   .foot__legal .foot__org {
-    margin-bottom: 5px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     letter-spacing: .01em;
     color: #fff;
   }
 
-  .foot__legal .foot__copy {
-    margin-top: 9px;
-    font-size: 11.5px;
-    color: rgba(255, 255, 255, .4);
-  }
 
   .foot__legal a { color: rgba(255, 255, 255, .78); text-decoration: none; }
   .foot__legal a:hover { color: #fff; text-decoration: underline; }
 
 
-  @media (max-width: 720px) {
-    .foot__bottom {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 18px;
-    }
-    .foot__legal { flex: 0 0 auto; }
-  }
   @media (max-width: 520px) {
     .hero { padding-left: 22px; padding-right: 22px; }
     .foot { padding-left: 22px; padding-right: 22px; }
@@ -878,11 +889,8 @@
         </button>
         <div class="pop" id="pop-curiosa" role="dialog" aria-label="Cosa facciamo">
           <p class="pop__k">Curiosa</p>
-          <p class="pop__t">Non ci limitiamo ai seminari.</p>
-          <p class="pop__d">
-            Educazione finanziaria nelle scuole superiori, ricerca sulle competenze degli studenti
-            e un progetto pilota di microcredito a impatto.
-          </p>
+          <p class="pop__t">Facciamo tre cose.</p>
+          <p class="pop__d"><b>Seminari</b> nelle scuole superiori, <b>ricerca</b> su cosa sanno davvero gli studenti, <b>microcredito</b> a tasso zero per artigiani e piccole&nbsp;imprese.</p>
           <a class="pop__cta" href="cosa-facciamo.html">
             Cosa facciamo
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -898,10 +906,10 @@
         </button>
         <div class="pop" id="pop-giovane" role="dialog" aria-label="Chi siamo">
           <p class="pop__k">Giovane</p>
-          <p class="pop__t">Nata nel 2025, da under 25.</p>
+          <p class="pop__t">Nata nel 2025, da under&nbsp;25.</p>
           <p class="pop__d">
-            A parlare agli studenti sono altri studenti, di qualche anno più grandi. Con al fianco
-            professionisti senior che ci fanno da bussola.
+            A parlare agli studenti sono <b>altri studenti</b>, di qualche anno più grandi. Con al fianco
+            <b>professionisti senior</b> che ci fanno da bussola.
           </p>
           <a class="pop__cta" href="chi-siamo.html">
             Chi siamo
@@ -920,8 +928,8 @@
           <p class="pop__k">Non profit</p>
           <p class="pop__t">Ente del Terzo Settore.</p>
           <p class="pop__d">
-            Associazione di Promozione Sociale iscritta al RUNTS. Statuto, organi e documenti
-            sono pubblici: chiunque può verificarli.
+            Associazione di Promozione Sociale <b>iscritta al RUNTS</b>. Statuto, organi e documenti
+            sono <b>pubblici</b>: chiunque può verificarli.
           </p>
           <a class="pop__cta" href="governance.html">
             Governance
@@ -945,7 +953,7 @@
 <footer class="foot snap--tall">
   <div class="foot__inner">
 
-    <div class="foot__bottom">
+    <div class="foot__top">
 
       <a class="foot__brand" href="index.html" aria-label="Interest — vai alla home">
         <svg class="foot__mark" viewBox="0 0 271.6 182.06" aria-hidden="true">
@@ -956,17 +964,17 @@
       </a>
 
       <div class="foot__legal">
-        <p class="foot__org">Interest Edufin APS</p>
-        <p>Associazione di Promozione Sociale iscritta al RUNTS, sezione B · C.F. 18028181008</p>
-        <p>Via Francesco Patrizio da Cherso 30, 00143 Roma · <a href="mailto:scuole@buildinterest.it">scuole@buildinterest.it</a></p>
-        <p class="foot__copy">© 2026 Interest Edufin APS</p>
+        <p><b class="foot__org">Interest Edufin APS</b> · Associazione di Promozione Sociale iscritta al RUNTS, sezione B · C.F. 18028181008</p>
+        <p>Via Francesco Patrizio da Cherso 30, 00143 Roma · <a href="mailto:scuole@buildinterest.it">scuole@buildinterest.it</a> · <a href="privacy.html">Privacy</a> · <a href="privacy.html#cookie">Cookie</a></p>
       </div>
 
       <div class="fsoc">
         <a href="https://www.linkedin.com/company/interest-edufin/" aria-label="LinkedIn">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95 4.02 0 4.76 2.5 4.76 5.75V21h-4v-5.6c0-1.34-.03-3.06-1.9-3.06-1.9 0-2.19 1.45-2.19 2.96V21h-4V9Z"/></svg>
         </a>
-        <a href="https://www.instagram.com/" aria-label="Instagram">
+        <!-- TODO: manca l'URL del profilo. Senza href non e un link: l'icona
+             si vede ma non porta a instagram.com per errore -->
+        <a aria-label="Instagram">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.4 2.21 8.8 2.2 12 2.2Zm0 3.05a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5Zm0 11.13a4.38 4.38 0 1 1 0-8.76 4.38 4.38 0 0 1 0 8.76Zm8.6-11.4a1.58 1.58 0 1 1-3.15 0 1.58 1.58 0 0 1 3.15 0Z"/></svg>
         </a>
       </div>
@@ -994,6 +1002,30 @@
     let apertoIl = 0;            // istante dell'apertura, per la breve immunità
     let chiusoIl = 0;            // istante dell'ultima chiusura
 
+    /* Quanto deve crescere la macchia per coprire lo schermo da un dato punto.
+       Senza questo cresceva sempre fino a scala 1, ma lo schermo era gia coperto
+       a 0,6: il 72% della durata si consumava fuori dalla vista, ed e il motivo
+       per cui l'effetto sembrava uno scatto meccanico. */
+    const scalaNecessaria = (x, y) => {
+      const vmax = Math.max(innerWidth, innerHeight) / 100;
+      const css = getComputedStyle(document.documentElement);
+      const a = parseFloat(css.getPropertyValue('--blob-w')) * vmax / 2;
+      const b = parseFloat(css.getPropertyValue('--blob-h')) * vmax / 2;
+      if (!(a > 0 && b > 0)) return 1;
+      let serve = 0;
+      for (const [cx, cy] of [[0, 0], [innerWidth, 0], [0, innerHeight], [innerWidth, innerHeight]]) {
+        const dx = cx - x, dy = cy - y;
+        const d = Math.hypot(dx, dy);
+        if (!d) continue;
+        /* raggio della macchia in quella direzione, approssimata a ellisse */
+        const raggio = 1 / Math.hypot(dx / d / a, dy / d / b);
+        serve = Math.max(serve, d / raggio);
+      }
+      /* 18% di margine: la sagoma reale e piu rientrante di un'ellisse, e un
+         angolo scoperto si vedrebbe. Mai oltre 1, cioe mai piu di prima. */
+      return Math.min(1, serve * 1.18);
+    };
+
     /* l'onda di colore parte dal punto in cui si trova il cursore */
     const setOrigin = (item, ev) => {
       const pop = item.querySelector('.pop');
@@ -1004,6 +1036,7 @@
       pop.style.setProperty('--y', (y / innerHeight * 100) + '%');
       pop.style.setProperty('--px', `${x}px`);
       pop.style.setProperty('--py', `${y}px`);
+      pop.style.setProperty('--s', scalaNecessaria(x, y).toFixed(3));
     };
 
     const open = (item, ev) => {

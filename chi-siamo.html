@@ -4,14 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Chi siamo — Interest Edufin APS</title>
-<meta name="description" content="La storia di Interest Edufin APS, dal 2020 a oggi: come è nata, chi c'è dentro e dove vuole arrivare. Educazione finanziaria peer-to-peer nelle scuole superiori italiane.">
+<meta name="description" content="Come è nata Interest Edufin APS: dalle prime cinque scuole nel 2024 al progetto nazionale di educazione finanziaria peer-to-peer nelle superiori italiane.">
 <link rel="stylesheet" href="assets/base.css?v=20260812c">
 <link rel="stylesheet" href="assets/progetto.css?v=20260817a">
 <style>
   body { --c: var(--green); }
 
-  /* lo scroll è magnetico: ogni gesto si aggancia a una tappa della storia */
-  html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+  /* lo scroll è magnetico: ogni gesto si aggancia a una tappa della storia.
+     Lo scorrimento morbido va spento: la pagina si apre a 0, che con "mandatory"
+     non è una posizione di riposo valida (la prima tappa si centra a 77px, cioè
+     sotto l'header), e con "smooth" quella correzione diventa una scivolata
+     visibile all'apertura. Spento, la correzione è istantanea. Qui non ci sono
+     ancore interne, quindi il morbido non serviva ad altro. */
+  html { scroll-snap-type: y mandatory; scroll-behavior: auto; }
 
 </style>
 </head>
@@ -62,30 +67,11 @@
 
 <main>
 
-<!-- apertura: è la prima tappa, il punto di partenza -->
-<section class="op op--chi snap">
-  <div class="op__in">
-    <p class="op__k">Chi siamo</p>
-    <h1 class="op__h">La nostra storia, dall'inizio.</h1>
-    <p class="op__d">
-      Interest Edufin APS fa educazione finanziaria nelle scuole superiori italiane.
-      Scorri la timeline: dal primo esperimento in cinque scuole al prossimo
-      traguardo nazionale. La data ti accompagna mentre la storia avanza.
-    </p>
-  </div>
-</section>
-
 <!-- ══════ CRONOLOGIA: timeline verticale e calendario persistente ══════ -->
-<section class="story-scroll" aria-labelledby="chronicleTitle">
-  <header class="story-scroll__head">
-    <p>La nostra storia</p>
-    <h2 id="chronicleTitle">Da cinque scuole<br>a un progetto nazionale.</h2>
-    <span>Otto passaggi che hanno cambiato la scala, il metodo o la direzione di Interest.</span>
-  </header>
-
+<section class="story-scroll" id="storia" aria-label="La nostra storia">
   <div class="story-scroll__layout">
     <aside class="story-date" aria-live="polite" aria-atomic="true">
-      <span class="story-date__when"><b id="chronicleWhen">Ottobre 2024</b></span>
+      <span class="story-date__when"><b><span class="story-date__mese" id="chronicleMese">Ottobre</span><span class="story-date__anno" id="chronicleAnno">2024</span></b></span>
       <div class="story-date__media" aria-hidden="true">
         <img src="assets/chi-siamo/tappa-01.svg" alt="" class="is-active">
         <img src="assets/chi-siamo/tappa-02.svg" alt="">
@@ -96,76 +82,81 @@
         <img src="assets/chi-siamo/tappa-07.svg" alt="">
         <img src="assets/chi-siamo/tappa-08.svg" alt="">
       </div>
-      <span class="story-date__note" id="chronicleDateNote">Il primo esperimento</span>
     </aside>
 
     <div class="story-scroll__events">
-        <article class="story-event is-active" data-when="Ottobre 2024" data-note="Il primo esperimento">
+        <article class="story-event is-active" data-when="Ottobre 2024">
           <p>Da un'idea a una classe vera</p>
-          <h3>Cinque scuole per capire se poteva funzionare.</h3>
+          <h1>Cinque scuole per capire se poteva funzionare.</h1>
           <div class="story-event__copy">
             <p>Non esiste ancora un'associazione. Un gruppo di studenti prova il formato in cinque istituti e scopre che il peer-to-peer funziona: chi ha appena lasciato le superiori sa ancora quali domande non osava fare.</p>
             <strong><b>5</b> scuole pilota</strong>
           </div>
+          <p class="story-scorri" aria-hidden="true">
+            Scorri
+            <svg viewBox="0 0 16 16" focusable="false"><path d="M8 2v11M4 9l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </p>
         </article>
 
-        <article class="story-event" data-when="Marzo 2025" data-note="Nasce Interest Edufin APS">
+        <article class="story-event" data-when="Marzo 2025">
           <p>La costituzione</p>
-          <h3>L'esperimento diventa un'associazione.</h3>
+          <h2>L'esperimento diventa un'associazione.</h2>
           <div class="story-event__copy">
             <p>Il 17 marzo sette firmatari costituiscono Interest Edufin APS. Il 2 aprile arriva l'iscrizione al RUNTS: da quel momento il progetto è un ente del Terzo Settore, con responsabilità e regole precise.</p>
             <strong><b>7</b> soci fondatori</strong>
           </div>
         </article>
 
-        <article class="story-event" data-when="Giugno 2025" data-note="Il primo anno">
+        <article class="story-event" data-when="Giugno 2025">
           <p>La prima prova di scala</p>
-          <h3>Il primo anno si chiude con 16 scuole.</h3>
+          <h2>Il primo anno si chiude con 16 scuole.</h2>
           <div class="story-event__copy">
             <p>Circa 1.400 studenti incontrati. È abbastanza per capire cosa coinvolge davvero una classe, quali parti vanno riscritte e perché la gratuità deve restare un principio del progetto.</p>
             <strong><b>1.400</b> studenti</strong>
           </div>
         </article>
 
-        <article class="story-event" data-when="Set 2025 — Gen 2026" data-note="Il secondo anno prende forma">
+        <article class="story-event" data-when="Settembre 2025">
           <p>Il secondo anno</p>
-          <h3>Un calendario continuo e i primi partner.</h3>
+          <h2>Un calendario continuo e i primi partner.</h2>
           <div class="story-event__copy">
-            <p>Il 19 settembre parte il nuovo anno scolastico e gli incontri diventano quasi settimanali: quarantanove appuntamenti tra gennaio e maggio, dal Nord alla Sicilia. Intanto il progetto smette di crescere da solo: CAPZA sostiene il programma, Italiacamp ETS misura l'impatto e Factanza contribuisce ai contenuti, così i seminari restano gratuiti.</p>
+            <p>Il 19 settembre parte il nuovo anno scolastico e il calendario si riempie: quarantanove appuntamenti tra gennaio e maggio, più di due a settimana, dal Nord alla Sicilia. Intanto il progetto smette di crescere da solo: CAPZA sostiene il programma, Italiacamp ETS misura l'impatto e Factanza contribuisce ai contenuti, così i seminari restano gratuiti.</p>
             <strong><b>49</b> incontri e 3 partner strategici</strong>
           </div>
         </article>
 
-        <article class="story-event" data-when="Giugno 2026" data-note="Il salto di scala">
+        <article class="story-event" data-when="Aprile 2026">
           <p>Un anno dopo</p>
-          <h3>51 scuole, quasi 5.000 studenti.</h3>
+          <h2>51 scuole, quasi 5.000 studenti.</h2>
           <div class="story-event__copy">
             <p>Le scuole raggiunte triplicano. Ma il dato più importante è un altro: quelle in aree fragili passano dal 10% al 46,5%. Crescere ha senso solo se l'educazione arriva dove arriverebbe meno facilmente.</p>
             <strong><b>+218%</b> scuole in un anno</strong>
           </div>
         </article>
 
-        <article class="story-event" data-when="Luglio 2026" data-note="Tre progetti, una missione">
-          <p>Oltre i seminari</p>
-          <h3>Educazione, ricerca e microcredito.</h3>
+
+        <article class="story-event" data-when="Luglio 2026">
+          <p>Il passaggio di mano</p>
+          <h2>Una nuova presidenza e un nuovo consiglio.</h2>
           <div class="story-event__copy">
-            <p>Ai seminari si affiancano la ricerca sulle competenze finanziarie e Micro for Macro, il fondo di microcredito a tasso zero. Nello stesso mese Banca d'Italia seleziona il progetto per il suo bando.</p>
-            <strong><b>3</b> progetti attivi</strong>
+            <p>Il consiglio direttivo si rinnova e la presidenza passa di mano: un cambio di generazione alla guida dell'associazione. Le cariche sono elettive, durano due esercizi e restano gratuite.</p>
+            <strong><b>5</b> cariche nel consiglio</strong>
           </div>
         </article>
 
-        <article class="story-event" data-when="Agosto 2026" data-note="Le persone dietro Interest">
-          <p>Chi c'è dentro</p>
-          <h3>Un'organizzazione giovane, interamente volontaria.</h3>
+
+        <article class="story-event" data-when="Settembre 2026">
+          <p>Il fondo entra in circolo</p>
+          <h2>Il primo prestito a tasso zero.</h2>
           <div class="story-event__copy">
-            <p>Trentatré soci, quindici peer educator, un consiglio direttivo e un comitato scientifico. Competenze e generazioni diverse lavorano insieme; nessuno viene retribuito per entrare in aula.</p>
-            <div class="story-event__links"><a href="governance.html">Scopri la governance →</a><a href="cosa-facciamo.html">Esplora i progetti →</a></div>
+            <p>Le prime imprese sono selezionate e le pratiche passano alla validazione di Banco BPM: da qui parte la prima erogazione di Micro for Macro. Il capitale rientra entro dodici mesi, senza interessi né commissioni, e riparte verso un'altra impresa.</p>
+            <strong><b>12</b> mesi per il rientro del capitale</strong>
           </div>
         </article>
 
-        <article class="story-event story-event--goal" data-when="Giugno 2027" data-note="Il prossimo traguardo">
+        <article class="story-event story-event--goal" data-when="Giugno 2027">
           <p>La direzione</p>
-          <h3>Portare Interest in oltre 100 scuole.</h3>
+          <h2>Portare Interest in oltre 100 scuole.</h2>
           <div class="story-event__copy">
             <p>Non è una previsione, è il traguardo del progetto triennale. Oggi più di otto nuove scuole su dieci arrivano tramite il passaparola di un altro istituto: è da lì che vogliamo continuare.</p>
             <strong><b>100+</b> scuole entro giugno</strong>
@@ -178,6 +169,7 @@
 <section class="end snap">
   <h2 class="end__h">Vuoi far parte di questa storia?</h2>
   <p class="end__p">
+    Interest Edufin APS fa educazione finanziaria nelle scuole superiori italiane.
     Che tu sia una scuola, un'azienda, un ateneo o qualcuno che vuole dare una mano:
     il primo passo è sempre una mail.
   </p>
@@ -207,14 +199,16 @@
         <p class="foot__org">Interest Edufin APS</p>
         <p>Associazione di Promozione Sociale iscritta al RUNTS, sezione B · C.F. 18028181008</p>
         <p>Via Francesco Patrizio da Cherso 30, 00143 Roma · <a href="mailto:scuole@buildinterest.it">scuole@buildinterest.it</a></p>
-        <p class="foot__copy">© 2026 Interest Edufin APS</p>
+        <p><a href="privacy.html">Privacy</a> · <a href="privacy.html#cookie">Cookie</a></p>
       </div>
 
       <div class="fsoc">
         <a href="https://www.linkedin.com/company/interest-edufin/" aria-label="LinkedIn">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95 4.02 0 4.76 2.5 4.76 5.75V21h-4v-5.6c0-1.34-.03-3.06-1.9-3.06-1.9 0-2.19 1.45-2.19 2.96V21h-4V9Z"/></svg>
         </a>
-        <a href="https://www.instagram.com/" aria-label="Instagram">
+        <!-- TODO: manca l'URL del profilo. Senza href non e un link: l'icona
+             si vede ma non porta a instagram.com per errore -->
+        <a aria-label="Instagram">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.4 2.21 8.8 2.2 12 2.2Zm0 3.05a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5Zm0 11.13a4.38 4.38 0 1 1 0-8.76 4.38 4.38 0 0 1 0 8.76Zm8.6-11.4a1.58 1.58 0 1 1-3.15 0 1.58 1.58 0 0 1 3.15 0Z"/></svg>
         </a>
       </div>
@@ -235,8 +229,24 @@
     if (!story) return;
 
     const events = [...story.querySelectorAll('.story-event')];
-    const when = document.getElementById('chronicleWhen');
-    const note = document.getElementById('chronicleDateNote');
+    const mese = document.getElementById('chronicleMese');
+    const anno = document.getElementById('chronicleAnno');
+
+    /* effetto calendario: si riscrive solo la casella che cambia. Se l'anno è lo
+       stesso della tappa precedente non viene toccato, quindi non si anima e non
+       si muove di un pixel. */
+    const spezza = (testo) => {
+      const parti = testo.match(/^(.*?)\s+(\d{4})$/);
+      return parti ? [parti[1], parti[2]] : [testo, ''];
+    };
+
+    const gira = (casella, testo) => {
+      if (casella.textContent === testo) return;
+      casella.textContent = testo;
+      casella.classList.remove('e-cambiata');
+      void casella.offsetWidth;   /* forza il riavvio dell'animazione */
+      casella.classList.add('e-cambiata');
+    };
     const images = [...story.querySelectorAll('.story-date__media img')];
     let active = -1;
 
@@ -246,8 +256,9 @@
       const selected = events[index];
       events.forEach((event, i) => event.classList.toggle('is-active', i === index));
       images.forEach((image, i) => image.classList.toggle('is-active', i === index));
-      when.textContent = selected.dataset.when;
-      note.textContent = selected.dataset.note;
+      const [meseNuovo, annoNuovo] = spezza(selected.dataset.when);
+      gira(mese, meseNuovo);
+      gira(anno, annoNuovo);
     };
 
     let queued = false;
