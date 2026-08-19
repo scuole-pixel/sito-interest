@@ -1246,40 +1246,7 @@ a.pub__t:hover { color: var(--c); }
 .story-scroll {
   max-width: var(--wrap);
   margin: 0 auto;
-  padding: clamp(62px, 8vw, 108px) 32px clamp(72px, 9vw, 120px);
-}
-
-.story-scroll__head {
-  max-width: 940px;
-  margin-bottom: clamp(22px, 4vw, 46px);
-  scroll-snap-align: start;
-  scroll-margin-top: calc(var(--header-h) + 14px);
-}
-
-.story-scroll__head > p {
-  margin: 0 0 14px;
-  font-size: 11.5px;
-  font-weight: 800;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--c);
-}
-
-.story-scroll__head h2 {
-  margin: 0;
-  font-family: var(--display);
-  font-size: clamp(35px, 5vw, 62px);
-  line-height: .99;
-  letter-spacing: -.035em;
-}
-
-.story-scroll__head > span {
-  display: block;
-  max-width: 58ch;
-  margin-top: 18px;
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--muted);
+  padding: 0 32px clamp(72px, 9vw, 120px);
 }
 
 .story-scroll__layout {
@@ -1304,25 +1271,64 @@ a.pub__t:hover { color: var(--c); }
   color: var(--ink);
 }
 
-/* la data vive in alto, al posto del vecchio contatore di tappe */
+/* la data vive in alto, in negativo: è l'orologio della storia, non un titolo.
+   La targa stringe sul testo, quindi non ha "right": la misura la fa la data.
+   Il corpo sta qui e non sulla b, così i margini interni crescono col carattere. */
 .story-date__when {
   position: absolute;
   top: clamp(30px, 6vh, 64px);
   left: 0;
-  right: 0;
-  display: block;
-  padding-bottom: 14px;
-  border-bottom: 2px solid var(--ink);
+  display: inline-flex;
+  align-items: center;
+  padding: .3em .62em .38em;
+  border-radius: 999px;
+  background: var(--ink);
+  /* la targa e un segnalibro, non un titolo: chiedendo l'anno fermo la larghezza
+     e diventata fissa, quindi era sempre grande come il caso peggiore. Scesa di
+     corpo, la massa si dimezza e la logica del calendario resta intatta. */
+  font-size: clamp(18px, 1.8vw, 26px);
 }
 
 .story-date__when b {
   font-family: var(--display);
   font-weight: 900;
-  font-size: clamp(23px, 2.5vw, 36px);
+  font-size: inherit;
   line-height: 1.06;
   letter-spacing: -.04em;
-  color: var(--ink);
+  color: #fff;
   font-variant-numeric: tabular-nums;
+  display: inline-flex;
+  align-items: baseline;
+  gap: .26em;
+}
+
+/* Effetto calendario. Il mese occupa sempre la larghezza del mese più lungo:
+   così l'anno parte sempre dallo stesso punto e non si sposta mai, nemmeno
+   passando da "Marzo" a "Settembre". Il ::before è un calibro invisibile — se
+   un giorno entra un mese più lungo di settembre, va aggiornato qui.
+   Sta su ::after e non su ::before perché l'allineamento a "baseline" guarda la
+   PRIMA riga dell'elemento: col calibro davanti, il mese si allineava alla riga
+   invisibile e finiva più basso dell'anno. */
+.story-date__mese,
+.story-date__anno { display: inline-block; }
+
+.story-date__mese::after {
+  content: "Settembre";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+/* la casella riscritta ruota giù come una paletta che gira; quella invariata
+   non riceve la classe, quindi resta immobile */
+@keyframes story-data-gira {
+  from { opacity: 0; transform: translateY(-.22em); }
+  to   { opacity: 1; transform: none; }
+}
+
+.story-date__when .e-cambiata {
+  animation: story-data-gira .34s cubic-bezier(.22, 1, .36, 1);
 }
 
 /* al centro, dove prima stava la data gigante, si alternano le immagini */
@@ -1348,19 +1354,6 @@ a.pub__t:hover { color: var(--c); }
 
 .story-date__media img.is-active { opacity: 1; transform: none; }
 
-.story-date__note {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: clamp(30px, 6vh, 64px);
-  padding-top: 14px;
-  border-top: 1px solid var(--border);
-  font-size: 13px;
-  font-weight: 750;
-  line-height: 1.45;
-  color: var(--muted);
-}
-
 .story-scroll__events {
   grid-column: 1;
   grid-row: 1;
@@ -1368,12 +1361,14 @@ a.pub__t:hover { color: var(--c); }
   padding-left: clamp(36px, 5vw, 64px);
 }
 
+/* i pallini stanno a metà tappa piu mezzo header: la spina deve partire e
+   finire esattamente lì, altrimenti non tocca la prima e l'ultima tappa */
 .story-scroll__events::before {
   content: "";
   position: absolute;
   left: 7px;
-  top: 50svh;
-  bottom: 50svh;
+  top: calc(50svh + var(--header-h) / 2);
+  bottom: calc(50svh - var(--header-h) / 2);
   width: 2px;
   border-radius: 99px;
   background: var(--border);
@@ -1411,6 +1406,36 @@ a.pub__t:hover { color: var(--c); }
   transition: background .3s ease, box-shadow .3s ease, transform .3s ease;
 }
 
+/* l'invito a scorrere vive in fondo alla prima tappa: scorre via da solo e si
+   spegne con lei quando smette di essere attiva, senza bisogno di script.
+   Il selettore nomina due classi perche ".story-event > p" (gli occhielli verdi)
+   pesa piu di una classe sola e gli imporrebbe il proprio colore. */
+.story-event > p.story-scorri {
+  position: absolute;
+  left: 0;
+  bottom: clamp(22px, 5vh, 54px);
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.story-event > p.story-scorri svg {
+  width: 14px;
+  height: 14px;
+  animation: story-scorri 2.1s ease-in-out infinite;
+}
+
+@keyframes story-scorri {
+  0%, 100% { transform: translateY(-2px); }
+  50%      { transform: translateY(3px); }
+}
+
 .story-event.is-active { opacity: 1; transform: none; }
 .story-event.is-active::before { background: var(--c); box-shadow: 0 0 0 1px var(--c); transform: translateY(-50%) scale(1.28); }
 .story-event--goal.is-active::before { background: #fff; }
@@ -1424,7 +1449,7 @@ a.pub__t:hover { color: var(--c); }
   color: var(--c);
 }
 
-.story-event h3 {
+.story-event :is(h1, h2) {
   margin: 0;
   max-width: 15ch;
   font-family: var(--display);
@@ -1434,7 +1459,7 @@ a.pub__t:hover { color: var(--c); }
   color: var(--ink);
 }
 
-.story-event--goal h3 { color: var(--c); }
+.story-event--goal h2 { color: var(--c); }
 
 .story-event__copy {
   display: grid;
@@ -1489,10 +1514,9 @@ a.pub__t:hover { color: var(--c); }
     background: rgba(255,255,255,.96);
     backdrop-filter: blur(12px);
   }
-  .story-date__when { position: static; padding: 0; border: 0; }
+  .story-date__when { position: static; }
   .story-date__when b { font-size: clamp(21px, 5.4vw, 30px); }
   .story-date__media { display: none; }
-  .story-date__note { position: static; padding: 0; border: 0; font-size: 12px; }
   .story-scroll__events { grid-column: 1; grid-row: 2; padding-left: 38px; }
   .story-event { min-height: 78svh; padding-top: calc(var(--header-h) + 42px); }
   .story-event::before { left: -38px; top: calc(50% + 21px); }
@@ -1502,7 +1526,6 @@ a.pub__t:hover { color: var(--c); }
 @media (max-width: 600px) {
   .story-scroll { padding-left: 22px; padding-right: 22px; }
   .story-date { margin: 0 -22px; padding-left: 22px; padding-right: 22px; }
-  .story-date__note { max-width: 24ch; }
   .story-event__copy { grid-template-columns: 1fr; align-items: start; }
   .story-event__copy > strong { max-width: none; }
   .story-event__links { min-width: 0; }
@@ -1510,6 +1533,8 @@ a.pub__t:hover { color: var(--c); }
 
 @media (prefers-reduced-motion: reduce) {
   .story-event, .story-event::before, .story-date__media img { transition: none; }
+  .story-date__when .e-cambiata { animation: none; }
+  .story-event > p.story-scorri svg { animation: none; }
 }
 
 /* ── domande frequenti ── */
@@ -1897,19 +1922,22 @@ a.card { text-decoration: none; }
 /* ── Contatti: un centralino visivo, non una pagina da compilare ── */
 .contact-hub { padding-top: clamp(58px, 8vw, 104px); }
 
+/* stesse colonne della griglia dei riquadri qui sotto: il paragrafo
+   d'appoggio parte esattamente dove parte la colonna destra */
 .contact-hub__head {
   display: grid;
-  grid-template-columns: 1.2fr .8fr;
+  grid-template-columns: 1fr 1fr;
   align-items: end;
-  gap: 34px;
-  margin-bottom: 34px;
+  gap: 18px 14px;
+  margin-bottom: 26px;
 }
-.contact-hub__head .s__k { grid-column: 1 / -1; margin-bottom: -18px; }
-.contact-hub__head h2 { margin: 0; font-size: clamp(38px, 6vw, 74px); line-height: .98; }
+.contact-hub__head .s__k { grid-column: 1 / -1; margin-bottom: -2px; }
+.contact-hub__head h1 { margin: 0; font-size: clamp(32px, 4.2vw, 54px); line-height: 1; }
 .contact-hub__head > p:last-child { margin: 0 0 6px; max-width: 40ch; font-size: 17px; line-height: 1.6; color: var(--muted); }
 
 .contact-signals { position: relative; display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
 .contact-signal {
+  position: relative;
   min-height: 270px;
   display: flex;
   flex-direction: column;
@@ -1919,8 +1947,25 @@ a.card { text-decoration: none; }
   color: #fff;
   text-decoration: none;
   overflow: hidden;
-  transition: transform .3s cubic-bezier(.22, 1, .36, 1), border-radius .3s ease, box-shadow .3s ease;
+  transition: transform .3s cubic-bezier(.22, 1, .36, 1), box-shadow .3s ease;
 }
+
+/* ogni porta ha il suo glifo tipografico gigante, sul modello della @ del
+   riquadro nero: lo dichiara l'HTML con data-glyph, qui si disegna */
+.contact-signal::before {
+  content: attr(data-glyph);
+  position: absolute;
+  left: -.16em;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--display);
+  font-size: clamp(180px, 17vw, 260px);
+  line-height: 1;
+  color: rgba(255, 255, 255, .09);
+  pointer-events: none;
+  transition: transform .3s cubic-bezier(.22, 1, .36, 1), color .3s ease;
+}
+.contact-signal > * { position: relative; z-index: 1; }
 .contact-signal--green { background: var(--green); }
 .contact-signal--red { background: var(--red); }
 .contact-signal--blue { background: var(--blue); }
@@ -1929,8 +1974,10 @@ a.card { text-decoration: none; }
 .contact-signal strong { font-family: var(--display); font-size: clamp(31px, 4.6vw, 54px); line-height: .95; letter-spacing: -.035em; }
 .contact-signal small { display: flex; justify-content: space-between; gap: 20px; padding-top: 17px; border-top: 1px solid rgba(255,255,255,.35); font-size: 14px; font-weight: 700; }
 .contact-signal small b { font-size: 20px; transition: transform .2s ease; }
-.contact-signal:hover { transform: translateY(-8px) rotate(-.6deg); border-radius: 44px 19px 38px 22px; box-shadow: 0 22px 46px rgba(14, 27, 44, .18); }
-.contact-signal:nth-child(even):hover { transform: translateY(-8px) rotate(.6deg); border-radius: 19px 44px 22px 38px; }
+/* all'hover il riquadro si solleva pulito e il glifo gli risponde:
+   niente più rotazione e deformazione del raggio, leggevano come un glitch */
+.contact-signal:hover { transform: translateY(-6px); box-shadow: 0 22px 46px rgba(14, 27, 44, .16); }
+.contact-signal:hover::before { transform: translateY(-50%) scale(1.07) rotate(-4deg); color: rgba(255, 255, 255, .13); }
 .contact-signal:hover small b { transform: translate(4px, -4px); }
 
 /* Il riquadro nero: solo la scritta, una @ enorme tagliata a sinistra,
@@ -1943,19 +1990,6 @@ a.card { text-decoration: none; }
   text-align: left;
   cursor: pointer;
 }
-.contact-signal--toggle::before {
-  content: "@";
-  position: absolute;
-  left: -.16em;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: var(--display);
-  font-size: clamp(180px, 17vw, 260px);
-  line-height: 1;
-  color: rgba(255,255,255,.09);
-  pointer-events: none;
-}
-.contact-signal--toggle > * { position: relative; z-index: 1; }
 
 /* Il pannello del modulo: si sovrappone alla griglia e copre
    tutti e quattro i riquadri. Si chiude con la × o con Esc. */
@@ -2016,6 +2050,23 @@ a.card { text-decoration: none; }
 .contact-panel .contact-form__send { margin-top: auto; }
 .contact-panel .contact-form__send .b { background: #fff; color: var(--ink); }
 .contact-panel .contact-form__send .form__p { color: rgba(255,255,255,.65); }
+.contact-panel .form__consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 2px 0 16px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, .76);
+}
+.contact-panel .form__consent input {
+  flex: none;
+  width: 17px;
+  height: 17px;
+  margin: 1px 0 0;
+  accent-color: #fff;
+}
+.contact-panel .form__consent a { color: #fff; }
 .contact-panel .form__ok { border: 0; background: #fff; color: var(--ink); }
 
 .contact-compose {
