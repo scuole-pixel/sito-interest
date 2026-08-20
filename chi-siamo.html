@@ -5,10 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Chi siamo — Interest Edufin APS</title>
 <meta name="description" content="Come è nata Interest Edufin APS: dalle prime cinque scuole nel 2024 al progetto nazionale di educazione finanziaria peer-to-peer nelle superiori italiane.">
-<link rel="stylesheet" href="assets/base.css?v=20260812c">
-<link rel="stylesheet" href="assets/progetto.css?v=20260817a">
+<link rel="stylesheet" href="assets/base.css?v=20260820j">
+<link rel="stylesheet" href="assets/progetto.css?v=20260820l">
 <style>
-  body { --c: var(--green); }
+  /* il colore della pagina: rosso di brand. Tinge tutto quello che su questa
+     pagina passa da --c: pallini della cronologia, occhielli, bottoni pieni. */
+  body { --c: var(--red); }
 
   /* lo scroll è magnetico: ogni gesto si aggancia a una tappa della storia.
      Lo scorrimento morbido va spento: la pagina si apre a 0, che con "mandatory"
@@ -16,11 +18,19 @@
      sotto l'header), e con "smooth" quella correzione diventa una scivolata
      visibile all'apertura. Spento, la correzione è istantanea. Qui non ci sono
      ancore interne, quindi il morbido non serviva ad altro. */
-  html { scroll-snap-type: y mandatory; scroll-behavior: auto; }
+  html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: auto;
+    /* il magnete deve agganciare la fascia visibile, non tutto il viewport:
+       scontando l'header, il centro dello snapport coincide col centro ottico
+       della fascia. Cosi' la prima tappa riposa a scroll 0 e all'apertura non
+       c'e' nessuna correzione da fare: prima la pagina saltava di 77px. */
+    scroll-padding-top: var(--header-h);
+  }
 
 </style>
 </head>
-<body class="page-story page-end-joined">
+<body class="page-story">
 
 <header class="site-header" id="header">
   <div class="site-header__inner">
@@ -51,7 +61,13 @@
       <a href="cosa-facciamo.html">Cosa facciamo</a>
       <a href="chi-siamo.html" aria-current="page">Chi siamo</a>
       <a href="governance.html">Governance</a>
-      <a href="blog.html">Blog</a>
+      <span class="nav__gruppo">
+        <a class="nav__voce">Blog</a>
+        <span class="nav__sub">
+          <a class="nav__articoli" href="blog.html">Articoli</a>
+          <a class="nav__video" href="video.html">Video</a>
+        </span>
+      </span>
       <a href="contattaci.html">Contattaci</a>
     </nav>
 
@@ -73,14 +89,14 @@
     <aside class="story-date" aria-live="polite" aria-atomic="true">
       <span class="story-date__when"><b><span class="story-date__mese" id="chronicleMese">Ottobre</span><span class="story-date__anno" id="chronicleAnno">2024</span></b></span>
       <div class="story-date__media" aria-hidden="true">
-        <img src="assets/chi-siamo/tappa-01.svg" alt="" class="is-active">
-        <img src="assets/chi-siamo/tappa-02.svg" alt="">
-        <img src="assets/chi-siamo/tappa-03.svg" alt="">
-        <img src="assets/chi-siamo/tappa-04.svg" alt="">
-        <img src="assets/chi-siamo/tappa-05.svg" alt="">
-        <img src="assets/chi-siamo/tappa-06.svg" alt="">
-        <img src="assets/chi-siamo/tappa-07.svg" alt="">
-        <img src="assets/chi-siamo/tappa-08.svg" alt="">
+        <img src="assets/chi-siamo/tappa-01.svg?v=20260820c" alt="" class="is-active">
+        <img src="assets/chi-siamo/tappa-02.svg?v=20260820c" alt="">
+        <img src="assets/chi-siamo/tappa-03.svg?v=20260820c" alt="">
+        <img src="assets/chi-siamo/tappa-04.svg?v=20260820c" alt="">
+        <img src="assets/chi-siamo/tappa-05.svg?v=20260820c" alt="">
+        <img src="assets/chi-siamo/tappa-06.svg?v=20260820c" alt="">
+        <img src="assets/chi-siamo/tappa-07.svg?v=20260820c" alt="">
+        <img src="assets/chi-siamo/tappa-08.svg?v=20260820c" alt="">
       </div>
     </aside>
 
@@ -162,22 +178,29 @@
             <strong><b>100+</b> scuole entro giugno</strong>
           </div>
         </article>
+
+        <article class="story-event story-event--cta" data-when="Da qui">
+          <div class="cta-tappa">
+            <p class="cta-tappa__k">Il prossimo passo</p>
+            <h2 class="cta-tappa__h">Vuoi far parte di questa storia?</h2>
+            <p class="cta-tappa__p">
+              Che tu sia una scuola, un'azienda, un ateneo o qualcuno che vuole dare una mano:
+              il primo passo &egrave; sempre una mail. Rispondiamo noi, non un modulo automatico.
+            </p>
+            <div class="cta-tappa__fondo">
+              <div class="cta-tappa__row">
+                <a class="b b--w" href="contattaci.html">Contattaci</a>
+                <a class="b b--o" href="cosa-facciamo.html">Cosa facciamo</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
     </div>
   </div>
 </section>
 
-<section class="end snap">
-  <h2 class="end__h">Vuoi far parte di questa storia?</h2>
-  <p class="end__p">
-    Interest Edufin APS fa educazione finanziaria nelle scuole superiori italiane.
-    Che tu sia una scuola, un'azienda, un ateneo o qualcuno che vuole dare una mano:
-    il primo passo è sempre una mail.
-  </p>
-  <div class="end__row">
-    <a class="b b--w" href="contattaci.html">Scrivici</a>
-    <a class="b b--o" href="cosa-facciamo.html">Cosa facciamo</a>
-  </div>
-</section>
+
 
 </main>
 
@@ -248,6 +271,7 @@
       casella.classList.add('e-cambiata');
     };
     const images = [...story.querySelectorAll('.story-date__media img')];
+    const colonna = story.querySelector('.story-date');
     let active = -1;
 
     const show = (index) => {
@@ -256,6 +280,9 @@
       const selected = events[index];
       events.forEach((event, i) => event.classList.toggle('is-active', i === index));
       images.forEach((image, i) => image.classList.toggle('is-active', i === index));
+      /* l'ultima tappa non ha ne' data ne' illustrazione: la colonna di
+         destra si spegne e la lastra dell'invito si prende lo spazio */
+      colonna.classList.toggle('senza-colonna', !images[index]);
       const [meseNuovo, annoNuovo] = spezza(selected.dataset.when);
       gira(mese, meseNuovo);
       gira(anno, annoNuovo);
@@ -264,7 +291,11 @@
     let queued = false;
     const updateFromScroll = () => {
       queued = false;
-      const target = innerHeight * .52;
+      /* il punto dove il magnete posa la tappa: centro della fascia sotto
+         l'header. Prima era un 52% a occhio, sfalsato di una ventina di pixel,
+         quindi la data cambiava un attimo prima o dopo l'aggancio. */
+      const altezzaHeader = header.getBoundingClientRect().height;
+      const target = altezzaHeader + (innerHeight - altezzaHeader) / 2;
       let nearest = 0;
       let distance = Infinity;
 
@@ -294,7 +325,7 @@
   })();
 </script>
 
-<script src="assets/nav.js"></script>
+<script src="assets/nav.js?v=20260820a"></script>
 
 </body>
 </html>

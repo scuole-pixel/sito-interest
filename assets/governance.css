@@ -2,7 +2,7 @@
    Chi arriva qui cerca un nome o un documento: deve trovarlo subito.
    Niente carte colorate, niente numeroni: tipografia e filetti. */
 
-body { --c: var(--red); }
+body { --c: var(--blue); }
 
 .gov {
   max-width: 860px;
@@ -10,39 +10,39 @@ body { --c: var(--red); }
   padding: 0 32px clamp(60px, 8vw, 100px);
 }
 
-/* la prima sezione non ha bisogno di stacco: lo dà già la fascia colorata */
-.gov__s:first-of-type { padding-top: 0; }
+/* senza la fascia colorata la prima sezione ha bisogno del suo stacco */
+.gov__s:first-of-type { padding-top: clamp(30px, 4vw, 44px); }
 
-/* ── intestazione: fondo pieno, come le altre pagine ── */
+/* ── intestazione: nessun fondo. Era una fascia blu a tutta pagina, ma questa
+   e' una pagina di consultazione: il titolo sta sulla carta come tutti gli
+   altri, incolonnato col resto invece di stare al centro. ── */
 
 .gov__top {
-  background: var(--c);
-  color: #fff;
-  border-radius: 0 0 34px 34px;
-  padding: calc(var(--header-h) + clamp(44px, 7vh, 84px)) clamp(26px, 5vw, 62px) clamp(44px, 6vh, 72px);
-  margin-bottom: clamp(30px, 4vw, 46px);
+  max-width: 860px;
+  margin: 0 auto;
+  padding: clamp(40px, 7vh, 84px) 32px 0;
 }
 
-.gov__top > * { max-width: 860px; margin-left: auto; margin-right: auto; }
-
 .gov__k {
-  margin: 0 auto 14px;
+  margin: 0 0 12px;
   font-size: 11.5px;
   font-weight: 800;
   letter-spacing: .16em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, .8);
+  color: var(--c);
 }
 
 .gov__h {
-  margin: 0 auto 18px;
+  margin: 0 0 16px;
+  max-width: 24ch;
   font-family: var(--display);
-  font-size: clamp(34px, 5vw, 58px);
+  font-size: clamp(32px, 4.4vw, 52px);
   line-height: 1.04;
   letter-spacing: -.025em;
+  color: var(--ink);
 }
 
-.gov__d { margin: 0 auto; max-width: 58ch; font-size: 18px; line-height: 1.6; color: rgba(255, 255, 255, .9); }
+.gov__d { margin: 0; max-width: 58ch; font-size: 17.5px; line-height: 1.6; color: var(--muted); }
 
 /* ── sezioni ── */
 
@@ -282,7 +282,7 @@ body { --c: var(--red); }
 .ppl__l:focus-visible { outline: 2px solid var(--c); outline-offset: 3px; }
 
 /* i posti ancora da confermare: smorzati e senza apertura */
-.ppl--todo .ppl__ph { background: #f0f3f6; color: #b3bdc8; }
+.ppl--todo .ppl__ph { background: var(--grigio-vuoto); color: #b3bdc8; }
 .ppl--todo b { color: #b3bdc8; }
 .ppl--todo .ppl__r { color: #9aa8b6; }
 
@@ -298,7 +298,7 @@ body { --c: var(--red); }
 .ppl li.ppl--todo:first-child:hover { border-top-color: transparent; }
 
 .ppl li.ppl--todo:hover .ppl__ph,
-.ppl li.ppl--todo:focus-within .ppl__ph { transform: none; background: #f0f3f6; }
+.ppl li.ppl--todo:focus-within .ppl__ph { transform: none; background: var(--grigio-vuoto); }
 
 /* e non devono nemmeno smorzare le vicine */
 .ppl:hover li.ppl--todo:not(:hover) { opacity: .45; }

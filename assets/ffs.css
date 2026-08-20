@@ -69,7 +69,10 @@
   padding: clamp(42px, 5vw, 68px) 0 clamp(70px, 8vw, 112px);
   background:
     radial-gradient(circle at 83% 18%, rgba(47, 198, 160, .14), transparent 28%),
-    linear-gradient(180deg, #fff 0%, var(--paper) 100%);
+    /* era una sfumatura dal bianco alla carta: faceva partire la pagina da un
+       grigio diverso da tutte le altre. Resta l'alone di colore, che e'
+       identita' della pagina, su carta piatta come il resto del sito. */
+    var(--paper);
 }
 
 .ffs-hero__grid {
@@ -162,7 +165,7 @@
 .ffs-button--primary:hover { background: #1a2c42; }
 
 .ffs-button--quiet {
-  border-color: #cbd6df;
+  border-color: var(--border-forte);
   color: var(--ink);
   background: rgba(255, 255, 255, .45);
 }
@@ -175,7 +178,7 @@
   position: relative;
   margin: 58px 0 0;
   padding: 0 0 4px clamp(28px, 4vw, 54px);
-  border-left: 1px solid #cdd8df;
+  border-left: 1px solid var(--border-forte);
 }
 
 .ffs-chart__k {
@@ -210,7 +213,7 @@
 .ffs-chart__track {
   position: relative;
   height: 12px;
-  background: #e7ebef;
+  background: var(--grigio-vuoto-forte);
   overflow: hidden;
 }
 
@@ -244,7 +247,7 @@
   display: flex;
   justify-content: space-between;
   padding-top: 7px;
-  border-top: 1px solid #cbd5dd;
+  border-top: 1px solid var(--border-forte);
 }
 
 .ffs-chart__axis i {
@@ -347,7 +350,7 @@
   left: 4px;
   right: 4px;
   height: 2px;
-  background: linear-gradient(90deg, var(--green), var(--green) 76%, #cfd8df);
+  background: linear-gradient(90deg, var(--green), var(--green) 76%, var(--border-forte));
 }
 
 .ffs-journey li { position: relative; padding-top: 41px; }
@@ -481,7 +484,9 @@
 
 /* Risultati: numeri aperti, niente griglia di card. */
 
-.ffs-proof { background: #fff; }
+/* stessa carta del resto del sito: era l'unica fascia bianca della pagina,
+   e faceva sembrare Finance for Schools piu' chiara delle altre */
+.ffs-proof { background: var(--paper); }
 
 .ffs-heading--row {
   display: grid;
@@ -570,7 +575,7 @@
   margin: 6px 0 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid #cfd8e0;
+  border-top: 1px solid var(--border-forte);
 }
 
 .ffs-steps li {
@@ -578,7 +583,7 @@
   grid-template-columns: 54px 1fr;
   gap: 22px;
   padding: 23px 0;
-  border-bottom: 1px solid #cfd8e0;
+  border-bottom: 1px solid var(--border-forte);
 }
 
 .ffs-steps > li > span {
@@ -663,7 +668,7 @@
     width: min(100%, 610px);
     margin-top: 0;
     padding: 34px 0 0;
-    border-top: 1px solid #cdd8df;
+    border-top: 1px solid var(--border-forte);
     border-left: 0;
   }
 

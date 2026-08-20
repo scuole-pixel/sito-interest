@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Blog — Interest Edufin APS</title>
+<title>Articoli — Interest Edufin APS</title>
 <meta name="description" content="Appunti dalle aule, dati dalla ricerca e aggiornamenti sui progetti di Interest Edufin APS.">
-<link rel="stylesheet" href="assets/base.css">
-<link rel="stylesheet" href="assets/progetto.css?v=20260817a">
+<link rel="stylesheet" href="assets/base.css?v=20260820j">
+<link rel="stylesheet" href="assets/progetto.css?v=20260820l">
 <style>
   body { --c: var(--blue); }
 
@@ -43,7 +43,13 @@
       <a href="cosa-facciamo.html">Cosa facciamo</a>
       <a href="chi-siamo.html">Chi siamo</a>
       <a href="governance.html">Governance</a>
-      <a href="blog.html" aria-current="page">Blog</a>
+      <span class="nav__gruppo">
+        <a class="nav__voce nav__voce--attiva">Blog</a>
+        <span class="nav__sub">
+          <a class="nav__articoli" href="blog.html" aria-current="page">Articoli</a>
+          <a class="nav__video" href="video.html">Video</a>
+        </span>
+      </span>
       <a href="contattaci.html">Contattaci</a>
     </nav>
 
@@ -59,29 +65,13 @@
 
 <main>
 
-<section class="op op--chi">
-  <div class="op__in">
-    <p class="op__k">Blog</p>
-    <h1 class="op__h">Quello che impariamo, mentre lo impariamo.</h1>
-    <p class="op__d">
-      Appunti dalle aule, numeri che ci hanno sorpreso, cose di cui vale la pena parlare.
-      Scriviamo quando abbiamo qualcosa da dire, non per riempire un calendario editoriale.
-    </p>
-  </div>
-</section>
-
 <div class="wrap">
-
-  <nav class="blog-tabs" aria-label="Contenuti del blog">
-    <a href="#articoli">Articoli</a>
-    <a class="blog-tabs__yt" href="#video"><span aria-hidden="true">▶</span> Video</a>
-  </nav>
 
   <section class="s" id="articoli">
     <div class="s__bar">
       <div>
         <p class="s__k">Articoli</p>
-        <h2 class="s__h" style="margin-bottom:0">Ultimi post.</h2>
+        <h1 class="s__h" style="margin-bottom:0">Ultimi post.</h1>
       </div>
     </div>
 
@@ -174,41 +164,6 @@
     </div>
   </section>
 
-  <section class="s video-section" id="video">
-    <div class="s__bar">
-      <div>
-        <p class="video-section__k">YouTube</p>
-        <h2 class="s__h" style="margin-bottom:0">Guardaci, non solo leggerci.</h2>
-      </div>
-      <p class="video-section__note">Qui entreranno interviste, spiegazioni e storie dalle scuole.</p>
-    </div>
-
-    <div class="video-grid">
-      <!-- Quando arriva un video: sostituire il contenuto di .yt-slot con l'iframe YouTube. -->
-      <article class="yt-card">
-        <div class="yt-slot" data-youtube-id="">
-          <span class="yt-slot__play">▶</span>
-          <span class="yt-slot__n">01</span>
-        </div>
-        <p>Il prossimo video comincia qui.</p>
-      </article>
-      <article class="yt-card">
-        <div class="yt-slot" data-youtube-id="">
-          <span class="yt-slot__play">▶</span>
-          <span class="yt-slot__n">02</span>
-        </div>
-        <p>Uno spazio per spiegare bene.</p>
-      </article>
-      <article class="yt-card">
-        <div class="yt-slot" data-youtube-id="">
-          <span class="yt-slot__play">▶</span>
-          <span class="yt-slot__n">03</span>
-        </div>
-        <p>Una storia direttamente dalle scuole.</p>
-      </article>
-    </div>
-  </section>
-
 </div>
 
 </main>
@@ -257,7 +212,7 @@
   addEventListener('scroll', onScroll, { passive: true });
 </script>
 
-<script src="assets/nav.js"></script>
+<script src="assets/nav.js?v=20260820a"></script>
 
 </body>
 </html>

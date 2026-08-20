@@ -21,7 +21,13 @@
     --paper:  #f7f8fa;
 
     --header-h: 76px;
-    --logo-h: 28px;   /* simbolo e scritta alti uguali */
+    /* il lockup non pareggia le altezze ma gli spessori: il simbolo ha il
+       tratto costante di 28,31 unita' su 182,06 di viewBox, la scritta l'asta
+       di 31,31 su 137,98. A queste due misure il tratto vale 5,29px e l'asta
+       5,67px: 7% di scarto, che a occhio non si vede. Alti uguali erano 4,35
+       contro 6,35, cioe' lettere piu' grasse del 46% del simbolo. */
+    --logo-simbolo: 34px;
+    --logo-nome:    25px;
 
     /* misure della secchiata, in vmax. Le legge anche il JS per calcolare
        quanto deve crescere: vanno cambiate solo qui */
@@ -118,7 +124,7 @@
   }
 
   .logo__mark {
-    height: var(--logo-h);
+    height: var(--logo-simbolo);
     width: auto;
     display: block;
     fill: var(--ink);
@@ -140,7 +146,7 @@
   }
 
   .logo__name svg {
-    height: var(--logo-h);
+    height: var(--logo-nome);
     width: auto;
     display: block;
     fill: var(--ink);
@@ -148,7 +154,7 @@
 
   .logo:hover .logo__name,
   .logo:focus-visible .logo__name {
-    max-width: 170px;
+    max-width: 150px;   /* la scritta a 25px misura 146px */
     opacity: 1;
     transform: translateX(0);
   }
@@ -208,9 +214,91 @@
     border-radius: 3px;
   }
 
-  /* pagina corrente: sottolineatura fissa, testo pieno */
-  .nav a[aria-current="page"] { color: var(--ink); font-weight: 600; }
-  .nav a[aria-current="page"]::after { transform: scaleX(1); background: var(--ink); }
+
+  /* Blog ha due porte, articoli e video: il menu si apre passando il cursore
+     sulla voce e resta aperto anche col fuoco da tastiera. La voce resta un
+     link vero: chi clicca o tocca va comunque al blog. */
+  .nav__gruppo { position: relative; display: inline-flex; }
+
+  /* Blog e' la maniglia del menu, non una pagina: senza href non e' un link,
+     non porta da nessuna parte e non prende il fuoco. Chi va di tastiera
+     tabula direttamente su Articoli, e il focus-within apre il menu. */
+  .nav__voce { cursor: default; }
+
+  /* la cassa e' larga quanto le due parole: un menu di due voci non ha
+     bisogno di 150px di vuoto attorno. La punta la aggancia alla voce Blog,
+     cosi' si capisce da dove esce. */
+  .nav__sub {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    z-index: 20;
+    display: grid;
+    margin-top: 9px;
+    padding: 5px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(14, 27, 44, .05), 0 10px 24px rgba(14, 27, 44, .10);
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -6px);
+    transition: opacity .16s ease, transform .2s cubic-bezier(.4, 0, .2, 1), visibility 0s linear .2s;
+  }
+
+  /* il ponte invisibile sopra il menu: senza questo, scendendo col cursore
+     dalla voce al menu si attraversano i 9px di stacco e il menu si chiude */
+  .nav__sub::before { content: ""; position: absolute; inset: -13px 0 auto; height: 13px; }
+
+  /* la punta: un quadratino ruotato che copre col suo bianco il bordo della
+     cassa, di cui restano visibili solo i due lati esterni */
+  .nav__sub::after {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    width: 9px;
+    height: 9px;
+    margin-left: -4.5px;
+    background: #fff;
+    border-top: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+    border-radius: 2px 0 0 0;
+    transform: rotate(45deg);
+  }
+
+  .nav__gruppo:hover .nav__sub,
+  .nav__gruppo:focus-within .nav__sub {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+    transition: opacity .16s ease, transform .2s cubic-bezier(.4, 0, .2, 1), visibility 0s;
+  }
+
+  .nav__sub a { padding: 6px 18px; border-radius: 8px; font-size: 14.5px; font-weight: 600; line-height: 1.2; text-align: center; transition: background .16s ease; }
+  .nav__sub a::after { display: none; }
+
+  /* le due voci hanno il colore di quello che aprono: gli articoli il blu del
+     sito, i video il rosso di YouTube. Lo sfondo dell'hover e' lo stesso
+     colore all'8%, cosi' resta leggibile invece di virare al grigio. */
+  .nav__sub .nav__articoli { color: var(--blue); }
+  .nav__sub .nav__articoli:hover { background: color-mix(in srgb, var(--blue) 8%, #fff); }
+  .nav__sub .nav__video { color: #ff0033; }
+  .nav__sub .nav__video:hover { background: color-mix(in srgb, #ff0033 8%, #fff); }
+
+  /* pagina corrente: sottolineatura fissa, testo pieno. Blog si accende con
+     la classe invece che con aria-current: non essendo un link, "pagina
+     corrente" su di lui non vorrebbe dire niente. */
+  .nav a[aria-current="page"],
+  .nav a.nav__voce--attiva { color: var(--ink); font-weight: 600; }
+  .nav a[aria-current="page"]::after,
+  .nav a.nav__voce--attiva::after { transform: scaleX(1); background: var(--ink); }
+
+  /* nel sottomenu la pagina aperta non prende ne' inchiostro ne' riga: tiene
+     il suo colore e si accende lo sfondo, come un hover che resta */
+  .nav__sub a[aria-current] { font-weight: 700; }
+  .nav__sub .nav__articoli[aria-current] { color: var(--blue); background: color-mix(in srgb, var(--blue) 8%, #fff); }
+  .nav__sub .nav__video[aria-current] { color: #ff0033; background: color-mix(in srgb, #ff0033 8%, #fff); }
 
   @media (prefers-reduced-motion: reduce) {
     .nav a::after, .logo svg, .site-header { transition: none; }
@@ -231,16 +319,6 @@
     display: flex;
     align-items: center;
     padding: 4vh 32px 8vh;
-  }
-
-  /* la grana di fondo dell'immagine, generata senza file esterni */
-  .hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
-    opacity: .38;
-    pointer-events: none;
   }
 
   .hero__inner {
@@ -466,24 +544,26 @@
     align-items: center;
     gap: 10px;
     margin-top: 6px;
-    padding: 19px 38px;
+    /* padding e freccia in em: la pillola resta in proporzione al testo,
+       quindi per ingrandirla si tocca solo il font-size */
+    padding: 1.06em 2.11em;
     border-radius: 999px;
     background: #fff;
     color: currentColor;
-    font-size: 18px;
+    font-size: 21px;
     font-weight: 700;
     text-decoration: none;
     transition: gap .18s ease, transform .18s ease;
   }
 
-  .pop__cta > svg { width: 19px; height: 19px; flex: none; }
+  .pop__cta > svg { width: 1.06em; height: 1.06em; flex: none; }
   .pop__cta:hover { gap: 16px; transform: translateY(-2px); }
   .pop__cta:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
 
   /* dice come si esce, senza rubare la scena */
   .pop__hint {
     margin: 0;
-    font-size: 15px;
+    font-size: 17px;
     letter-spacing: .04em;
     color: rgba(255, 255, 255, .62);
   }
@@ -577,9 +657,9 @@
     clip-path: none;
     visibility: hidden;
     pointer-events: none;
-    /* .51s = esattamente la durata del ritiro della macchia. Va tenuta
+    /* .485s = esattamente la durata del ritiro della macchia. Va tenuta
        allineata: se resta piu corta, la fine del ritiro viene tagliata */
-    transition: visibility 0s linear .51s;
+    transition: visibility 0s linear .485s;
   }
 
   .pop::before {
@@ -600,8 +680,8 @@
     border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
     transform: translate(-50%, -50%) rotate(-22deg) scale(0);
     will-change: transform;
-    transition: transform .51s cubic-bezier(.4, .1, .7, .5),
-                border-radius .51s cubic-bezier(.4, .1, .7, .5);
+    transition: transform .485s cubic-bezier(.4, .1, .7, .5),
+                border-radius .485s cubic-bezier(.4, .1, .7, .5);
   }
 
   .claim__item.is-open .pop {
@@ -650,21 +730,30 @@
     overflow: hidden;
   }
 
+  /* il tricolore non sta piu' appiccicato al bordo: sulle pagine dove il
+     piede si salda alla sezione finale colorata, il terzo che aveva lo stesso
+     colore della sezione sopra spariva (il rosso su chi siamo, il blu su
+     governance). Con una fascia di inchiostro sopra, i tre colori si leggono
+     sempre, qualunque sia la sezione che li precede. */
   .foot::before {
     content: "";
     position: absolute;
-    inset: 0 0 auto;
+    inset: 9px 0 auto;
     height: 7px;
     background: linear-gradient(90deg, var(--green) 0 33.333%, var(--red) 33.333% 66.666%, var(--blue) 66.666%);
   }
 
   /* stesso perimetro utile dell'header (1180px MENO i 32px di bordo per lato,
      che lì stanno dentro al box): logo sotto logo, Instagram sotto "Contattaci" */
+  /* il footer ha 32px di padding suoi, l'header no: per far cadere il logo
+     del footer sulla stessa verticale di quello dell'header la cassa interna
+     deve stringersi di quei 64px. Senza il calc scivolava 32px a sinistra. */
   .foot__inner { max-width: calc(var(--wrap) - 64px); margin: 0 auto; }
 
   .foot__brand { display: inline-flex; flex: none; border-radius: 4px; }
   .foot__brand:focus-visible { outline: 2px solid #fff; outline-offset: 6px; }
-  .foot__mark { width: 42px; height: auto; fill: #fff; display: block; }
+  /* stesso simbolo dell'header, stessa misura: si allinea in verticale e in peso */
+  .foot__mark { height: var(--logo-simbolo); width: auto; fill: #fff; display: block; }
 
   .fsoc { display: flex; gap: 10px; flex: none; }
 
@@ -818,7 +907,8 @@
     /* la sottolineatura animata non serve nel pannello */
     .nav a::after { display: none; }
 
-    .nav a[aria-current="page"] { color: var(--accent); }
+    .nav a[aria-current="page"],
+    .nav a.nav__voce--attiva { color: var(--accent); }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -863,7 +953,13 @@
       <a href="cosa-facciamo.html">Cosa facciamo</a>
       <a href="chi-siamo.html">Chi siamo</a>
       <a href="governance.html">Governance</a>
-      <a href="blog.html">Blog</a>
+      <span class="nav__gruppo">
+        <a class="nav__voce">Blog</a>
+        <span class="nav__sub">
+          <a class="nav__articoli" href="blog.html">Articoli</a>
+          <a class="nav__video" href="video.html">Video</a>
+        </span>
+      </span>
       <a href="contattaci.html">Contattaci</a>
     </nav>
 
@@ -896,7 +992,7 @@
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <p class="pop__hint">Allontana il cursore oppure premi Esc</p>
-          <img class="pop__photo" src="assets/home/curiosa.png" alt="" aria-hidden="true" decoding="async">
+          <img class="pop__photo" src="assets/home/curiosa.png?v=20260820g" alt="" aria-hidden="true" decoding="async">
         </div>
       </li>
 
@@ -916,7 +1012,7 @@
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <p class="pop__hint">Allontana il cursore oppure premi Esc</p>
-          <img class="pop__photo" src="assets/home/giovane.png" alt="" aria-hidden="true" decoding="async">
+          <img class="pop__photo" src="assets/home/giovane.png?v=20260820g" alt="" aria-hidden="true" decoding="async">
         </div>
       </li>
 
@@ -936,7 +1032,7 @@
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <p class="pop__hint">Allontana il cursore oppure premi Esc</p>
-          <img class="pop__photo" src="assets/home/non-profit.png" alt="" aria-hidden="true" decoding="async">
+          <img class="pop__photo" src="assets/home/non-profit.png?v=20260820g" alt="" aria-hidden="true" decoding="async">
         </div>
       </li>
 
@@ -1134,10 +1230,17 @@
         }), { left: innerWidth, right: 0, top: innerHeight, bottom: 0 });
         const padX = 32;
         const padY = 26;
-        const inside = e.clientX >= zone.left - padX
-          && e.clientX <= zone.right + padX
-          && e.clientY >= zone.top - padY
-          && e.clientY <= zone.bottom + padY;
+        /* la zona utile e' il rettangolo con i suoi margini, ridotto di area:
+           i lati si accorciano della radice di AREA, cosi' il taglio e' in area
+           e non su un margine solo. Due passaggi da -5%: resta il 90,25%. */
+        const AREA = 0.95 * 0.95;
+        const rientro = (1 - Math.sqrt(AREA)) / 2;
+        const rientroX = ((zone.right + padX) - (zone.left - padX)) * rientro;
+        const rientroY = ((zone.bottom + padY) - (zone.top - padY)) * rientro;
+        const inside = e.clientX >= zone.left - padX + rientroX
+          && e.clientX <= zone.right + padX - rientroX
+          && e.clientY >= zone.top - padY + rientroY
+          && e.clientY <= zone.bottom + padY - rientroY;
 
         if (inside) {
           clearTimeout(timer);
@@ -1179,7 +1282,7 @@
   })();
 </script>
 
-<script src="assets/nav.js"></script>
+<script src="assets/nav.js?v=20260820a"></script>
 
 </body>
 </html>

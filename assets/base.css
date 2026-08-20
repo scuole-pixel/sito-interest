@@ -26,10 +26,22 @@
     --muted:  #5a6b7d;
     --accent: #0d7fd2;
     --border: #e4ebf2;
+    /* i grigi erano diciannove, quasi tutti a due punti di distanza l'uno
+       dall'altro: sei valori diversi per lo stesso bordo, quattro per lo
+       stesso segnaposto. Questi tre li sostituiscono tutti. */
+    --border-forte: #cdd8df;      /* divisori delle pagine progetto, piu' marcati di --border */
+    --grigio-vuoto: #eef1f5;      /* fondo di cio' che manca: foto, schede, segnaposto */
+    --grigio-vuoto-forte: #e6eaef; /* lo stesso un gradino sotto: hover e tracce dei grafici */
     --paper:  #f7f8fa;
 
     --header-h: 76px;
-    --logo-h: 28px;   /* simbolo e scritta alti uguali */
+    /* il lockup non pareggia le altezze ma gli spessori: il simbolo ha il
+       tratto costante di 28,31 unita' su 182,06 di viewBox, la scritta l'asta
+       di 31,31 su 137,98. A queste due misure il tratto vale 5,29px e l'asta
+       5,67px: 7% di scarto, che a occhio non si vede. Alti uguali erano 4,35
+       contro 6,35, cioe' lettere piu' grasse del 46% del simbolo. */
+    --logo-simbolo: 34px;
+    --logo-nome:    25px;
     --wrap: 1180px;
 
     /* la macchia di vernice: forma morbida, appena irregolare.
@@ -119,7 +131,7 @@
   }
 
   .logo__mark {
-    height: var(--logo-h);
+    height: var(--logo-simbolo);
     width: auto;
     display: block;
     fill: var(--ink);
@@ -141,7 +153,7 @@
   }
 
   .logo__name svg {
-    height: var(--logo-h);
+    height: var(--logo-nome);
     width: auto;
     display: block;
     fill: var(--ink);
@@ -149,7 +161,7 @@
 
   .logo:hover .logo__name,
   .logo:focus-visible .logo__name {
-    max-width: 170px;   /* la scritta a 28px misura 164px: 160 la tagliava */
+    max-width: 150px;   /* la scritta a 25px misura 146px */
     opacity: 1;
     transform: translateX(0);
   }
@@ -209,9 +221,91 @@
     border-radius: 3px;
   }
 
-  /* pagina corrente: sottolineatura fissa, testo pieno */
-  .nav a[aria-current="page"] { color: var(--ink); font-weight: 600; }
-  .nav a[aria-current="page"]::after { transform: scaleX(1); background: var(--ink); }
+
+  /* Blog ha due porte, articoli e video: il menu si apre passando il cursore
+     sulla voce e resta aperto anche col fuoco da tastiera. La voce resta un
+     link vero: chi clicca o tocca va comunque al blog. */
+  .nav__gruppo { position: relative; display: inline-flex; }
+
+  /* Blog e' la maniglia del menu, non una pagina: senza href non e' un link,
+     non porta da nessuna parte e non prende il fuoco. Chi va di tastiera
+     tabula direttamente su Articoli, e il focus-within apre il menu. */
+  .nav__voce { cursor: default; }
+
+  /* la cassa e' larga quanto le due parole: un menu di due voci non ha
+     bisogno di 150px di vuoto attorno. La punta la aggancia alla voce Blog,
+     cosi' si capisce da dove esce. */
+  .nav__sub {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    z-index: 20;
+    display: grid;
+    margin-top: 9px;
+    padding: 5px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(14, 27, 44, .05), 0 10px 24px rgba(14, 27, 44, .10);
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -6px);
+    transition: opacity .16s ease, transform .2s cubic-bezier(.4, 0, .2, 1), visibility 0s linear .2s;
+  }
+
+  /* il ponte invisibile sopra il menu: senza questo, scendendo col cursore
+     dalla voce al menu si attraversano i 9px di stacco e il menu si chiude */
+  .nav__sub::before { content: ""; position: absolute; inset: -13px 0 auto; height: 13px; }
+
+  /* la punta: un quadratino ruotato che copre col suo bianco il bordo della
+     cassa, di cui restano visibili solo i due lati esterni */
+  .nav__sub::after {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    width: 9px;
+    height: 9px;
+    margin-left: -4.5px;
+    background: #fff;
+    border-top: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+    border-radius: 2px 0 0 0;
+    transform: rotate(45deg);
+  }
+
+  .nav__gruppo:hover .nav__sub,
+  .nav__gruppo:focus-within .nav__sub {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+    transition: opacity .16s ease, transform .2s cubic-bezier(.4, 0, .2, 1), visibility 0s;
+  }
+
+  .nav__sub a { padding: 6px 18px; border-radius: 8px; font-size: 14.5px; font-weight: 600; line-height: 1.2; text-align: center; transition: background .16s ease; }
+  .nav__sub a::after { display: none; }
+
+  /* le due voci hanno il colore di quello che aprono: gli articoli il blu del
+     sito, i video il rosso di YouTube. Lo sfondo dell'hover e' lo stesso
+     colore all'8%, cosi' resta leggibile invece di virare al grigio. */
+  .nav__sub .nav__articoli { color: var(--blue); }
+  .nav__sub .nav__articoli:hover { background: color-mix(in srgb, var(--blue) 8%, #fff); }
+  .nav__sub .nav__video { color: #ff0033; }
+  .nav__sub .nav__video:hover { background: color-mix(in srgb, #ff0033 8%, #fff); }
+
+  /* pagina corrente: sottolineatura fissa, testo pieno. Blog si accende con
+     la classe invece che con aria-current: non essendo un link, "pagina
+     corrente" su di lui non vorrebbe dire niente. */
+  .nav a[aria-current="page"],
+  .nav a.nav__voce--attiva { color: var(--ink); font-weight: 600; }
+  .nav a[aria-current="page"]::after,
+  .nav a.nav__voce--attiva::after { transform: scaleX(1); background: var(--ink); }
+
+  /* nel sottomenu la pagina aperta non prende ne' inchiostro ne' riga: tiene
+     il suo colore e si accende lo sfondo, come un hover che resta */
+  .nav__sub a[aria-current] { font-weight: 700; }
+  .nav__sub .nav__articoli[aria-current] { color: var(--blue); background: color-mix(in srgb, var(--blue) 8%, #fff); }
+  .nav__sub .nav__video[aria-current] { color: #ff0033; background: color-mix(in srgb, #ff0033 8%, #fff); }
 
   @media (prefers-reduced-motion: reduce) {
     .nav a::after, .logo svg, .site-header { transition: none; }
@@ -231,19 +325,28 @@
     overflow: hidden;
   }
 
+  /* il tricolore non sta piu' appiccicato al bordo: sulle pagine dove il
+     piede si salda alla sezione finale colorata, il terzo che aveva lo stesso
+     colore della sezione sopra spariva (il rosso su chi siamo, il blu su
+     governance). Con una fascia di inchiostro sopra, i tre colori si leggono
+     sempre, qualunque sia la sezione che li precede. */
   .foot::before {
     content: "";
     position: absolute;
-    inset: 0 0 auto;
+    inset: 9px 0 auto;
     height: 7px;
     background: linear-gradient(90deg, var(--green) 0 33.333%, var(--red) 33.333% 66.666%, var(--blue) 66.666%);
   }
 
-  .foot__inner { max-width: var(--wrap); margin: 0 auto; }
+  /* il footer ha 32px di padding suoi, l'header no: per far cadere il logo
+     del footer sulla stessa verticale di quello dell'header la cassa interna
+     deve stringersi di quei 64px. Senza il calc scivolava 32px a sinistra. */
+  .foot__inner { max-width: calc(var(--wrap) - 64px); margin: 0 auto; }
 
   .foot__brand { display: inline-flex; flex: none; border-radius: 4px; }
   .foot__brand:focus-visible { outline: 2px solid #fff; outline-offset: 6px; }
-  .foot__mark { width: 42px; height: auto; fill: #fff; display: block; }
+  /* stesso simbolo dell'header, stessa misura: si allinea in verticale e in peso */
+  .foot__mark { height: var(--logo-simbolo); width: auto; fill: #fff; display: block; }
 
   .fsoc { display: flex; gap: 10px; flex: none; }
 
@@ -404,7 +507,8 @@
     /* la sottolineatura animata non serve nel pannello */
     .nav a::after { display: none; }
 
-    .nav a[aria-current="page"] { color: var(--accent); }
+    .nav a[aria-current="page"],
+    .nav a.nav__voce--attiva { color: var(--accent); }
   }
 
   @media (prefers-reduced-motion: reduce) {

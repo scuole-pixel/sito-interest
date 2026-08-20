@@ -10,7 +10,8 @@ Il progetto è un sito statico in HTML, CSS e JavaScript. Per visualizzarlo in l
 - Cosa facciamo
 - Chi siamo
 - Governance
-- Blog e video
+- Articoli
+- Video
 - Contatti
 
 © 2026 Interest Edufin APS

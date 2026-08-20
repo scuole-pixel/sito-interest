@@ -5,10 +5,61 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contatti — Interest Edufin APS</title>
 <meta name="description" content="Scrivi a Interest Edufin APS: seminari nelle scuole, partnership, microcredito, ricerca e volontariato. Trova il contatto giusto o prepara una mail dal sito.">
-<link rel="stylesheet" href="assets/base.css?v=20260812b">
-<link rel="stylesheet" href="assets/progetto.css?v=20260819a">
+<link rel="stylesheet" href="assets/base.css?v=20260820j">
+<link rel="stylesheet" href="assets/progetto.css?v=20260820l">
 <style>
   body { --c: var(--blue); }
+
+  /* Pagina unica, come la home: il centralino occupa esattamente la schermata
+     sotto l'header e il footer resta sotto, a un gesto di scroll. Lo stesso
+     magnete della home: due punti di aggancio, il centralino e il footer. */
+  html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+  }
+  /* col modulo aperto il pannello puo' essere piu' alto della schermata:
+     il magnete si sospende, altrimenti impedirebbe di arrivare al pulsante */
+  html.modulo-aperto { scroll-snap-type: none; }
+
+  .contact-hub {
+    min-height: calc(100svh - var(--header-h));
+    display: flex;
+    flex-direction: column;
+    padding-top: clamp(24px, 5vh, 76px);
+    padding-bottom: clamp(20px, 4vh, 48px);
+  }
+
+  /* le quattro porte si prendono tutto lo spazio che resta nella schermata,
+     invece dei 270px fissi che facevano scorrere la pagina */
+  .contact-signals { flex: 1; grid-template-rows: 1fr 1fr; min-height: 0; }
+  .contact-signal {
+    min-height: 150px;
+    /* il padding era clamp(24px, 4vw, 38px): legato alla larghezza, su un
+       portatile basso bastava lui a far sforare la schermata di 34px */
+    padding: clamp(16px, 2.4vh, 34px) clamp(22px, 2.6vw, 36px);
+  }
+
+  /* Il modulo e' un pannello sovrapposto alla griglia: se la griglia e' piu'
+     bassa del form, il form resterebbe tagliato. All'apertura la griglia si
+     allunga quanto serve. */
+  .contact-signals:has(#formPanel:not([hidden])) { min-height: 470px; }
+  .contact-panel { padding: clamp(20px, 2.6vh, 34px) clamp(24px, 3vw, 40px); }
+  .contact-panel__head { margin-bottom: clamp(14px, 2.2vh, 24px); }
+
+  /* in fondo a ogni porta una parola sola: l'argomento. Che si apra un modulo
+     lo dice la freccia, e l'indirizzo sta dentro il pannello: erano le due
+     cose che si ripetevano su tutte e quattro. */
+
+  /* Le quattro porte aprono lo stesso pannello, che prende colore e glifo
+     dalla porta da cui esce: un gesto solo, e si capisce da dove sei entrato.
+     Il glifo arriva dall'attributo invece di essere la @ scritta nel CSS. */
+  .contact-panel--scuole  { background: var(--green); }
+  .contact-panel--aziende { background: var(--red); }
+  .contact-panel--team    { background: var(--blue); }
+  .contact-panel--resto   { background: var(--ink); }
+  .contact-panel::before  { content: attr(data-glifo); }
+  .contact-form__send { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .contact-form__send .form__p { margin: 0; font-size: 13.5px; color: rgba(255, 255, 255, .65); }
 
 </style>
 </head>
@@ -43,7 +94,13 @@
       <a href="cosa-facciamo.html">Cosa facciamo</a>
       <a href="chi-siamo.html">Chi siamo</a>
       <a href="governance.html">Governance</a>
-      <a href="blog.html">Blog</a>
+      <span class="nav__gruppo">
+        <a class="nav__voce">Blog</a>
+        <span class="nav__sub">
+          <a class="nav__articoli" href="blog.html">Articoli</a>
+          <a class="nav__video" href="video.html">Video</a>
+        </span>
+      </span>
       <a href="contattaci.html" aria-current="page">Contattaci</a>
     </nav>
 
@@ -61,40 +118,39 @@
 
 <div class="wrap">
 
-  <section class="s contact-hub">
+  <section class="s contact-hub snap">
     <div class="contact-hub__head">
-      <p class="s__k">Centralino umano</p>
       <h1>Una domanda.<br>Quattro porte.</h1>
       <p>Scegli quella più vicina alla tua idea. Se sbagli porta, ti accompagniamo noi.</p>
     </div>
 
     <div class="contact-signals">
-      <a class="contact-signal contact-signal--green" data-glyph="A" href="mailto:scuole@buildinterest.it?subject=Vorrei%20portare%20Interest%20nella%20mia%20scuola">
+      <a class="contact-signal contact-signal--green" data-tinta="scuole" data-oggetto="Vorrei portare Interest nella mia scuola" aria-expanded="false" aria-controls="formPanel" data-glyph="A" href="mailto:scuole@buildinterest.it?subject=Vorrei%20portare%20Interest%20nella%20mia%20scuola">
         <span>Per le scuole</span>
         <strong>Portateci<br>in classe.</strong>
-        <small>Si apre una mail · scuole@buildinterest.it <b>↗</b></small>
+        <small>Seminario in classe <b>↗</b></small>
       </a>
-      <a class="contact-signal contact-signal--red" data-glyph="&amp;" href="mailto:scuole@buildinterest.it?subject=Partnership%20con%20Interest">
+      <a class="contact-signal contact-signal--red" data-tinta="aziende" data-oggetto="Partnership con Interest" aria-expanded="false" aria-controls="formPanel" data-glyph="&amp;" href="mailto:scuole@buildinterest.it?subject=Partnership%20con%20Interest">
         <span>Per aziende e fondazioni</span>
         <strong>Costruiamo<br>qualcosa.</strong>
-        <small>Si apre una mail · Partnership <b>↗</b></small>
+        <small>Partnership <b>↗</b></small>
       </a>
-      <a class="contact-signal contact-signal--blue" data-glyph="+" href="mailto:scuole@buildinterest.it?subject=Vorrei%20unirmi%20al%20team">
+      <a class="contact-signal contact-signal--blue" data-tinta="team" data-oggetto="Vorrei unirmi al team" aria-expanded="false" aria-controls="formPanel" data-glyph="+" href="mailto:scuole@buildinterest.it?subject=Vorrei%20unirmi%20al%20team">
         <span>Per studenti e volontari</span>
         <strong>Entra<br>nel team.</strong>
-        <small>Si apre una mail · Candidatura <b>↗</b></small>
+        <small>Candidatura <b>↗</b></small>
       </a>
-      <button class="contact-signal contact-signal--ink contact-signal--toggle" data-glyph="@" type="button" id="formToggle" aria-expanded="false" aria-controls="formPanel">
+      <button class="contact-signal contact-signal--ink contact-signal--toggle" data-tinta="resto" data-oggetto="Messaggio dal sito" data-titolo="Due righe bastano." data-glyph="@" type="button" id="formToggle" aria-expanded="false" aria-controls="formPanel">
         <span>Per tutto il resto</span>
-        <strong>Scrivici<br>qui.</strong>
-        <small>Si apre il modulo <b>↗</b></small>
+        <strong>Contattaci<br>qui.</strong>
+        <small>Domande e altro <b>↗</b></small>
       </button>
 
-      <div class="contact-panel" id="formPanel" hidden>
+      <div class="contact-panel contact-panel--resto" id="formPanel" data-glifo="@" hidden>
         <button class="contact-panel__close" type="button" id="formClose" aria-label="Chiudi il modulo">×</button>
         <div class="contact-panel__head">
-          <span>Per tutto il resto</span>
-          <strong>Due righe bastano.</strong>
+          <span id="pannelloOcchiello">Per tutto il resto</span>
+          <strong id="pannelloTitolo">Due righe bastano.</strong>
         </div>
 
         <form class="form contact-form" id="contatti" novalidate>
@@ -110,7 +166,7 @@
         </div>
         <div class="form__r contact-form__msg">
           <label for="msg">Messaggio</label>
-          <textarea id="msg" name="msg" rows="6" required placeholder="Non serve essere formali."></textarea>
+          <textarea id="msg" name="msg" rows="3" required placeholder="Non serve essere formali."></textarea>
         </div>
         <label class="form__consent">
           <input type="checkbox" name="privacy" required>
@@ -118,6 +174,7 @@
         </label>
         <div class="contact-form__send">
           <button class="b" type="submit">Prepara la mail →</button>
+          <p class="form__p">Scrive a scuole@buildinterest.it</p>
         </div>
         </form>
 
@@ -133,7 +190,7 @@
 </main>
 
 
-<footer class="foot">
+<footer class="foot snap--tall">
   <div class="foot__inner">
 
     <div class="foot__bottom">
@@ -176,20 +233,46 @@
 
   /* Il riquadro nero apre il pannello col modulo, che copre tutti e
      quattro i riquadri. Si esce con la ×, con Esc o inviando la mail. */
-  const toggle = document.getElementById('formToggle');
   const panel = document.getElementById('formPanel');
-  const apriPannello = () => {
+  const porte = [...document.querySelectorAll('.contact-signal')];
+  const occhiello = document.getElementById('pannelloOcchiello');
+  const titolo = document.getElementById('pannelloTitolo');
+  const modulo = document.getElementById('contatti');
+  const conferma = document.getElementById('formOk');
+  let apertaDa = null;
+  let oggetto = 'Messaggio dal sito';
+
+  const apriPannello = (porta) => {
+    apertaDa = porta;
+    oggetto = porta.dataset.oggetto || 'Messaggio dal sito';
+    /* il pannello si veste come la porta: colore, glifo, occhiello e titolo.
+       Il titolo e' quello della porta, tranne dove data-titolo dice altro. */
+    panel.className = 'contact-panel contact-panel--' + (porta.dataset.tinta || 'resto');
+    panel.dataset.glifo = porta.dataset.glyph || '@';
+    occhiello.textContent = porta.querySelector('span').textContent;
+    titolo.innerHTML = porta.dataset.titolo || porta.querySelector('strong').innerHTML;
+    /* se una mail era già stata preparata il modulo era rimasto nascosto:
+       riaprendo una porta si ricomincia da campi vuoti */
+    modulo.hidden = false;
+    conferma.hidden = true;
     panel.hidden = false;
-    toggle.setAttribute('aria-expanded', 'true');
+    document.documentElement.classList.add('modulo-aperto');
+    porte.forEach((p) => p.setAttribute('aria-expanded', String(p === porta)));
     panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     document.getElementById('nome').focus({ preventScroll: true });
   };
   const chiudiPannello = () => {
     panel.hidden = true;
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.focus({ preventScroll: true });
+    document.documentElement.classList.remove('modulo-aperto');
+    porte.forEach((p) => p.setAttribute('aria-expanded', 'false'));
+    if (apertaDa) apertaDa.focus({ preventScroll: true });
   };
-  toggle.addEventListener('click', apriPannello);
+  /* i tre riquadri restano link mailto nel markup: senza JS funzionano come
+     prima, con JS il click si dirotta sul pannello */
+  porte.forEach((porta) => porta.addEventListener('click', (e) => {
+    e.preventDefault();
+    apriPannello(porta);
+  }));
   document.getElementById('formClose').addEventListener('click', chiudiPannello);
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !panel.hidden) chiudiPannello();
@@ -198,7 +281,7 @@
   /* Il modulo non ha ancora un servizio dietro: per ora apre il programma di posta
      con i campi già compilati, così il messaggio parte davvero.
      Quando ci sarà un gestore dei moduli, qui va la chiamata vera. */
-  const f = document.getElementById('contatti');
+  const f = modulo;
   f.addEventListener('submit', (e) => {
     e.preventDefault();
     f.classList.add('is-checked');
@@ -208,7 +291,7 @@
     const corpo = `Nome: ${v('nome')}\nEmail: ${v('email')}\n\n${v('msg')}`;
 
     location.href = 'mailto:scuole@buildinterest.it'
-      + '?subject=' + encodeURIComponent('Messaggio dal sito — ' + v('nome'))
+      + '?subject=' + encodeURIComponent(oggetto + ' — ' + v('nome'))
       + '&body=' + encodeURIComponent(corpo);
 
     f.hidden = true;
@@ -217,7 +300,7 @@
 
 </script>
 
-<script src="assets/nav.js"></script>
+<script src="assets/nav.js?v=20260820a"></script>
 
 </body>
 </html>

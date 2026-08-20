@@ -3,13 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Il 5x1000, spiegato bene — Interest Edufin APS</title>
-<meta name="description" content="Cos'è davvero il 5x1000 quando compili la dichiarazione, e come destinarlo a Interest Edufin APS. Codice fiscale 18028181008.">
+<title>Video — Interest Edufin APS</title>
+<meta name="description" content="I video di Interest Edufin APS: interviste, spiegazioni e storie raccolte nelle scuole.">
 <link rel="stylesheet" href="assets/base.css?v=20260820j">
 <link rel="stylesheet" href="assets/progetto.css?v=20260820l">
 <style>
   body { --c: var(--blue); }
 
+  /* la pagina ha una sezione sola e sta in uno schermo: senza questo il piede
+     si fermava a mezz'aria con una fascia di sfondo sotto */
+  body { min-height: 100svh; display: flex; flex-direction: column; }
+  main { flex: 1 0 auto; }
 </style>
 </head>
 <body>
@@ -47,7 +51,7 @@
         <a class="nav__voce nav__voce--attiva">Blog</a>
         <span class="nav__sub">
           <a class="nav__articoli" href="blog.html">Articoli</a>
-          <a class="nav__video" href="video.html">Video</a>
+          <a class="nav__video" href="video.html" aria-current="page">Video</a>
         </span>
       </span>
       <a href="contattaci.html">Contattaci</a>
@@ -65,106 +69,48 @@
 
 <main>
 
-<div class="art art__top">
-  <a class="art__back" href="blog.html">
-    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14 8H3M7 4L3 8l4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Articoli
-  </a>
-  <span class="art__c">Sostienici</span>
-  <h1 class="art__h">Il 5x1000, spiegato bene</h1>
-</div>
+<div class="wrap">
 
-<figure class="art__cover">
-  <img src="assets/blog/5x1000.png" alt="Grafica: Dona il tuo 5x1000 — codice fiscale 18028181008" width="1200" height="1200">
-</figure>
+  <section class="s video-section" id="video">
+    <div class="s__bar">
+      <div>
+        <p class="video-section__k">YouTube</p>
+        <h1 class="s__h" style="margin-bottom:0">Guardaci, non solo leggerci.</h1>
+      </div>
+      <p class="video-section__note">Qui entreranno interviste, spiegazioni e storie dalle scuole.</p>
+    </div>
 
-<article class="art art__b">
-<p class="art__sub">
-  L'hai visto in TV, ma quando compili la dichiarazione dei redditi, cos'è davvero?
-</p>
+    <div class="video-grid">
+      <!-- Quando arriva un video: sostituire il contenuto di .yt-slot con l'iframe YouTube. -->
+      <article class="yt-card">
+        <div class="yt-slot" data-youtube-id="">
+          <span class="yt-slot__play">▶</span>
+          <span class="yt-slot__n">01</span>
+        </div>
+        <p>Il prossimo video comincia qui.</p>
+      </article>
+      <article class="yt-card">
+        <div class="yt-slot" data-youtube-id="">
+          <span class="yt-slot__play">▶</span>
+          <span class="yt-slot__n">02</span>
+        </div>
+        <p>Uno spazio per spiegare bene.</p>
+      </article>
+      <article class="yt-card">
+        <div class="yt-slot" data-youtube-id="">
+          <span class="yt-slot__play">▶</span>
+          <span class="yt-slot__n">03</span>
+        </div>
+        <p>Una storia direttamente dalle scuole.</p>
+      </article>
+    </div>
 
-<p>
-  Molto semplicemente: è una quota delle tasse che versi comunque allo Stato — l'IRPEF —
-  e che <strong>puoi decidere tu dove mandare</strong>. Tra maggio e settembre, inserendo un
-  codice fiscale nel modulo della dichiarazione, il 730 o la CU, decidi come impiegare una
-  parte dei tuoi soldi.
-</p>
+    <p class="video-section__coda">
+      Il canale non &egrave; ancora aperto: finch&eacute; non arriva il primo video,
+      <a href="blog.html">gli articoli</a> sono il posto dove trovarci.
+    </p>
+  </section>
 
-<div class="art__pull">
-  <p>Se non scegli, restano allo Stato. Non è una spesa in più: è un potere di scelta a costo zero.</p>
-</div>
-
-<p>
-  Vale la pena ripeterlo perché è il punto che si perde sempre: <strong>non stai donando dei
-  soldi tuoi in più</strong>. Quella quota la paghi in ogni caso. L'unica differenza è se a
-  decidere dove finisce sei tu o è il criterio automatico dello Stato.
-</p>
-
-<h2>Cosa succede se lo dai a noi</h2>
-
-<p>
-  Destinare il 5x1000 a Interest significa finanziare direttamente l'ingresso dell'educazione
-  finanziaria nelle scuole superiori italiane. Nell'anno scolastico 2025/26 siamo entrati in
-  51 istituti e abbiamo incontrato quasi 5.000 studenti: il costo reale di un seminario
-  completo per una scuola è di circa <strong>300 euro</strong>, poco più di tre euro a studente.
-</p>
-
-<p>
-  È un progetto in crescita che collabora già con i principali partner del settore, e che
-  rendiconta ogni anno quello che ha fatto — compreso quello che non ha funzionato.
-</p>
-
-<h2>Come si fa, in pratica</h2>
-
-<p>
-  Nel modulo della dichiarazione cerca il riquadro dedicato al <strong>sostegno degli enti del
-  terzo settore</strong>. Firma nello spazio e scrivi il nostro codice fiscale.
-</p>
-
-<div class="art__box">
-  <p><strong>Il codice fiscale di Interest Edufin APS</strong></p>
-  <div class="cf">
-    <span class="cf__n" id="cf">18028181008</span>
-    <button type="button" class="cf__b" id="cfCopia" data-cf="18028181008">Copia</button>
-  </div>
-</div>
-
-<p>
-  Serve solo la firma e il numero. Non costa nulla, non allunga i tempi della dichiarazione e
-  non comporta alcun controllo in più. Se ti sembra poco, considera che la quasi totalità dei
-  contribuenti italiani non compila quel riquadro: quella firma vale più di quanto sembri.
-</p>
-
-<p class="art__src">
-  <b>Nota.</b> I dati su scuole, studenti e costo per seminario si riferiscono all'anno
-  scolastico 2025/26 e sono tratti dal nostro report di impatto di luglio 2026. Le finestre
-  temporali per la dichiarazione dipendono dal modello utilizzato: verifica le scadenze
-  dell'anno in corso sul sito dell'Agenzia delle Entrate.
-</p>
-</article>
-
-<div class="wrap art__next">
-  <p class="s__k">Continua a leggere</p>
-  <div class="posts">
-    <article class="post">
-      <a class="post__l" href="blog-50-scuole.html">
-        <span class="post__im"><img src="assets/blog/50-scuole.png" alt="" loading="lazy" width="1200" height="1200">
-          </span>
-        <span class="post__c">Dalle scuole</span>
-        <h3 class="post__t">50 scuole non sono un punto d'arrivo</h3>
-        <p class="post__d">Quest'anno siamo entrati in 50 istituti e abbiamo parlato con quasi 5.000 studenti.</p>
-      </a>
-    </article>
-    <article class="post">
-      <a class="post__l" href="blog-scams-truffe.html">
-        <span class="post__im"><img src="assets/blog/scams-truffe.png" alt="" loading="lazy" width="1200" height="1200">
-          </span>
-        <span class="post__c">Soldi e rischi</span>
-        <h3 class="post__t">Scams e truffe: parlare anche di rischio reale</h3>
-        <p class="post__d">Non basta insegnare a risparmiare. Serve riconoscere una trappola prima che sia tardi.</p>
-      </a>
-    </article>
-  </div>
 </div>
 
 </main>
@@ -211,23 +157,6 @@
   const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 12);
   onScroll();
   addEventListener('scroll', onScroll, { passive: true });
-
-  /* Copia il codice fiscale negli appunti. Se il browser blocca la copia
-     automatica, seleziona il numero così si può copiare a mano. */
-  const bt = document.getElementById('cfCopia');
-  bt.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(bt.dataset.cf);
-      bt.textContent = 'Copiato';
-      setTimeout(() => { bt.textContent = 'Copia'; }, 2000);
-    } catch {
-      const r = document.createRange();
-      r.selectNodeContents(document.getElementById('cf'));
-      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
-      bt.textContent = 'Selezionato';
-      setTimeout(() => { bt.textContent = 'Copia'; }, 2000);
-    }
-  });
 </script>
 
 <script src="assets/nav.js?v=20260820a"></script>

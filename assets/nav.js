@@ -17,7 +17,8 @@
 
   /* scegliere una voce chiude il pannello */
   nav.addEventListener('click', (e) => {
-    if (e.target.closest('a')) set(false);
+    /* Blog non ha href: aprire il suo menu non deve chiudere il pannello */
+    if (e.target.closest('a[href]')) set(false);
   });
 
   /* Esc chiude e riporta il focus sulle stanghette */
