@@ -9,3 +9,8 @@ assets/_orig.css
 assets/blog/Screenshot *.png
 assets/blog/*.svg
 TODO.md
+
+# Server MCP email: credenziali e dipendenze locali
+mcp-email/.env
+mcp-email/node_modules/
+mcp-email/package-lock.json

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "email-scuole": {
+      "command": "node",
+      "args": ["mcp-email/index.js"]
+    }
+  }
+}

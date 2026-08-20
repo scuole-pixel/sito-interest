@@ -1,0 +1,22 @@
+{
+  "name": "mcp-email-scuole",
+  "version": "1.0.0",
+  "description": "Server MCP per inviare email dall'account scuole@buildinterest.it via SMTP (Gmail / Google Workspace)",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "mcp-email-scuole": "index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test-connection": "node test-connection.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "nodemailer": "^6.9.16",
+    "zod": "^3.24.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
