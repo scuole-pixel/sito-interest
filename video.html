@@ -4,11 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Video — Interest Edufin APS</title>
-<meta name="description" content="I video di Interest Edufin APS: interviste, spiegazioni e storie raccolte nelle scuole.">
+<meta name="description" content="Ventuno video divisi per tema: soldi e scelte personali, truffe e tutela del risparmiatore, rischio e bolle, finanza a impatto.">
 <link rel="stylesheet" href="assets/base.css?v=20260821f">
-<link rel="stylesheet" href="assets/progetto.css?v=20260821c">
+<link rel="stylesheet" href="assets/progetto.css?v=20260821q">
 <style>
-  body { --c: var(--blue); }
+  body { --c: var(--red); }
+
+  /* il titolo sta su una riga: il limite di 20ch lo spezzava in due */
+  #video .s__h { max-width: none; }
 
   /* la pagina ha una sezione sola e sta in uno schermo: senza questo il piede
      si fermava a mezz'aria con una fascia di sfondo sotto */
@@ -77,38 +80,251 @@
         <p class="video-section__k">YouTube</p>
         <h1 class="s__h" style="margin-bottom:0">Guardaci, non solo leggerci.</h1>
       </div>
-      <p class="video-section__note">Qui entreranno interviste, spiegazioni e storie dalle scuole.</p>
     </div>
 
-    <div class="video-grid">
-      <!-- Quando arriva un video: sostituire il contenuto di .yt-slot con l'iframe YouTube. -->
-      <article class="yt-card">
-        <div class="yt-slot" data-youtube-id="">
-          <span class="yt-slot__play">▶</span>
-          <span class="yt-slot__n">01</span>
-        </div>
-        <p>Il prossimo video comincia qui.</p>
+    <div class="posts">
+
+      <article class="post post--video" data-cat="obbligazioni">
+        <a class="post__l" href="https://www.youtube.com/watch?v=AC3a4tRt_3M" target="_blank" rel="noopener" aria-label="Guarda su YouTube: IL CRAC CIRIO: la folle ASCESA E CADUTA di SERGIO CRAGNOTTI">
+          <span class="post__im">
+            <img src="assets/video/AC3a4tRt_3M.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Obbligazioni</span>
+          <h3 class="post__t">IL CRAC CIRIO: la folle ASCESA E CADUTA di SERGIO CRAGNOTTI</h3>
+          <p class="post__data">14 agosto 2026</p>
+        </a>
       </article>
-      <article class="yt-card">
-        <div class="yt-slot" data-youtube-id="">
-          <span class="yt-slot__play">▶</span>
-          <span class="yt-slot__n">02</span>
-        </div>
-        <p>Uno spazio per spiegare bene.</p>
+
+      <article class="post post--video" data-cat="costiecommissi">
+        <a class="post__l" href="https://www.youtube.com/watch?v=qhyjoxUeJuQ" target="_blank" rel="noopener" aria-label="Guarda su YouTube: Quanto costa davvero investire?">
+          <span class="post__im">
+            <img src="assets/video/qhyjoxUeJuQ.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Costi e commissioni</span>
+          <h3 class="post__t">Quanto costa davvero investire?</h3>
+          <p class="post__data">8 maggio 2026</p>
+        </a>
       </article>
-      <article class="yt-card">
-        <div class="yt-slot" data-youtube-id="">
-          <span class="yt-slot__play">▶</span>
-          <span class="yt-slot__n">03</span>
-        </div>
-        <p>Una storia direttamente dalle scuole.</p>
+
+      <article class="post post--video" data-cat="bolle">
+        <a class="post__l" href="https://www.youtube.com/watch?v=4X3GHe3zg-E" target="_blank" rel="noopener" aria-label="Guarda su YouTube: Il DISASTRO del PASSATO che spiega il futuro: la bolla dei TULIPANI">
+          <span class="post__im">
+            <img src="assets/video/4X3GHe3zg-E.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Bolle</span>
+          <h3 class="post__t">Il DISASTRO del PASSATO che spiega il futuro: la bolla dei TULIPANI</h3>
+          <p class="post__data">1 maggio 2026</p>
+        </a>
       </article>
+
+      <article class="post post--video" data-cat="orientamento">
+        <a class="post__l" href="https://www.youtube.com/watch?v=Vkk63y4FWmc" target="_blank" rel="noopener" aria-label="Guarda su YouTube: QUANTO (e cosa) si guadagna DAVVERO con la LAUREA?">
+          <span class="post__im">
+            <img src="assets/video/Vkk63y4FWmc.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Orientamento</span>
+          <h3 class="post__t">QUANTO (e cosa) si guadagna DAVVERO con la LAUREA?</h3>
+          <p class="post__data">17 aprile 2026</p>
+        </a>
+      </article>
+
+      <article class="post post--video" data-cat="terzosettore">
+        <a class="post__l" href="https://www.youtube.com/watch?v=4JVWSlkNE-Y" target="_blank" rel="noopener" aria-label="Guarda su YouTube: Come FONDAZIONE TELETHON finanzia la ricerca sulle MALATTIE RARE">
+          <span class="post__im">
+            <img src="assets/video/4JVWSlkNE-Y.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Terzo settore</span>
+          <h3 class="post__t">Come FONDAZIONE TELETHON finanzia la ricerca sulle MALATTIE RARE</h3>
+          <p class="post__data">30 settembre 2025</p>
+        </a>
+      </article>
+
+      <article class="post post--video" data-cat="truffe">
+        <a class="post__l" href="https://www.youtube.com/watch?v=ssbsMGGW5-g" target="_blank" rel="noopener" aria-label="Guarda su YouTube: Come WANNA MARCHI ha TRUFFATO l’Italia in DIRETTA NAZIONALE">
+          <span class="post__im">
+            <img src="assets/video/ssbsMGGW5-g.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Truffe</span>
+          <h3 class="post__t">Come WANNA MARCHI ha TRUFFATO l’Italia in DIRETTA NAZIONALE</h3>
+          <p class="post__data">4 aprile 2025</p>
+        </a>
+      </article>
+
+      <article class="post post--video" data-cat="budgeting" hidden>
+        <a class="post__l" href="https://www.youtube.com/watch?v=Zy_oDu7n13o" target="_blank" rel="noopener" aria-label="Guarda su YouTube: GIOVANI in ITALIA: quanti SOLDI servono per SOPRAVVIVERE?">
+          <span class="post__im">
+            <img src="assets/video/Zy_oDu7n13o.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Budgeting</span>
+          <h3 class="post__t">GIOVANI in ITALIA: quanti SOLDI servono per SOPRAVVIVERE?</h3>
+          <p class="post__data">28 febbraio 2025</p>
+        </a>
+      </article>
+
+      <article class="post post--video" data-cat="bolle" hidden>
+        <a class="post__l" href="https://www.youtube.com/watch?v=CRv481zaJgw" target="_blank" rel="noopener" aria-label="Guarda su YouTube: BOLLA DOT COM: quando INTERNET (e la tecnologia) DISTRUGGONO i mercati">
+          <span class="post__im">
+            <img src="assets/video/CRv481zaJgw.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Bolle</span>
+          <h3 class="post__t">BOLLA DOT COM: quando INTERNET (e la tecnologia) DISTRUGGONO i mercati</h3>
+          <p class="post__data">14 febbraio 2025</p>
+        </a>
+      </article>
+
+      <article class="post post--video" data-cat="previdenza" hidden>
+        <a class="post__l" href="https://www.youtube.com/watch?v=7SVHo1PFmj8" target="_blank" rel="noopener" aria-label="Guarda su YouTube: CRISI PENSIONI: l&#x27;ITALIA è al LIMITE">
+          <span class="post__im">
+            <img src="assets/video/7SVHo1PFmj8.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Previdenza</span>
+          <h3 class="post__t">CRISI PENSIONI: l&#x27;ITALIA è al LIMITE</h3>
+          <p class="post__data">13 dicembre 2024</p>
+        </a>
+      </article>
+
+      <article class="post post--video" data-cat="mutuiecrisi" hidden>
+        <a class="post__l" href="https://www.youtube.com/watch?v=YO3csLS9zh0" target="_blank" rel="noopener" aria-label="Guarda su YouTube: 2008: la CRISI da cui il mondo NON SI È PIÙ RIPRESO">
+          <span class="post__im">
+            <img src="assets/video/YO3csLS9zh0.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Mutui e crisi</span>
+          <h3 class="post__t">2008: la CRISI da cui il mondo NON SI È PIÙ RIPRESO</h3>
+          <p class="post__data">6 dicembre 2024</p>
+        </a>
+      </article>
+
+      <article class="post post--video" data-cat="mutuiecrisi" hidden>
+        <a class="post__l" href="https://www.youtube.com/watch?v=DtRi0QHRbtY" target="_blank" rel="noopener" aria-label="Guarda su YouTube: Lehman Brothers: la BANCA che ha messo in ginocchio l&#x27;ECONOMIA MONDIALE">
+          <span class="post__im">
+            <img src="assets/video/DtRi0QHRbtY.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Mutui e crisi</span>
+          <h3 class="post__t">Lehman Brothers: la BANCA che ha messo in ginocchio l&#x27;ECONOMIA MONDIALE</h3>
+          <p class="post__data">2 agosto 2024</p>
+        </a>
+      </article>
+
+      <article class="post post--video" data-cat="tassazione" hidden>
+        <a class="post__l" href="https://www.youtube.com/watch?v=gm0HfPMNZjA" target="_blank" rel="noopener" aria-label="Guarda su YouTube: Meglio la PARTITA IVA o il POSTO FISSO? Facciamo chiarezza">
+          <span class="post__im">
+            <img src="assets/video/gm0HfPMNZjA.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Tassazione</span>
+          <h3 class="post__t">Meglio la PARTITA IVA o il POSTO FISSO? Facciamo chiarezza</h3>
+          <p class="post__data">2 aprile 2024</p>
+        </a>
+      </article>
+
+      <article class="post post--video" data-cat="socialemercati" hidden>
+        <a class="post__l" href="https://www.youtube.com/watch?v=iVbtznA2ZQA" target="_blank" rel="noopener" aria-label="Guarda su YouTube: GAMESTOP: come una COMMUNITY online HA ROVESCIATO Wall Street">
+          <span class="post__im">
+            <img src="assets/video/iVbtznA2ZQA.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Social e mercati</span>
+          <h3 class="post__t">GAMESTOP: come una COMMUNITY online HA ROVESCIATO Wall Street</h3>
+          <p class="post__data">25 agosto 2023</p>
+        </a>
+      </article>
+
+      <article class="post post--video" data-cat="crypto" hidden>
+        <a class="post__l" href="https://www.youtube.com/watch?v=Xlhk3K8Y2no" target="_blank" rel="noopener" aria-label="Guarda su YouTube: FTX: Terremoto nel mondo Crypto, ma cosa sta succedendo?">
+          <span class="post__im">
+            <img src="assets/video/Xlhk3K8Y2no.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Crypto</span>
+          <h3 class="post__t">FTX: Terremoto nel mondo Crypto, ma cosa sta succedendo?</h3>
+          <p class="post__data">12 novembre 2022</p>
+        </a>
+      </article>
+
+      <article class="post post--video" data-cat="bancheeclienti" hidden>
+        <a class="post__l" href="https://www.youtube.com/watch?v=xanEx-jgKqM" target="_blank" rel="noopener" aria-label="Guarda su YouTube: Come due banche venete hanno provato a salvarsi a spese dei clienti">
+          <span class="post__im">
+            <img src="assets/video/xanEx-jgKqM.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Banche e clienti</span>
+          <h3 class="post__t">Come due banche venete hanno provato a salvarsi a spese dei clienti</h3>
+          <p class="post__data">24 giugno 2022</p>
+        </a>
+      </article>
+
+      <article class="post post--video" data-cat="stablecoin" hidden>
+        <a class="post__l" href="https://www.youtube.com/watch?v=yW1Gg1s_Byk" target="_blank" rel="noopener" aria-label="Guarda su YouTube: Il crollo di Terra Luna e l&#x27;impatto su Tether e le altre stablecoin">
+          <span class="post__im">
+            <img src="assets/video/yW1Gg1s_Byk.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Stablecoin</span>
+          <h3 class="post__t">Il crollo di Terra Luna e l&#x27;impatto su Tether e le altre stablecoin</h3>
+          <p class="post__data">28 maggio 2022</p>
+        </a>
+      </article>
+
+      <article class="post post--video" data-cat="truffe" hidden>
+        <a class="post__l" href="https://www.youtube.com/watch?v=rBrQyTr44Nw" target="_blank" rel="noopener" aria-label="Guarda su YouTube: Come Bernie Madoff ha truffato Wall Street e Hollywood">
+          <span class="post__im">
+            <img src="assets/video/rBrQyTr44Nw.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Truffe</span>
+          <h3 class="post__t">Come Bernie Madoff ha truffato Wall Street e Hollywood</h3>
+          <p class="post__data">18 marzo 2022</p>
+        </a>
+      </article>
+
+      <article class="post post--video" data-cat="truffe" hidden>
+        <a class="post__l" href="https://www.youtube.com/watch?v=5m8SBKQaHTY" target="_blank" rel="noopener" aria-label="Guarda su YouTube: Come CHARLES PONZI ha TRUFFATO gli Stati Uniti d’America">
+          <span class="post__im">
+            <img src="assets/video/5m8SBKQaHTY.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Truffe</span>
+          <h3 class="post__t">Come CHARLES PONZI ha TRUFFATO gli Stati Uniti d’America</h3>
+          <p class="post__data">4 febbraio 2022</p>
+        </a>
+      </article>
+
+      <article class="post post--video" data-cat="obbligazioni" hidden>
+        <a class="post__l" href="https://www.youtube.com/watch?v=JvPyd6gtZMI" target="_blank" rel="noopener" aria-label="Guarda su YouTube: Come Calisto Tanzi ha causato il crac Parmalat">
+          <span class="post__im">
+            <img src="assets/video/JvPyd6gtZMI.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Obbligazioni</span>
+          <h3 class="post__t">Come Calisto Tanzi ha causato il crac Parmalat</h3>
+          <p class="post__data">14 gennaio 2022</p>
+        </a>
+      </article>
+
+      <article class="post post--video" data-cat="truffecrypto" hidden>
+        <a class="post__l" href="https://www.youtube.com/watch?v=9QaXOAdfWZ4" target="_blank" rel="noopener" aria-label="Guarda su YouTube: Come ha truffato 3 milioni di persone con OneCoin">
+          <span class="post__im">
+            <img src="assets/video/9QaXOAdfWZ4.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Truffe crypto</span>
+          <h3 class="post__t">Come ha truffato 3 milioni di persone con OneCoin</h3>
+          <p class="post__data">23 dicembre 2021</p>
+        </a>
+      </article>
+
+      <article class="post post--video" data-cat="bitcoin" hidden>
+        <a class="post__l" href="https://www.youtube.com/watch?v=mH74IwLuKYY" target="_blank" rel="noopener" aria-label="Guarda su YouTube: La storia del BITCOIN e della BLOCKCHAIN">
+          <span class="post__im">
+            <img src="assets/video/mH74IwLuKYY.jpg" alt="" loading="lazy" width="760" height="428">
+          </span>
+          <span class="post__c">Bitcoin</span>
+          <h3 class="post__t">La storia del BITCOIN e della BLOCKCHAIN</h3>
+          <p class="post__data">2 ottobre 2021</p>
+        </a>
+      </article>
+
     </div>
 
-    <p class="video-section__coda">
-      Il canale non &egrave; ancora aperto: finch&eacute; non arriva il primo video,
-      <a href="blog.html">gli articoli</a> sono il posto dove trovarci.
-    </p>
+    <div class="posts__altro">
+      <button type="button" class="piu" id="piu" aria-label="Mostra altri video" title="Mostra altri video">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
   </section>
 
 </div>
@@ -153,6 +369,19 @@
   const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 12);
   onScroll();
   addEventListener('scroll', onScroll, { passive: true });
+
+  /* I video si aprono su YouTube, sei per volta in pagina. */
+  const piu = document.getElementById('piu');
+  const PASSO = 6;
+  piu.addEventListener('click', () => {
+    const restano = [...document.querySelectorAll('.post[hidden]')];
+    restano.slice(0, PASSO).forEach((card, i) => {
+      card.hidden = false;
+      card.style.animationDelay = i * 45 + 'ms';
+      card.classList.add('post--entra');
+    });
+    if (restano.length <= PASSO) piu.parentElement.remove();
+  });
 </script>
 
 <script src="assets/nav.js?v=20260820a"></script>

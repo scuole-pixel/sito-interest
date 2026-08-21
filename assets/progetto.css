@@ -2086,7 +2086,6 @@ a.card { text-decoration: none; }
 }
 .contact-hub__head .s__k { grid-column: 1 / -1; margin-bottom: -2px; }
 .contact-hub__head h1 { margin: 0; font-size: clamp(32px, 4.2vw, 54px); line-height: 1; }
-.contact-hub__head > p:last-child { margin: 0 0 6px; max-width: 40ch; font-size: 17px; line-height: 1.6; color: var(--muted); }
 
 .contact-signals { position: relative; display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
 .contact-signal {
@@ -2561,46 +2560,13 @@ a.card { text-decoration: none; }
 #video,
 #articoli { scroll-margin-top: calc(var(--header-h) + 14px); }
 
-.video-section__k { margin: 0 0 12px; color: #ff0033; font-size: 11.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
-.video-section__note { margin: 0; max-width: 34ch; font-size: 15px; line-height: 1.55; color: var(--muted); }
-.video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.yt-card { min-width: 0; }
-.yt-slot {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  border-radius: 20px;
-  background: var(--ink);
-  color: #fff;
-  transition: transform .28s ease, border-radius .28s ease;
-}
-.yt-slot::before {
-  content: "";
-  position: absolute;
-  width: 60%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: #ff0033;
-  filter: blur(2px);
-  transform: scale(.75);
-  opacity: .9;
-}
-.yt-slot__play { position: relative; z-index: 1; display: grid; place-items: center; width: 64px; height: 46px; border-radius: 14px; background: #fff; color: #ff0033; font-size: 19px; padding-left: 3px; }
-.yt-slot__n { position: absolute; z-index: 1; right: 18px; bottom: 14px; font-family: var(--display); font-size: 13px; color: rgba(255,255,255,.65); }
-.yt-card p { margin: 13px 4px 0; font-size: 15px; font-weight: 750; color: var(--ink); }
-.yt-card:hover .yt-slot { transform: translateY(-5px); border-radius: 34px 14px 30px 16px; }
-.yt-slot iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-section__k { margin: 0 0 12px; color: var(--c); font-size: 11.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+/* Le schede video sono le stesse degli articoli: cambia solo la copertina,
+   16/9 invece che quadrata, e il tasto play sopra. */
+.post--video .post__im { aspect-ratio: 16 / 9; }
 
-/* la riga sotto la griglia: finche' il canale e' vuoto rimanda dove c'e'
-   qualcosa da leggere, cosi' la pagina non e' un vicolo cieco */
-.video-section__coda { margin: 30px 0 0; font-size: 15px; line-height: 1.6; color: var(--muted); }
-.video-section__coda a { color: var(--blue); font-weight: 650; text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--blue) 35%, transparent); }
-.video-section__coda a:hover { border-bottom-color: var(--blue); }
 
-@media (max-width: 800px) { .video-grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 540px) { .video-grid { grid-template-columns: 1fr; } }
+
 
 /* titolo a sinistra, filtri o link a destra */
 .s__bar {
@@ -2758,26 +2724,43 @@ a.card { text-decoration: none; }
 
 .post__d { margin: 0 24px; font-size: 15px; line-height: 1.6; color: var(--muted); }
 
-/* ANTEPRIMA — card di prova, per vedere la griglia piena.
-   Tratteggiate e smorzate: non devono sembrare articoli veri.
-   Si tolgono insieme al markup .post--vuota. */
-.post--vuota .post__l {
-  border: 2px dashed var(--border);
-  background: var(--paper);
-  cursor: default;
+/* sei articoli per volta: il resto sta nascosto finche' non si tocca il + */
+.post[hidden] { display: none; }
+
+.posts__altro { display: flex; justify-content: center; padding-top: clamp(26px, 3vw, 38px); }
+
+.piu {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  border: 2px solid var(--ink);
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color .16s ease, color .16s ease, transform .16s ease;
 }
 
-.post--vuota .post__l:hover { box-shadow: none; border-color: var(--border); }
-.post--vuota .post__l:hover .post__t { color: #b3bdc8; }
-.post--vuota .post__l:hover .post__c { background: var(--grigio-vuoto-forte); color: #9aa8b6; }
-.post--vuota .post__l:hover .post__im::after { opacity: 0; }
+.piu svg { display: block; width: 20px; height: 20px; }
+.piu:hover { background: var(--ink); color: #fff; transform: scale(1.06); }
+.piu:active { transform: scale(.96); }
+.piu:focus-visible { outline: 3px solid var(--c); outline-offset: 3px; }
 
-/* il quadrato della copertina resta vuoto */
-.post--vuota .post__im { background: var(--grigio-vuoto); }
+/* entrano in dissolvenza: non si tocca il transform, che serve all'effetto della griglia */
+@keyframes post-entra { from { opacity: 0 } to { opacity: 1 } }
+.post--entra { animation: post-entra .32s ease both; }
 
-.post--vuota .post__c { background: var(--grigio-vuoto-forte); color: #9aa8b6; }
-.post--vuota .post__t { color: #b3bdc8; }
-.post--vuota .post__d { color: #c2cad3; }
+/* la data, spinta in fondo alla card: cosi' resta allineata su tutta la riga */
+.post__data {
+  margin: auto 24px 0;
+  padding-top: 18px;
+  font-size: 12.5px;
+  font-weight: 650;
+  letter-spacing: .01em;
+  color: #8d9aa8;
+}
+
 
 
 /* ══════════════════════════════════════════
@@ -2962,23 +2945,6 @@ a.card { text-decoration: none; }
   color: var(--ink);
 }
 
-/* la nota sulle fonti */
-.art__src {
-  margin-top: 40px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border);
-  font-size: 14.5px;
-  line-height: 1.65;
-  color: var(--muted);
-}
-
-.art__src b { color: var(--ink); font-weight: 700; }
-
-/* ── altri articoli in fondo ── */
-
-.art__next { padding: 0 0 clamp(46px, 6vw, 72px); }
-.art__next .posts { grid-template-columns: repeat(2, 1fr); }
-
 /* ══════════════════════════════════════════
    ADATTAMENTI
    ══════════════════════════════════════════ */
@@ -2989,6 +2955,9 @@ a.card { text-decoration: none; }
   .posts:focus-within .post:not(:hover):not(:focus-within) { transform: none; opacity: 1; }
   .posts:hover .post:hover, .posts:focus-within .post:focus-within { transform: none; }
   .post__l:hover .post__im img, .post__l:focus-visible .post__im img { transform: none; }
+  .post--entra { animation: none; }
+  .piu { transition: none; }
+  .piu:hover, .piu:active { transform: none; }
 
   .op__back, .b, .card, .card__i, .stick li, .news__f button, .pub { transition: none; }
   .b:hover, .card:hover, .stick li:hover, .news__f button:hover { transform: none; }
@@ -3008,7 +2977,6 @@ a.card { text-decoration: none; }
 
 @media (max-width: 700px) {
   .posts { grid-template-columns: 1fr; }
-  .art__next .posts { grid-template-columns: 1fr; }
   .s__bar { flex-direction: column; align-items: flex-start; }
 }
 
