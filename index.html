@@ -381,7 +381,11 @@
       drop-shadow(0 3px 0 #fff)
       drop-shadow(0 10px 14px rgba(14, 27, 44, .20));
 
-    transition: transform .28s cubic-bezier(.22, 1, .36, 1), filter .28s ease;
+    /* si anima solo il transform. Interpolare "filter" obbligava il browser a
+       ridisegnare la parola a ogni fotogramma - contorno bianco e ombra
+       sfocata compresi - e succedeva sulle tre parole insieme, proprio
+       mentre la bolla si stava aprendo. */
+    transition: transform .28s cubic-bezier(.22, 1, .36, 1), opacity .28s ease;
   }
 
   /* lastra invisibile davanti alla parola: intercetta il cursore anche
@@ -393,13 +397,11 @@
     z-index: 1;
   }
 
-  /* la parola attiva si solleva e stacca di più dal fondo */
+  /* la parola attiva si solleva. L'ombra resta quella di prima: cambiarla
+     qui voleva dire ridisegnare l'ombra sfocata a ogni fotogramma. */
   .claim__item.is-open .claim__word,
   .claim__word:hover {
     transform: translateY(-4px) scale(1.02);
-    filter:
-      drop-shadow(0 3px 0 #fff)
-      drop-shadow(0 18px 24px rgba(14, 27, 44, .26));
   }
 
   .claim__word:focus-visible {
@@ -415,7 +417,6 @@
   /* le altre due sbiadiscono quando una è aperta */
   .claim.has-open .claim__item:not(.is-open) .claim__word {
     opacity: .34;
-    filter: drop-shadow(0 3px 0 #fff);
   }
 
   /* Le tre parole impilate sullo stesso asse, centrate. */
@@ -495,18 +496,21 @@
     opacity: 0;
     transform: translateY(18px);
     /* uscita: il testo se ne va prima che il colore si ritiri */
-    transition: opacity .21s ease, transform .32s cubic-bezier(.4, .1, .7, .5);
+    transition: opacity .146s ease, transform .223s cubic-bezier(.4, .1, .7, .5);
   }
   .claim__item.is-open .pop > :not(.pop__photo) {
     opacity: 1;
     transform: none;
-    transition: opacity .31s ease, transform .46s cubic-bezier(.33, .85, .3, 1);
+    transition: opacity .216s ease, transform .319s cubic-bezier(.33, .85, .3, 1);
   }
-  .claim__item.is-open .pop > :nth-child(1) { transition-delay: .11s; }
-  .claim__item.is-open .pop > :nth-child(2) { transition-delay: .16s; }
-  .claim__item.is-open .pop > :nth-child(3) { transition-delay: .2s; }
-  .claim__item.is-open .pop > :nth-child(4) { transition-delay: .25s; }
-  .claim__item.is-open .pop > :nth-child(5) { transition-delay: .31s; }
+  /* La scala parte a 127ms perche' a quel punto la vernice ha coperto il 90%
+     della fascia dove sta il testo: prima le righe entravano su carta bianca,
+     e le bianche su bianco semplicemente non si vedevano. */
+  .claim__item.is-open .pop > :nth-child(1) { transition-delay: .127s; }
+  .claim__item.is-open .pop > :nth-child(2) { transition-delay: .162s; }
+  .claim__item.is-open .pop > :nth-child(3) { transition-delay: .189s; }
+  .claim__item.is-open .pop > :nth-child(4) { transition-delay: .224s; }
+  .claim__item.is-open .pop > :nth-child(5) { transition-delay: .266s; }
 
   .pop__k {
     margin: 0;
@@ -584,22 +588,32 @@
     object-position: right bottom;
     pointer-events: none;
     opacity: 0;
-    /* bordo bianco netto intorno alla figura scontornata, come il contorno
-       delle tre parole: quattro ombre nette sui due assi si compongono
-       in un profilo continuo, diagonali comprese */
-    filter:
-      drop-shadow(5px 0 0 #fff) drop-shadow(-5px 0 0 #fff)
-      drop-shadow(0 5px 0 #fff) drop-shadow(0 -5px 0 #fff);
-    transform: translate3d(5%, 28px, 0) scale(.97);
+    /* Il bordo bianco intorno alla figura ora e' dentro il PNG. Prima erano
+       quattro drop-shadow annidate: quattro passaggi di filtro su un'immagine
+       da 1024x1536, da rifare ogni volta che il livello veniva rasterizzato,
+       ed era l'ultimo scatto che restava nell'apertura della bolla. Il PNG
+       porta lo stesso profilo (unione delle nove copie a +/-9px sorgente,
+       che a schermo valgono i 5px di prima), disegnato una volta per sempre.
+       Se le foto vengono rifatte, il bordo va ricotto: senza, restano nude. */
+    /* solo traslazione: la scala cambiava la dimensione da rasterizzare e
+       il bordo bianco (quattro ombre) andava ricalcolato a ogni passaggio */
+    transform: translate3d(5%, 28px, 0);
     will-change: transform, opacity;
-    transition: opacity .24s ease, transform .36s cubic-bezier(.4, .1, .7, .5);
+    transition: opacity .167s ease, transform .25s cubic-bezier(.4, .1, .7, .5);
   }
 
   .claim__item.is-open .pop__photo {
     opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-    transition: opacity .43s ease .18s,
-                transform .74s cubic-bezier(.4, .75, .3, 1) .13s;
+    transform: translate3d(0, 0, 0);
+    /* La foto sta sul bordo destro, che e' l'ultimo pezzo di schermo che la
+       vernice raggiunge: coperto al 30% a 254ms, al 97% a 454ms.
+       Se compare prima, la figura scontornata galleggia sulla carta bianca e
+       il suo bordo bianco sparisce - si vedeva, ed era sbagliato. Quindi
+       entra negli ultimi 212ms, quando sotto c'e' colore.
+       ,393s + ,212s = ,605s: e' questa somma, insieme alla crescita della
+       macchia, a dare la durata dell'apertura. */
+    transition: opacity .151s ease .428s,
+                transform .212s cubic-bezier(.4, .75, .3, 1) .393s;
   }
 
   @media (max-width: 1000px) {
@@ -612,9 +626,6 @@
       bottom: 0;
       height: 46vh;
       max-width: none;
-      filter:
-        drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff)
-        drop-shadow(0 3px 0 #fff) drop-shadow(0 -3px 0 #fff);
     }
 
     .claim__item.is-open .pop__photo { opacity: 1; }
@@ -657,31 +668,59 @@
     clip-path: none;
     visibility: hidden;
     pointer-events: none;
-    /* .485s = esattamente la durata del ritiro della macchia. Va tenuta
+    /* .338s = esattamente la durata del ritiro della macchia. Va tenuta
        allineata: se resta piu corta, la fine del ritiro viene tagliata */
-    transition: visibility 0s linear .485s;
+    transition: visibility 0s linear .338s;
   }
 
-  .pop::before {
+  .pop::before,
+  .pop::after {
     content: "";
     position: fixed;
     left: var(--px, 50vw);
     top: var(--py, 50vh);
+    background: currentColor;
     pointer-events: none;
+    /* la sagoma non cambia mai: e' fissa e viene disegnata una volta sola.
+       Prima il border-radius era dentro la transizione, e animarlo vuol dire
+       ridisegnare la lastra a ogni fotogramma: 210x190vmax sono 4000x3600px
+       su uno schermo da 1920, ridipinti sessanta volte al secondo. Da li'
+       veniva lo scatto. Ora l'unica cosa che si muove e' il transform, che
+       la GPU applica a un disegno gia' pronto. */
+    will-change: transform;
   }
 
+  /* La deformazione ora viene dalla forma: la secchiata e' fatta di due lobi
+     con proporzioni, rotazione e tempi diversi. Crescendo, il loro contorno
+     comune cambia sagoma - senza che nessuno dei due venga ridisegnato. */
+  /* La curva e' la stessa per crescita e ritiro, ed e' scelta misurando quanta
+     parte di schermo e' coperta istante per istante: parte svelta, tiene il
+     passo in mezzo, chiude piano. Sembra strana scritta - veloce, lenta,
+     veloce - ma e' quella che fa avanzare il COLORE a passo costante: l'area
+     cresce col quadrato della scala, quindi per coprire di area sempre uguale
+     la scala deve correre all'inizio, rallentare quando il fronte attraversa
+     la parte larga dello schermo e riprendere per gli ultimi angoli.
+     Con la curva di prima si andava da +2 a +26 punti di copertura per decimo
+     di secondo; ora si sta fra +2 e +11. */
   .pop::before {
     z-index: -2;
     width: calc(var(--blob-w) * 1vmax);
     height: calc(var(--blob-h) * 1vmax);
-    background: currentColor;
-    /* da chiusa e quasi tonda e piu ruotata: crescendo la sagoma si deforma e
-       raddrizza, cosi la crescita non si legge come lo zoom di una figura rigida */
-    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
-    transform: translate(-50%, -50%) rotate(-22deg) scale(0);
-    will-change: transform;
-    transition: transform .485s cubic-bezier(.4, .1, .7, .5),
-                border-radius .485s cubic-bezier(.4, .1, .7, .5);
+    border-radius: 44% 56% 47% 53% / 54% 43% 57% 46%;
+    transform: translate(-50%, -50%) rotate(-22deg) scale(0) translate(0, 0);
+    transition: transform .338s cubic-bezier(.08, .5, .92, .5);
+  }
+
+  /* il secondo lobo: piu' stretto e piu' alto, ruotato dall'altra parte.
+     La traslazione finale sta DOPO la scala, cosi' a bolla chiusa vale zero
+     e i due lobi partono dallo stesso punto, sotto il cursore. */
+  .pop::after {
+    z-index: -1;
+    width: calc(var(--blob-w) * .84 * 1vmax);
+    height: calc(var(--blob-h) * 1.08 * 1vmax);
+    border-radius: 57% 43% 52% 48% / 46% 56% 44% 54%;
+    transform: translate(-50%, -50%) rotate(19deg) scale(0) translate(7%, -5%);
+    transition: transform .338s cubic-bezier(.08, .5, .92, .5);
   }
 
   .claim__item.is-open .pop {
@@ -690,20 +729,29 @@
     transition: visibility 0s;
   }
 
+  /* --s la calcola il JS: quanto basta a coprire lo schermo da QUEL punto.
+     Prima cresceva sempre fino a 1, ma dal 60% di scala in poi era tutto
+     fuori schermo e il 72% della durata non si vedeva */
   .claim__item.is-open .pop::before {
-    border-radius: 43% 57% 48% 52% / 55% 42% 58% 45%;
-    /* --s la calcola il JS: quanto basta a coprire lo schermo da QUEL punto.
-       Prima cresceva sempre fino a 1, ma dal 60% di scala in poi era tutto
-       fuori schermo e il 72% della durata non si vedeva */
-    transform: translate(-50%, -50%) rotate(-7deg) scale(var(--s, 1));
-    /* curva distribuita: la copertura si completa verso la fine, non a meta */
-    transition: transform .735s cubic-bezier(.35, .3, .55, .9),
-                border-radius .735s cubic-bezier(.35, .3, .55, .9);
+    transform: translate(-50%, -50%) rotate(-7deg) scale(var(--s, 1)) translate(0, 0);
+    /* ,605s: il colore finisce di riempire lo schermo esattamente quando si
+       posa la foto, cosi' l'apertura e' un gesto unico che atterra tutto insieme */
+    transition: transform .605s cubic-bezier(.08, .5, .92, .5);
+  }
+
+  /* il secondo lobo parte avanti e viene raggiunto: e' questo sfasamento che
+     fa leggere la crescita come una colata e non come uno zoom */
+  .claim__item.is-open .pop::after {
+    transform: translate(-50%, -50%) rotate(38deg) scale(var(--s, 1)) translate(7%, -5%);
+    /* il 90% del primo: resta lo sfasamento che fa cambiare sagoma all'unione */
+    transition: transform .544s cubic-bezier(.08, .5, .92, .5);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .pop::before { transition: none; }
-    .claim__item.is-open .pop::before { transform: translate(-50%, -50%) scale(1); }
+    .pop::before,
+    .pop::after { transition: none; }
+    .claim__item.is-open .pop::before,
+    .claim__item.is-open .pop::after { transform: translate(-50%, -50%) scale(1); }
   }
 
   @keyframes pop {
@@ -730,29 +778,21 @@
     overflow: hidden;
   }
 
-  /* il tricolore non sta piu' appiccicato al bordo: sulle pagine dove il
-     piede si salda alla sezione finale colorata, il terzo che aveva lo stesso
-     colore della sezione sopra spariva (il rosso su chi siamo, il blu su
-     governance). Con una fascia di inchiostro sopra, i tre colori si leggono
-     sempre, qualunque sia la sezione che li precede. */
   .foot::before {
     content: "";
     position: absolute;
-    inset: 9px 0 auto;
+    inset: 0 0 auto;
     height: 7px;
     background: linear-gradient(90deg, var(--green) 0 33.333%, var(--red) 33.333% 66.666%, var(--blue) 66.666%);
   }
 
   /* stesso perimetro utile dell'header (1180px MENO i 32px di bordo per lato,
      che lì stanno dentro al box): logo sotto logo, Instagram sotto "Contattaci" */
-  /* il footer ha 32px di padding suoi, l'header no: per far cadere il logo
-     del footer sulla stessa verticale di quello dell'header la cassa interna
-     deve stringersi di quei 64px. Senza il calc scivolava 32px a sinistra. */
   .foot__inner { max-width: calc(var(--wrap) - 64px); margin: 0 auto; }
 
   .foot__brand { display: inline-flex; flex: none; border-radius: 4px; }
   .foot__brand:focus-visible { outline: 2px solid #fff; outline-offset: 6px; }
-  /* stesso simbolo dell'header, stessa misura: si allinea in verticale e in peso */
+  /* stesso simbolo dell'header e stessa misura: sopra e sotto pesano uguale */
   .foot__mark { height: var(--logo-simbolo); width: auto; fill: #fff; display: block; }
 
   .fsoc { display: flex; gap: 10px; flex: none; }
@@ -992,7 +1032,7 @@
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <p class="pop__hint">Allontana il cursore oppure premi Esc</p>
-          <img class="pop__photo" src="assets/home/curiosa.png?v=20260820g" alt="" aria-hidden="true" decoding="async">
+          <img class="pop__photo" src="assets/home/curiosa.png?v=20260821a" alt="" aria-hidden="true" decoding="async">
         </div>
       </li>
 
@@ -1012,7 +1052,7 @@
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <p class="pop__hint">Allontana il cursore oppure premi Esc</p>
-          <img class="pop__photo" src="assets/home/giovane.png?v=20260820g" alt="" aria-hidden="true" decoding="async">
+          <img class="pop__photo" src="assets/home/giovane.png?v=20260821a" alt="" aria-hidden="true" decoding="async">
         </div>
       </li>
 
@@ -1032,7 +1072,7 @@
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <p class="pop__hint">Allontana il cursore oppure premi Esc</p>
-          <img class="pop__photo" src="assets/home/non-profit.png?v=20260820g" alt="" aria-hidden="true" decoding="async">
+          <img class="pop__photo" src="assets/home/non-profit.png?v=20260821a" alt="" aria-hidden="true" decoding="async">
         </div>
       </li>
 
@@ -1068,9 +1108,7 @@
         <a href="https://www.linkedin.com/company/interest-edufin/" aria-label="LinkedIn">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95 4.02 0 4.76 2.5 4.76 5.75V21h-4v-5.6c0-1.34-.03-3.06-1.9-3.06-1.9 0-2.19 1.45-2.19 2.96V21h-4V9Z"/></svg>
         </a>
-        <!-- TODO: manca l'URL del profilo. Senza href non e un link: l'icona
-             si vede ma non porta a instagram.com per errore -->
-        <a aria-label="Instagram">
+        <a href="https://www.instagram.com/buildinterest/" aria-label="Instagram">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.4 2.21 8.8 2.2 12 2.2Zm0 3.05a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5Zm0 11.13a4.38 4.38 0 1 1 0-8.76 4.38 4.38 0 0 1 0 8.76Zm8.6-11.4a1.58 1.58 0 1 1-3.15 0 1.58 1.58 0 0 1 3.15 0Z"/></svg>
         </a>
       </div>
@@ -1096,7 +1134,19 @@
     const fine  = matchMedia('(hover: hover) and (pointer: fine)').matches;
     let timer;
     let apertoIl = 0;            // istante dell'apertura, per la breve immunità
-    let chiusoIl = 0;            // istante dell'ultima chiusura
+    let chiusoIl = 0;            // istante dell'ultima chiusura (0 = mai chiusa)
+    let zona = null;             // zona sensibile, misurata una volta per apertura
+
+    /* Il gesto di scroll sul trackpad NON genera mousemove: il cursore resta
+       fermo mentre la pagina scorre. Senza questo, scorrendo col colore aperto
+       il pannello restava lì e le parole scivolavano sotto il cursore.
+       Ora il gesto di scorrimento chiude la vernice, come allontanarsi.
+       Viene agganciato all'apertura e staccato alla chiusura. */
+    const chiudiSuGesto = (e) => {
+      if (performance.now() - apertoIl < 209) return;
+      e.preventDefault();
+      closeAll();
+    };
 
     /* Quanto deve crescere la macchia per coprire lo schermo da un dato punto.
        Senza questo cresceva sempre fino a scala 1, ma lo schermo era gia coperto
@@ -1117,9 +1167,14 @@
         const raggio = 1 / Math.hypot(dx / d / a, dy / d / b);
         serve = Math.max(serve, d / raggio);
       }
-      /* 18% di margine: la sagoma reale e piu rientrante di un'ellisse, e un
-         angolo scoperto si vedrebbe. Mai oltre 1, cioe mai piu di prima. */
-      return Math.min(1, serve * 1.18);
+      /* 4% di margine. Erano 18, ed erano 18 punti di scala che si consumavano
+         a schermo GIA' pieno: misurando la copertura fotogramma per fotogramma,
+         lo schermo era coperto al 75% della durata e l'ultimo quarto non si
+         vedeva - ed e' da li' che l'animazione sembrava incepparsi. Con due
+         lobi la sagoma reale e' piu' piena di un'ellisse, quindi questa stima
+         e' esatta entro il 2% su tutte le nove combinazioni misurate
+         (tre parole per 1280, 1440 e 1920 di larghezza). */
+      return Math.min(1, serve * 1.04);
     };
 
     /* l'onda di colore parte dal punto in cui si trova il cursore */
@@ -1146,8 +1201,14 @@
       });
       claim.classList.add('has-open');
       apertoIl = performance.now();
+      zona = null;
       /* il pannello copre tutto: scorrere muoverebbe una pagina che non si vede */
       document.documentElement.classList.add('is-locked');
+      /* i due listener non passivi vivono solo mentre la bolla e' aperta:
+         restare appesi a wheel per tutta la vita della pagina obbligava ogni
+         gesto di scorrimento ad aspettare il main thread */
+      addEventListener('wheel', chiudiSuGesto, { passive: false });
+      addEventListener('touchmove', chiudiSuGesto, { passive: false });
     };
 
     const closeAll = () => {
@@ -1173,6 +1234,9 @@
       });
       claim.classList.remove('has-open');
       document.documentElement.classList.remove('is-locked');
+      removeEventListener('wheel', chiudiSuGesto, { passive: false });
+      removeEventListener('touchmove', chiudiSuGesto, { passive: false });
+      zona = null;
       if (wasOpen) chiusoIl = performance.now();
       return wasOpen;
     };
@@ -1189,7 +1253,7 @@
           if (claim.classList.contains('has-open')) return;
           /* dopo una chiusura il cursore è spesso ancora fermo su una parola:
              senza questa pausa il pannello si riaprirebbe da solo */
-          if (performance.now() - chiusoIl < 350) return;
+          if (chiusoIl && performance.now() - chiusoIl < 244) return;
           open(item, e);
         });
       }
@@ -1213,34 +1277,47 @@
         /* subito dopo l'apertura il cursore è ancora sulla parola, che può
            trovarsi già oltre la soglia: senza questa pausa si richiuderebbe
            all'istante, ed è il motivo per cui sembrava non funzionare */
-        if (performance.now() - apertoIl < 420) return;
+        if (performance.now() - apertoIl < 292) return;
 
         const openItem = claim.querySelector('.claim__item.is-open');
         if (!openItem) return;
-        const interactiveParts = [
-          openItem.querySelector('.claim__word'),
-          ...openItem.querySelectorAll('.pop__k, .pop__t, .pop__d, .pop__cta, .pop__hint')
-        ];
-        const rects = interactiveParts.map(part => part.getBoundingClientRect());
-        const zone = rects.reduce((area, rect) => ({
-          left: Math.min(area.left, rect.left),
-          right: Math.max(area.right, rect.right),
-          top: Math.min(area.top, rect.top),
-          bottom: Math.max(area.bottom, rect.bottom)
-        }), { left: innerWidth, right: 0, top: innerHeight, bottom: 0 });
-        const padX = 32;
-        const padY = 26;
-        /* la zona utile e' il rettangolo con i suoi margini, ridotto di area:
-           i lati si accorciano della radice di AREA, cosi' il taglio e' in area
-           e non su un margine solo. Due passaggi da -5%: resta il 90,25%. */
-        const AREA = 0.95 * 0.95;
-        const rientro = (1 - Math.sqrt(AREA)) / 2;
-        const rientroX = ((zone.right + padX) - (zone.left - padX)) * rientro;
-        const rientroY = ((zone.bottom + padY) - (zone.top - padY)) * rientro;
-        const inside = e.clientX >= zone.left - padX + rientroX
-          && e.clientX <= zone.right + padX - rientroX
-          && e.clientY >= zone.top - padY + rientroY
-          && e.clientY <= zone.bottom + padY - rientroY;
+
+        /* La zona si misura una volta per apertura. Prima la ricalcolava a
+           ogni mousemove: sei getBoundingClientRect per evento, cioe' un
+           ricalcolo di layout forzato dentro l'animazione della foto, che
+           dura piu' della finestra di immunita' qui sopra. Le posizioni non
+           cambiano: il pannello e' fisso e la pagina sotto e' bloccata. */
+        if (!zona) {
+          const interactiveParts = [
+            openItem.querySelector('.claim__word'),
+            ...openItem.querySelectorAll('.pop__k, .pop__t, .pop__d, .pop__cta, .pop__hint')
+          ];
+          const rects = interactiveParts.map(part => part.getBoundingClientRect());
+          const box = rects.reduce((area, rect) => ({
+            left: Math.min(area.left, rect.left),
+            right: Math.max(area.right, rect.right),
+            top: Math.min(area.top, rect.top),
+            bottom: Math.max(area.bottom, rect.bottom)
+          }), { left: innerWidth, right: 0, top: innerHeight, bottom: 0 });
+          const padX = 32;
+          const padY = 26;
+          /* la zona utile e' il rettangolo con i suoi margini, ridotto di area:
+             i lati si accorciano della radice di AREA, cosi' il taglio e' in area
+             e non su un margine solo. Due passaggi da -5%: resta il 90,25%. */
+          const AREA = 0.95 * 0.95;
+          const rientro = (1 - Math.sqrt(AREA)) / 2;
+          const rientroX = ((box.right + padX) - (box.left - padX)) * rientro;
+          const rientroY = ((box.bottom + padY) - (box.top - padY)) * rientro;
+          zona = {
+            x0: box.left - padX + rientroX,
+            x1: box.right + padX - rientroX,
+            y0: box.top - padY + rientroY,
+            y1: box.bottom + padY - rientroY
+          };
+        }
+
+        const inside = e.clientX >= zona.x0 && e.clientX <= zona.x1
+          && e.clientY >= zona.y0 && e.clientY <= zona.y1;
 
         if (inside) {
           clearTimeout(timer);
@@ -1255,19 +1332,6 @@
         if (claim.classList.contains('has-open')) closeAll();
       });
     }
-
-    /* Il gesto di scroll sul trackpad NON genera mousemove: il cursore resta
-       fermo mentre la pagina scorre. Senza questo, scorrendo col colore aperto
-       il pannello restava lì e le parole scivolavano sotto il cursore.
-       Ora il gesto di scorrimento chiude la vernice, come allontanarsi. */
-    const chiudiSuGesto = (e) => {
-      if (!claim.classList.contains('has-open')) return;
-      if (performance.now() - apertoIl < 300) return;
-      e.preventDefault();
-      closeAll();
-    };
-    addEventListener('wheel', chiudiSuGesto, { passive: false });
-    addEventListener('touchmove', chiudiSuGesto, { passive: false });
 
     /* Esc chiude e restituisce il focus senza mostrare un falso stato attivo. */
     addEventListener('keydown', (e) => {

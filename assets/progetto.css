@@ -1958,6 +1958,34 @@ a.card { text-decoration: none; }
 /* il campo non compilato si segnala solo dopo il primo tentativo di invio */
 .form.is-checked :invalid { border-color: var(--red); }
 
+/* Sul pannello dei contatti i campi sono pillole bianche senza bordo
+   (".contact-form .form__r input { border: 0 }"), quindi il border-color rosso
+   qui sopra non si disegnava: una mail con lo spazio dentro veniva rifiutata
+   senza che si vedesse quale campo fosse. Il segnale e' un anello rosso
+   intorno alla pillola, che sul fondo scuro si legge, piu' l'etichetta rossa. */
+.contact-form.is-checked .form__r :invalid { box-shadow: 0 0 0 2px var(--red); }
+.contact-form.is-checked .form__r:has(:invalid) label { color: var(--red); }
+
+/* La spunta obbligatoria ha bisogno di un segnale suo: su una casella nativa
+   il border-color non si disegna, quindi il modulo si rifiutava di partire
+   senza mostrare niente. Contorno rosso, testo rosso e la riga qui sotto. */
+.form.is-checked .form__consent input:invalid {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
+.form.is-checked .form__consent input:invalid + span { color: var(--red); }
+
+/* l'avviso sta nella stessa riga del consenso: la riga e' larga 1015px e il
+   testo ne usa 389, quindi c'e' spazio in abbondanza. flex: none perche' su
+   una finestra strettina si accorci il testo, non il messaggio. */
+.form__consent-err {
+  flex: none;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--red);
+}
+
 .form__p {
   margin: 0 0 22px;
   font-size: 14px;

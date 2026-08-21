@@ -325,27 +325,23 @@
     overflow: hidden;
   }
 
-  /* il tricolore non sta piu' appiccicato al bordo: sulle pagine dove il
-     piede si salda alla sezione finale colorata, il terzo che aveva lo stesso
-     colore della sezione sopra spariva (il rosso su chi siamo, il blu su
-     governance). Con una fascia di inchiostro sopra, i tre colori si leggono
-     sempre, qualunque sia la sezione che li precede. */
   .foot::before {
     content: "";
     position: absolute;
-    inset: 9px 0 auto;
+    inset: 0 0 auto;
     height: 7px;
     background: linear-gradient(90deg, var(--green) 0 33.333%, var(--red) 33.333% 66.666%, var(--blue) 66.666%);
   }
 
-  /* il footer ha 32px di padding suoi, l'header no: per far cadere il logo
-     del footer sulla stessa verticale di quello dell'header la cassa interna
-     deve stringersi di quei 64px. Senza il calc scivolava 32px a sinistra. */
+  /* il piede ha 32px di padding suoi, l'header no: per far cadere il logo del
+     piede sulla stessa verticale di quello dell'header - e i social sulla
+     stessa di "Contattaci" - la cassa interna deve stringersi di quei 64px.
+     Senza il calc scivola 32px a sinistra e sfora 32px a destra. */
   .foot__inner { max-width: calc(var(--wrap) - 64px); margin: 0 auto; }
 
   .foot__brand { display: inline-flex; flex: none; border-radius: 4px; }
   .foot__brand:focus-visible { outline: 2px solid #fff; outline-offset: 6px; }
-  /* stesso simbolo dell'header, stessa misura: si allinea in verticale e in peso */
+  /* stesso simbolo dell'header e stessa misura: sopra e sotto pesano uguale */
   .foot__mark { height: var(--logo-simbolo); width: auto; fill: #fff; display: block; }
 
   .fsoc { display: flex; gap: 10px; flex: none; }
@@ -364,29 +360,30 @@
   .fsoc a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
   .fsoc svg { width: 17px; height: 17px; }
 
-  .foot__bottom {
-    display: flex;
+  /* riga unica a tre zone: 1fr-auto-1fr tiene i dati al centro esatto
+     anche se il logo e i social occupano larghezze diverse */
+  .foot__top {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px 26px;
+    gap: 26px;
   }
+  .foot__top .foot__brand { justify-self: start; }
+  .foot__top .fsoc { justify-self: end; }
 
   .foot__legal {
     margin: 0;
-    max-width: 72ch;
-    flex: 1 1 420px;
+    text-align: center;
     font-size: 12.5px;
-    line-height: 1.75;
+    line-height: 1.8;
     color: rgba(255, 255, 255, .62);
   }
 
   .foot__legal p { margin: 0; }
 
-  /* il nome apre il blocco, in chiaro; i dati seguono in sordina */
+  /* il nome in chiaro apre la riga; i dati seguono in sordina */
   .foot__legal .foot__org {
-    margin-bottom: 5px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     letter-spacing: .01em;
     color: #fff;
@@ -396,14 +393,6 @@
   .foot__legal a { color: rgba(255, 255, 255, .78); text-decoration: none; }
   .foot__legal a:hover { color: #fff; text-decoration: underline; }
 
-  @media (max-width: 720px) {
-    .foot__bottom {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 18px;
-    }
-    .foot__legal { flex: 0 0 auto; }
-  }
   @media (max-width: 520px) {
     .hero { padding-left: 22px; padding-right: 22px; }
     .foot { padding-left: 22px; padding-right: 22px; }
