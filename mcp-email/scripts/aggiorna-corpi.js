@@ -27,7 +27,7 @@ Vorremmo chiedervi se il vostro istituto potesse essere interessato a organizzar
 
 Gli incontri affrontano temi quali gestione del denaro, risparmio, debito, rischio e prevenzione delle truffe finanziarie, con un approccio pratico, neutrale e privo di finalità commerciali.
 
-Nel caso foste interessati, saremmo lieti di presentarvi il progetto e confrontarci sulle possibili modalità organizzative.
+Nel caso foste interessati, saremmo lieti di presentarvi il progetto e confrontarci sulle possibili modalità organizzative. In allegato trovate una breve presentazione.
 
 Ringraziandovi per l’attenzione, rimaniamo a disposizione per qualsiasi informazione.
 
