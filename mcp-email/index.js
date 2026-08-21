@@ -283,6 +283,18 @@ server.tool(
       };
     }
 
+    // Controlla PRIMA di inviare che il file sia salvabile (es. non aperto
+    // in Excel): se il progresso non fosse registrabile, al riavvio le email
+    // già partite verrebbero rimandate.
+    try {
+      await workbook.xlsx.writeFile(excelPath);
+    } catch (err) {
+      throw new Error(
+        `Impossibile scrivere sul file Excel (${err.message}). ` +
+          `Probabilmente è aperto in Excel: chiuderlo e riprovare. Nessuna email è stata inviata.`
+      );
+    }
+
     const transporter = createTransporter();
     const batch = pending.slice(0, limit);
     const sentOk = [];
@@ -310,11 +322,6 @@ server.tool(
         });
         consecutiveFailures = 0;
         sentOk.push(item);
-        // Segna la riga come inviata e salva subito: se qualcosa si
-        // interrompe, la prossima chiamata riprende dalla riga successiva.
-        sheet.getRow(item.rowNumber).getCell(header["inviato"]).value =
-          new Date().toISOString().slice(0, 16).replace("T", " ");
-        await workbook.xlsx.writeFile(excelPath);
       } catch (err) {
         consecutiveFailures += 1;
         failures.push({ ...item, error: err.message });
@@ -326,13 +333,34 @@ server.tool(
           });
           break;
         }
+        continue;
+      }
+      // Segna la riga come inviata e salva subito: se qualcosa si
+      // interrompe, la prossima chiamata riprende dalla riga successiva.
+      sheet.getRow(item.rowNumber).getCell(header["inviato"]).value =
+        new Date().toISOString().slice(0, 16).replace("T", " ");
+      try {
+        await workbook.xlsx.writeFile(excelPath);
+      } catch (err) {
+        failures.push({
+          ...item,
+          sent: true,
+          error:
+            `EMAIL GIÀ INVIATA ma impossibile salvare il progresso nel file (${err.message}). ` +
+            `Invio interrotto: prima di riprendere, chiudere Excel e compilare a mano la colonna ` +
+            `Inviato alla riga ${item.rowNumber}, altrimenti questa email verrebbe rimandata.`,
+        });
+        break;
       }
       if (delaySeconds > 0 && item !== batch[batch.length - 1]) {
         await sleep(delaySeconds * 1000);
       }
     }
 
-    const remaining = pending.length - sentOk.length - failures.filter((f) => f.rowNumber !== "—").length;
+    const remaining =
+      pending.length -
+      sentOk.length -
+      failures.filter((f) => f.rowNumber !== "—" && !f.sent).length;
     const lines = [
       `Inviate in questa chiamata: ${sentOk.length}`,
       `Errori: ${failures.length ? failures.map((f) => `riga ${f.rowNumber} (${f.email}): ${f.error}`).join("; ") : "nessuno"}`,
