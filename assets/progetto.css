@@ -1368,7 +1368,7 @@ a.pub__t:hover { color: var(--c); }
    lastra sulla colonna, e la lastra restava corta di un pezzo. */
 .story-scroll__layout {
   --story-gap: clamp(44px, 7vw, 96px);
-  --story-destra: clamp(270px, 32vw, 400px);
+  --story-destra: clamp(280px, 34vw, 470px);
   display: grid;
   grid-template-columns: minmax(0, 1fr) var(--story-destra);
   gap: var(--story-gap);
@@ -1430,7 +1430,38 @@ a.pub__t:hover { color: var(--c); }
    PRIMA riga dell'elemento: col calibro davanti, il mese si allineava alla riga
    invisibile e finiva più basso dell'anno. */
 .story-date__mese,
-.story-date__anno { display: inline-block; }
+.story-date__anno {
+  display: inline-block;
+  position: relative;
+  /* la profondita' del foglietto che si strappa, qui sotto */
+  perspective: 300px;
+}
+
+/* Effetto calendario a strappo: quando la casella cambia, il valore nuovo
+   sta gia' fermo al suo posto e il vecchio gli ricade davanti come un
+   foglietto incernierato appena sopra il bordo alto. Il foglietto ha lo
+   sfondo della targa, cosi' copre il nuovo finche' non si e' piegato via.
+   Lo strato lo crea il JS al primo cambio; da fermo e' invisibile. */
+.story-date__valore { display: inline-block; }
+
+.story-date__foglia {
+  position: absolute;
+  left: 0;
+  top: 0;
+  /* stretta sulla sua parola, non sul calibro della casella: il nuovo
+     valore aspetta comunque sotto, non c'e' niente da coprire */
+  width: max-content;
+  white-space: nowrap;
+  /* un filo piu' chiara della targa: cadendo prende luce e si capisce che
+     e' una scheda di carta, non il testo che si accartoccia */
+  background: color-mix(in srgb, var(--ink) 85%, #fff);
+  border-radius: 6px;
+  padding: 0 .14em;
+  margin: 0 -.14em;
+  transform-origin: 50% -18%;
+  opacity: 0;
+  pointer-events: none;
+}
 
 .story-date__mese::after {
   content: "Settembre";
@@ -1440,41 +1471,63 @@ a.pub__t:hover { color: var(--c); }
   visibility: hidden;
 }
 
-/* la casella riscritta ruota giù come una paletta che gira; quella invariata
-   non riceve la classe, quindi resta immobile */
-@keyframes story-data-gira {
-  from { opacity: 0; transform: translateY(-.22em); }
-  to   { opacity: 1; transform: none; }
-}
-
-.story-date__when .e-cambiata {
-  animation: story-data-gira .34s cubic-bezier(.22, 1, .36, 1);
-}
-
 /* al centro, dove prima stava la data gigante, si alternano le immagini */
-/* orizzontale 4:3: le foto dai seminari sono tutte cosi', un riquadro
-   verticale le avrebbe tagliate a meta' */
+/* La foto e' un adesivo: bordo bianco spesso come le parole della home,
+   leggermente storta, appiccicata alla pagina senza cornice ne' fondo.
+   Orizzontale 4:3: le foto dai seminari sono tutte cosi'. Il contenitore
+   non taglia niente (la rotazione deve sporgere) e non ha sfondo: prima
+   del caricamento non c'e' un rettangolo grigio che aspetta. */
 .story-date__media {
   position: relative;
-  width: min(100%, 430px);
+  width: min(100%, 470px);
   aspect-ratio: 4 / 3;
-  border-radius: 22px;
-  overflow: hidden;
-  background: var(--border);
 }
 
+/* Il mucchio: ogni tappa POSA la sua stampa sopra le precedenti, che
+   restano li' sotto a spuntare con bordi e angoli. Tornando indietro,
+   l'ultima si solleva e se ne va. L'ordine di impilamento e' quello del
+   documento: niente z-index da gestire. Solo transform e opacity. */
 .story-date__media img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border: 9px solid #fff;
+  border-radius: 18px;
+  /* box-shadow e non drop-shadow: la sagoma e' un rettangolo stondato e
+     l'ombra lo segue da sola, senza ricalcoli sul cambio di tappa. La riga
+     bianca a +3px e' lo spessore dell'adesivo, come sulle parole. */
+  box-shadow: 0 3px 0 #fff, 0 12px 22px rgba(14, 27, 44, .20);
   opacity: 0;
-  transform: scale(1.05);
-  transition: opacity .45s ease, transform .85s cubic-bezier(.22,1,.36,1);
+  /* stato "in mano": sopra il mucchio, piu' grande e piu' ruotata. La
+     posa e' la transizione verso is-posata; il ritiro e' la stessa strada
+     al contrario, la stampa si rialza e sparisce. */
+  transform: translate(var(--tx, 0px), calc(var(--ty, 0px) - 34px))
+             rotate(calc(var(--r, 0deg) * 1.7)) scale(1.06);
+  transition: opacity .34s ease, transform .58s cubic-bezier(.22, 1, .36, 1);
+  will-change: transform, opacity;
 }
 
-.story-date__media img.is-active { opacity: 1; transform: none; }
+.story-date__media img.is-posata {
+  opacity: 1;
+  transform: translate(var(--tx, 0px), var(--ty, 0px)) rotate(var(--r, 0deg));
+}
+
+/* ogni stampa ha il suo angolo e il suo piccolo scarto: e' quello che fa
+   spuntare il mucchio da sotto la stampa in cima. Numeri a mano, nessuna
+   formula: un mucchio vero non ha un passo regolare. */
+.story-date__media img:nth-child(1) { --r: -2.4deg; --tx: -10px; --ty: 5px; }
+.story-date__media img:nth-child(2) { --r: 2.2deg;  --tx: 13px;  --ty: -3px; }
+.story-date__media img:nth-child(3) { --r: -1.4deg; --tx: -14px; --ty: -6px; }
+.story-date__media img:nth-child(4) { --r: 2.8deg;  --tx: 8px;   --ty: 7px; }
+.story-date__media img:nth-child(5) { --r: -2deg;   --tx: 14px;  --ty: 2px; }
+.story-date__media img:nth-child(6) { --r: 1.5deg;  --tx: -8px;  --ty: -5px; }
+.story-date__media img:nth-child(7) { --r: -1.7deg; --tx: 5px;   --ty: -2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .story-date__media img { transition: opacity .3s ease; }
+}
 
 
 .story-scroll__events {
@@ -1660,7 +1713,6 @@ a.pub__t:hover { color: var(--c); }
 
 @media (prefers-reduced-motion: reduce) {
   .story-event, .story-event::before, .story-date__media img { transition: none; }
-  .story-date__when .e-cambiata { animation: none; }
   .story-event > p.story-scorri svg { animation: none; }
 }
 

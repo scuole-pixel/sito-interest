@@ -362,12 +362,24 @@
   }
 
   /* l'entrata è sulla parola, non sull'elemento: così il pannello a schermo
-     pieno non resta prigioniero della trasformazione del genitore */
+     pieno non resta prigioniero della trasformazione del genitore.
+     Il riempimento è "backwards", non "forwards": copre solo l'attesa dello
+     scaglionamento. Con "forwards" l'ultimo fotogramma restava padrone di
+     transform e opacity per sempre - le animazioni vincono sui fogli di
+     stile - e sollevamento all'hover e dissolvenza delle altre due parole
+     non arrivavano mai allo schermo. */
   .claim__word {
-    opacity: 0;
-    transform: translateY(16px);
-    animation: pop .62s cubic-bezier(.22, 1, .36, 1) forwards;
+    transform: rotate(var(--storto, 0deg));
+    will-change: transform;
+    animation: pop .62s cubic-bezier(.22, 1, .36, 1) backwards;
   }
+
+  /* Adesivi attaccati a mano: ognuna riposa con la sua piccola rotazione.
+     Gli stessi gradi stanno nello script del cursore in fondo alla pagina:
+     se si cambiano qui vanno cambiati anche lì. */
+  .claim__item:nth-child(1) { --storto: -1.6deg; }
+  .claim__item:nth-child(2) { --storto: 1.1deg; }
+  .claim__item:nth-child(3) { --storto: -.7deg; }
 
   /* la parola: è un pulsante, ma non lo sembra.
      L'area sensibile è tutto il rettangolo, spazi tra le lettere compresi:
@@ -413,8 +425,11 @@
     z-index: 1;
   }
 
-  /* la parola attiva si solleva. L'ombra resta quella di prima: cambiarla
-     qui voleva dire ridisegnare l'ombra sfocata a ogni fotogramma. */
+  /* la parola attiva si solleva e si raddrizza. Quando lo script del
+     cursore e' in moto questa regola e' coperta dal suo stile inline, che
+     produce lo stesso gesto piu' l'inclinazione: qui resta la versione per
+     chi va senza JS o con le animazioni ridotte. L'ombra non si tocca:
+     cambiarla voleva dire ridisegnarla sfocata a ogni fotogramma. */
   .claim__item.is-open .claim__word,
   .claim__word:hover {
     transform: translateY(-4px) scale(1.02);
@@ -771,11 +786,13 @@
   }
 
   @keyframes pop {
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(16px) rotate(var(--storto, 0deg)); }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .claim__word { animation: none; opacity: 1; transform: none; }
+    /* niente entrata e niente inseguimento del cursore (lo script si spegne
+       da solo): resta solo il riposo storto, che e' carattere, non moto */
+    .claim__word { animation: none; }
   }
 
   /* ── testo e pulsanti ── */
@@ -1366,6 +1383,79 @@
       word.focus({ preventScroll: true });
       word.addEventListener('blur', () => word.classList.remove('is-focus-restored'), { once: true });
     });
+  })();
+</script>
+
+<script>
+  /* Il cursore: le parole riposano storte (i gradi di --storto) e, quando il
+     mouse gira nella prima schermata, si inclinano e scivolano verso di lui,
+     ognuna con un peso diverso - la terza piu' della prima, come se il blocco
+     avesse profondita'. Sopra una parola, quella si raddrizza e si solleva:
+     sta per essere cliccata. Quando il mouse esce, tornano al riposo da sole.
+
+     Tutto e' un solo transform sul bottone, mai sui suoi antenati (il
+     pannello della vernice e' fixed e se lo porterebbero dietro) e mai su
+     un figlio (le ombre dell'adesivo sono un filter sul bottone: muovergli
+     qualcosa dentro obbliga a ricalcolarle a ogni fotogramma). Il ciclo rAF
+     si spegne da solo quando tutto e' fermo al suo posto. */
+  (() => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const claim = document.querySelector('.claim');
+    const hero = document.querySelector('.hero');
+    if (!claim || !hero) return;
+    const items = [...claim.querySelectorAll('.claim__item')];
+    const parole = items.map((li) => li.querySelector('.claim__word'));
+
+    /* il transform lo scrive lo script a ogni passo: la transizione CSS di
+       .28s sopra ogni scrittura farebbe da freno doppio. Resta sull'opacity,
+       che e' ancora affare del foglio di stile (la dissolvenza a .34). */
+    parole.forEach((p) => { p.style.transition = 'opacity .28s ease'; });
+
+    const storto = [-1.6, 1.1, -.7]; /* deve combaciare con --storto nel CSS */
+    const stato = parole.map((_, i) => ({ x: 0, y: 0, r: storto[i], k: 1 }));
+    let mx = 0, my = 0, dentro = false, sopra = -1, vivo = false;
+
+    const passo = () => {
+      let fermo = true;
+      /* con la bolla aperta la spinta si spegne: sotto la vernice le parole
+         tornano a posto, pronte per quando si ritira */
+      const attivo = dentro && !claim.classList.contains('has-open');
+      parole.forEach((p, i) => {
+        const s = stato[i];
+        const su = sopra === i || items[i].classList.contains('is-open');
+        const ax = attivo ? mx * (8 + i * 5) : 0;
+        const ay = (attivo ? my * (4 + i * 2) : 0) + (su ? -4 : 0);
+        const ar = su ? 0 : storto[i] + (attivo ? mx * (1.8 - i * .5) : 0);
+        const ak = su ? 1.02 : 1;
+        s.x += (ax - s.x) * .09;
+        s.y += (ay - s.y) * .09;
+        s.r += (ar - s.r) * .09;
+        s.k += (ak - s.k) * .09;
+        if (Math.abs(ax - s.x) > .04 || Math.abs(ay - s.y) > .04 ||
+            Math.abs(ar - s.r) > .01 || Math.abs(ak - s.k) > .002) fermo = false;
+        p.style.transform =
+          `translate(${s.x.toFixed(2)}px, ${s.y.toFixed(2)}px) rotate(${s.r.toFixed(2)}deg) scale(${s.k.toFixed(3)})`;
+      });
+      if (fermo) { vivo = false; return; }
+      requestAnimationFrame(passo);
+    };
+    const sveglia = () => { if (!vivo) { vivo = true; requestAnimationFrame(passo); } };
+
+    hero.addEventListener('mousemove', (e) => {
+      mx = e.clientX / innerWidth * 2 - 1;   /* -1..1 dal centro dello schermo */
+      my = e.clientY / innerHeight * 2 - 1;
+      dentro = true;
+      sveglia();
+    });
+    hero.addEventListener('mouseleave', () => { dentro = false; sveglia(); });
+    items.forEach((li, i) => {
+      li.addEventListener('mouseenter', () => { sopra = i; sveglia(); });
+      li.addEventListener('mouseleave', () => { sopra = -1; sveglia(); });
+    });
+    /* apertura e chiusura della bolla cambiano le classi da piu' strade
+       (click, tastiera, scroll): qualunque sia, il ciclo si risveglia */
+    new MutationObserver(sveglia)
+      .observe(claim, { attributes: true, subtree: true, attributeFilter: ['class'] });
   })();
 </script>
 
