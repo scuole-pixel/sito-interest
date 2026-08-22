@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contatti — Interest Edufin APS</title>
 <meta name="description" content="Scrivi a Interest Edufin APS: seminari nelle scuole, partnership, microcredito, ricerca e volontariato. Trova il contatto giusto o prepara una mail dal sito.">
-<link rel="stylesheet" href="assets/base.css?v=20260822a">
-<link rel="stylesheet" href="assets/progetto.css?v=20260822k">
+<link rel="stylesheet" href="assets/base.css?v=20260822b">
+<link rel="stylesheet" href="assets/progetto.css?v=20260822l">
 <style>
   body { --c: var(--blue); }
 
@@ -18,9 +18,14 @@
     min-height: calc(100svh - var(--header-h));
     display: flex;
     flex-direction: column;
-    padding-top: clamp(24px, 5vh, 76px);
-    padding-bottom: clamp(20px, 4vh, 48px);
+    padding-top: clamp(28px, 8vh, 120px);
+    padding-bottom: clamp(24px, 6vh, 84px);
   }
+
+  /* aria tra titolo e griglia, e tra le porte: misure in vh, cosi' su uno
+     schermo basso si ricompattano e la pagina resta in una schermata */
+  .contact-hub__head { margin-bottom: clamp(26px, 5vh, 68px); }
+  .contact-signals { gap: clamp(14px, 2.4vh, 26px) clamp(14px, 1.8vw, 24px); }
 
   /* le quattro porte si prendono tutto lo spazio che resta nella schermata,
      invece dei 270px fissi che facevano scorrere la pagina */
@@ -35,9 +40,19 @@
   /* Il modulo e' un pannello sovrapposto alla griglia: se la griglia e' piu'
      bassa del form, il form resterebbe tagliato. All'apertura la griglia si
      allunga quanto serve. */
-  .contact-signals:has(#formPanel:not([hidden])) { min-height: 470px; }
-  .contact-panel { padding: clamp(20px, 2.6vh, 34px) clamp(24px, 3vw, 40px); }
-  .contact-panel__head { margin-bottom: clamp(14px, 2.2vh, 24px); }
+  /* il pannello aperto occupa ESATTAMENTE il rettangolo delle quattro
+     porte: loro restano al loro posto, sotto, a dargli la misura. */
+  /* dentro il pannello il titolo scende di un taglio: è un modulo,
+     non un manifesto */
+  .contact-panel__head strong { font-size: clamp(26px, 2.6vw, 36px); }
+  .contact-panel { padding: clamp(18px, 2.6vh, 32px) clamp(24px, 3vw, 46px); }
+  .contact-panel__head { margin-bottom: clamp(12px, 2vh, 22px); }
+  .contact-panel__head span { margin-bottom: 6px; }
+
+  .contact-panel .form__r { margin-bottom: clamp(10px, 1.5vh, 16px); }
+  .contact-panel .form__r label { margin-bottom: clamp(6px, 1vh, 9px); }
+  .contact-form__row { gap: clamp(14px, 1.6vw, 22px); }
+  .contact-panel .contact-form__send { padding-top: clamp(4px, 1vh, 10px); }
 
   /* in fondo a ogni porta una parola sola: l'argomento. Che si apra un modulo
      lo dice la freccia, e l'indirizzo sta dentro il pannello: erano le due
@@ -243,7 +258,7 @@
     panel.className = 'contact-panel contact-panel--' + (porta.dataset.tinta || 'resto');
     panel.dataset.glifo = porta.dataset.glyph || '@';
     occhiello.textContent = porta.querySelector('span').textContent;
-    titolo.innerHTML = porta.dataset.titolo || porta.querySelector('strong').innerHTML;
+    titolo.innerHTML = (porta.dataset.titolo || porta.querySelector('strong').innerHTML).replace(/<br\s*\/?>/gi, ' ');
     /* se una mail era già stata preparata il modulo era rimasto nascosto:
        riaprendo una porta si ricomincia da campi vuoti */
     modulo.hidden = false;
@@ -302,7 +317,7 @@
 
 </script>
 
-<script src="assets/nav.js?v=20260820a"></script>
+<script src="assets/nav.js?v=20260822c"></script>
 
 </body>
 </html>

@@ -39,3 +39,16 @@
     if (e.matches) set(false);
   });
 })();
+
+/* all'apertura della pagina il logo si presenta: la scritta
+   esce, resta tre secondi, rientra. Chi preferisce meno moto
+   non la vede muoversi da sola. */
+(() => {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const logo = document.querySelector('.logo');
+  if (!logo) return;
+  setTimeout(() => {
+    logo.classList.add('is-saluto');
+    setTimeout(() => logo.classList.remove('is-saluto'), 3000);
+  }, 400);
+})();

@@ -160,7 +160,8 @@
   }
 
   .logo:hover .logo__name,
-  .logo:focus-visible .logo__name {
+  .logo:focus-visible .logo__name,
+  .logo.is-saluto .logo__name {
     max-width: 150px;   /* la scritta a 25px misura 146px */
     opacity: 1;
     transform: translateX(0);
