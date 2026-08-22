@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Blog — Interest Edufin APS</title>
+<title>Articoli — Interest Edufin APS</title>
 <meta name="description" content="Appunti dalle aule, dati dalla ricerca e aggiornamenti sui progetti di Interest Edufin APS.">
-<link rel="stylesheet" href="assets/base.css">
-<link rel="stylesheet" href="assets/progetto.css?v=20260817a">
+<link rel="stylesheet" href="assets/base.css?v=20260822b">
+<link rel="stylesheet" href="assets/progetto.css?v=20260822l">
 <style>
   body { --c: var(--blue); }
 
@@ -40,10 +40,23 @@
     </a>
 
     <nav class="nav" id="site-nav" aria-label="Menu principale">
-      <a href="cosa-facciamo.html">Cosa facciamo</a>
+      <span class="nav__gruppo">
+        <a class="nav__voce">Cosa facciamo</a>
+        <span class="nav__sub nav__sub--tre">
+          <a class="nav__ffs" href="finance-for-schools.html">Seminari nelle scuole</a>
+          <a class="nav__ricerca" href="ricerca.html">Ricerca</a>
+          <a class="nav__mfm" href="micro-for-macro.html">Microcredito</a>
+        </span>
+      </span>
       <a href="chi-siamo.html">Chi siamo</a>
       <a href="governance.html">Governance</a>
-      <a href="blog.html" aria-current="page">Blog</a>
+      <span class="nav__gruppo">
+        <a class="nav__voce nav__voce--attiva">Blog</a>
+        <span class="nav__sub">
+          <a class="nav__articoli" href="blog.html" aria-current="page">Articoli</a>
+          <a class="nav__video" href="video.html">Video</a>
+        </span>
+      </span>
       <a href="contattaci.html">Contattaci</a>
     </nav>
 
@@ -59,154 +72,220 @@
 
 <main>
 
-<section class="op op--chi">
-  <div class="op__in">
-    <p class="op__k">Blog</p>
-    <h1 class="op__h">Quello che impariamo, mentre lo impariamo.</h1>
-    <p class="op__d">
-      Appunti dalle aule, numeri che ci hanno sorpreso, cose di cui vale la pena parlare.
-      Scriviamo quando abbiamo qualcosa da dire, non per riempire un calendario editoriale.
-    </p>
-  </div>
-</section>
-
 <div class="wrap">
-
-  <nav class="blog-tabs" aria-label="Contenuti del blog">
-    <a href="#articoli">Articoli</a>
-    <a class="blog-tabs__yt" href="#video"><span aria-hidden="true">▶</span> Video</a>
-  </nav>
 
   <section class="s" id="articoli">
     <div class="s__bar">
       <div>
         <p class="s__k">Articoli</p>
-        <h2 class="s__h" style="margin-bottom:0">Ultimi post.</h2>
+        <h1 class="s__h" style="margin-bottom:0">Ultimi post.</h1>
       </div>
     </div>
 
     <div class="posts">
 
-      <article class="post" data-cat="scuole">
-        <a class="post__l" href="blog-50-scuole.html">
-          <span class="post__im">
-            <img src="assets/blog/50-scuole.png" alt="" loading="lazy" width="1200" height="1200">
-          </span>
-          <span class="post__c">Dalle scuole</span>
-          <h3 class="post__t">50 scuole non sono un punto d'arrivo</h3>
-          <p class="post__d">
-            Quest'anno siamo entrati in 50 istituti e abbiamo parlato con quasi 5.000 studenti.
-            Ma i numeri che contano sono altri: quelli che smontano il cliché dei diciottenni
-            disinteressati.
-          </p>
-        </a>
-      </article>
-
-      <article class="post" data-cat="soldi">
-        <a class="post__l" href="blog-scams-truffe.html">
-          <span class="post__im">
-            <img src="assets/blog/scams-truffe.png" alt="" loading="lazy" width="1200" height="1200">
-          </span>
-          <span class="post__c">Soldi e rischi</span>
-          <h3 class="post__t">Scams e truffe: l'educazione finanziaria deve parlare anche di rischio reale</h3>
-          <p class="post__d">
-            Non basta insegnare a risparmiare e a investire. Serve saper riconoscere una
-            trappola prima che sia troppo tardi — e oggi le trappole sono digitali.
-          </p>
-        </a>
-      </article>
-
       <article class="post" data-cat="sostieni">
         <a class="post__l" href="blog-5x1000.html">
           <span class="post__im">
-            <img src="assets/blog/5x1000.png" alt="" loading="lazy" width="1200" height="1200">
+            <img src="assets/blog/card/5x1000.jpg" alt="" loading="lazy" width="760" height="760">
           </span>
           <span class="post__c">Sostienici</span>
           <h3 class="post__t">Il 5x1000, spiegato bene</h3>
-          <p class="post__d">
-            L'hai visto in TV, ma cos'è davvero quando compili la dichiarazione? Non è una
-            spesa in più: è un potere di scelta a costo zero.
-          </p>
+          <p class="post__d">L'hai visto in TV, ma cos'è davvero quando compili la dichiarazione? Non è una spesa in più: è un potere di scelta a costo zero.</p>
+          <p class="post__data">28 maggio 2026</p>
         </a>
       </article>
 
-      <!-- ANTEPRIMA — tre card vuote per vedere la pagina piena.
-           Da cancellare quando arrivano gli articoli veri. -->
-
-      <article class="post post--vuota" aria-hidden="true">
-        <span class="post__l">
+      <article class="post" data-cat="scuole">
+        <a class="post__l" href="blog-50-scuole.html">
           <span class="post__im">
+            <img src="assets/blog/card/50-scuole.jpg" alt="" loading="lazy" width="760" height="760">
           </span>
-          <span class="post__c">Categoria</span>
-          <h3 class="post__t">Titolo del prossimo articolo, su due righe</h3>
-          <p class="post__d">
-            Due righe di sommario che dicono di cosa parla il pezzo, senza fare mistero
-            e senza promettere più di quello che c'è dentro.
-          </p>
-        </span>
+          <span class="post__c">Dalle scuole</span>
+          <h3 class="post__t">50 scuole non sono un punto d'arrivo</h3>
+          <p class="post__d">Quest'anno siamo entrati in 50 istituti superiori, l'anno scorso erano 16. Ma i numeri che contano sono le risposte dei ragazzi.</p>
+          <p class="post__data">22 maggio 2026</p>
+        </a>
       </article>
 
-      <article class="post post--vuota" aria-hidden="true">
-        <span class="post__l">
+      <article class="post" data-cat="lavoro">
+        <a class="post__l" href="blog-paradosso-risparmio.html">
           <span class="post__im">
+            <img src="assets/blog/card/paradosso-risparmio.jpg" alt="" loading="lazy" width="760" height="760">
           </span>
-          <span class="post__c">Categoria</span>
-          <h3 class="post__t">Un titolo più corto</h3>
-          <p class="post__d">
-            Il sommario può essere anche più breve: le card si allineano lo stesso.
-          </p>
-        </span>
+          <span class="post__c">Lavoro e stipendi</span>
+          <h3 class="post__t">Il paradosso del risparmio per la Gen Z</h3>
+          <p class="post__d">Insegnare a un ventenne a risparmiare serve a poco, se prima non si parla di potere d'acquisto.</p>
+          <p class="post__data">27 aprile 2026</p>
+        </a>
       </article>
 
-      <article class="post post--vuota" aria-hidden="true">
-        <span class="post__l">
+      <article class="post" data-cat="comportamenti">
+        <a class="post__l" href="blog-pagamenti-invisibili.html">
           <span class="post__im">
+            <img src="assets/blog/card/pagamenti-invisibili.jpg" alt="" loading="lazy" width="760" height="760">
           </span>
-          <span class="post__c">Categoria</span>
-          <h3 class="post__t">Titolo del terzo articolo di prova</h3>
-          <p class="post__d">
-            Con sei card la griglia riempie due righe intere: è così che si vedrà la
-            pagina quando il blog sarà a regime.
-          </p>
-        </span>
+          <span class="post__c">Soldi e comportamenti</span>
+          <h3 class="post__t">Il denaro sta diventando invisibile</h3>
+          <p class="post__d">I pagamenti digitali hanno superato il contante. Non è un problema tecnologico: è cognitivo.</p>
+          <p class="post__data">22 aprile 2026</p>
+        </a>
+      </article>
+
+      <article class="post" data-cat="comportamenti">
+        <a class="post__l" href="blog-ai-decisioni.html">
+          <span class="post__im">
+            <img src="assets/blog/card/ai-decisioni.jpg" alt="" loading="lazy" width="760" height="760">
+          </span>
+          <span class="post__c">Soldi e comportamenti</span>
+          <h3 class="post__t">«ChatGPT, dove dovrei investire?»</h3>
+          <p class="post__d">Per molti ragazzi l'intelligenza artificiale è la prima porta d'ingresso alla finanza. Il rischio non è usarla.</p>
+          <p class="post__data">13 aprile 2026</p>
+        </a>
+      </article>
+
+      <article class="post" data-cat="comportamenti">
+        <a class="post__l" href="blog-pasqua-scelta-economica.html">
+          <span class="post__im">
+            <img src="assets/blog/card/pasqua-scelta-economica.jpg" alt="" loading="lazy" width="760" height="760">
+          </span>
+          <span class="post__c">Soldi e comportamenti</span>
+          <h3 class="post__t">Pasqua è anche una scelta economica</h3>
+          <p class="post__d">Uova, pranzi, viaggi, regali: tre decisioni economiche prese in un contesto emotivo.</p>
+          <p class="post__data">6 aprile 2026</p>
+        </a>
+      </article>
+
+      <article class="post" hidden data-cat="lavoro">
+        <a class="post__l" href="blog-busta-paga.html">
+          <span class="post__im">
+            <img src="assets/blog/card/busta-paga.jpg" alt="" loading="lazy" width="760" height="760">
+          </span>
+          <span class="post__c">Lavoro e stipendi</span>
+          <h3 class="post__t">Firmiamo contratti che non sappiamo leggere</h3>
+          <p class="post__d">Lordo, netto, contributi, TFR: la distanza fra la RAL del colloquio e il netto sul conto.</p>
+          <p class="post__data">1 aprile 2026</p>
+        </a>
+      </article>
+
+      <article class="post" hidden data-cat="comportamenti">
+        <a class="post__l" href="blog-spesa-stress.html">
+          <span class="post__im">
+            <img src="assets/blog/card/spesa-stress.jpg" alt="" loading="lazy" width="760" height="760">
+          </span>
+          <span class="post__c">Soldi e comportamenti</span>
+          <h3 class="post__t">Perché spendiamo quando siamo stressati</h3>
+          <p class="post__d">Non tutte le spese nascono da un bisogno: molte nascono da uno stato d'animo.</p>
+          <p class="post__data">25 marzo 2026</p>
+        </a>
+      </article>
+
+      <article class="post" hidden data-cat="rischi">
+        <a class="post__l" href="blog-paga-in-tre-rate.html">
+          <span class="post__im">
+            <img src="assets/blog/card/paga-in-tre-rate.jpg" alt="" loading="lazy" width="760" height="760">
+          </span>
+          <span class="post__c">Soldi e rischi</span>
+          <h3 class="post__t">«Paga in 3 comode rate» è il nuovo «costa poco»</h3>
+          <p class="post__d">Klarna, Scalapay e il Buy Now Pay Later: tre rischi che non si vedono al primo sguardo.</p>
+          <p class="post__data">17 marzo 2026</p>
+        </a>
+      </article>
+
+      <article class="post" hidden data-cat="comportamenti">
+        <a class="post__l" href="blog-costo-opportunita.html">
+          <span class="post__im">
+            <img src="assets/blog/card/costo-opportunita.jpg" alt="" loading="lazy" width="760" height="760">
+          </span>
+          <span class="post__c">Soldi e comportamenti</span>
+          <h3 class="post__t">Il problema non è spendere: è a cosa rinunci</h3>
+          <p class="post__d">Il costo opportunità spiegato con trecento euro. Il vero costo non è quello sullo scontrino.</p>
+          <p class="post__data">9 marzo 2026</p>
+        </a>
+      </article>
+
+      <article class="post" hidden data-cat="scuole">
+        <a class="post__l" href="blog-ffs-riparte.html">
+          <span class="post__im">
+            <img src="assets/blog/card/ffs-riparte.jpg" alt="" loading="lazy" width="760" height="760">
+          </span>
+          <span class="post__c">Dalle scuole</span>
+          <h3 class="post__t">Finance for Schools riparte: cinque tappe, mille ragazzi</h3>
+          <p class="post__d">Seregno, Monza, Rimini, Macerata e Novara: più di mille studenti nelle assemblee d'istituto.</p>
+          <p class="post__data">2 febbraio 2026</p>
+        </a>
+      </article>
+
+      <article class="post" hidden data-cat="comportamenti">
+        <a class="post__l" href="blog-anno-2026.html">
+          <span class="post__im">
+            <img src="assets/blog/card/anno-2026.jpg" alt="" loading="lazy" width="760" height="760">
+          </span>
+          <span class="post__c">Soldi e comportamenti</span>
+          <h3 class="post__t">Benvenuto 2026: un anno da pianificare</h3>
+          <p class="post__d">Quattro leve concrete per impostare l'anno, al posto dei buoni propositi generici.</p>
+          <p class="post__data">5 gennaio 2026</p>
+        </a>
+      </article>
+
+      <article class="post" hidden data-cat="notizie">
+        <a class="post__l" href="blog-salone-csr.html">
+          <span class="post__im">
+            <img src="assets/blog/card/salone-csr.jpg" alt="" loading="lazy" width="760" height="760">
+          </span>
+          <span class="post__c">Notizie</span>
+          <h3 class="post__t">Interest al Salone della CSR di Milano</h3>
+          <p class="post__d">Tre giorni e oltre cento appuntamenti fra imprese, istituzioni, università e terzo settore.</p>
+          <p class="post__data">20 ottobre 2025</p>
+        </a>
+      </article>
+
+      <article class="post" hidden data-cat="terzosettore">
+        <a class="post__l" href="blog-aprire-no-profit.html">
+          <span class="post__im">
+            <img src="assets/blog/card/aprire-no-profit.jpg" alt="" loading="lazy" width="760" height="760">
+          </span>
+          <span class="post__c">Terzo settore</span>
+          <h3 class="post__t">Aprire una no profit non è gratis</h3>
+          <p class="post__d">Costi iniziali, patrimonio minimo e pianificazione in un settore che vale il 4,4% del PIL.</p>
+          <p class="post__data">7 ottobre 2025</p>
+        </a>
+      </article>
+
+      <article class="post" hidden data-cat="notizie">
+        <a class="post__l" href="blog-parlano-di-noi.html">
+          <span class="post__im">
+            <img src="assets/blog/card/parlano-di-noi.jpg" alt="" loading="lazy" width="760" height="760">
+          </span>
+          <span class="post__c">Notizie</span>
+          <h3 class="post__t">Parlano di noi</h3>
+          <p class="post__d">Finance for Schools sui giornali: strumenti pratici e un modello peer to peer.</p>
+          <p class="post__data">29 settembre 2025</p>
+        </a>
+      </article>
+
+      <article class="post" hidden data-cat="famiglia">
+        <a class="post__l" href="blog-back-to-school.html">
+          <span class="post__im">
+            <img src="assets/blog/card/back-to-school.jpg" alt="" loading="lazy" width="760" height="760">
+          </span>
+          <span class="post__c">Soldi e famiglia</span>
+          <h3 class="post__t">Quanto costa settembre</h3>
+          <p class="post__d">Libri, corredo, dispositivi: il conto del rientro a scuola, e un mercato che cresce mentre gli studenti calano.</p>
+          <p class="post__data">15 settembre 2025</p>
+        </a>
       </article>
 
     </div>
-  </section>
 
-  <section class="s video-section" id="video">
-    <div class="s__bar">
-      <div>
-        <p class="video-section__k">YouTube</p>
-        <h2 class="s__h" style="margin-bottom:0">Guardaci, non solo leggerci.</h2>
-      </div>
-      <p class="video-section__note">Qui entreranno interviste, spiegazioni e storie dalle scuole.</p>
+    <div class="posts__altro">
+      <button type="button" class="piu" id="piu" aria-label="Mostra altri articoli" title="Mostra altri articoli">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+      </button>
     </div>
 
-    <div class="video-grid">
-      <!-- Quando arriva un video: sostituire il contenuto di .yt-slot con l'iframe YouTube. -->
-      <article class="yt-card">
-        <div class="yt-slot" data-youtube-id="">
-          <span class="yt-slot__play">▶</span>
-          <span class="yt-slot__n">01</span>
-        </div>
-        <p>Il prossimo video comincia qui.</p>
-      </article>
-      <article class="yt-card">
-        <div class="yt-slot" data-youtube-id="">
-          <span class="yt-slot__play">▶</span>
-          <span class="yt-slot__n">02</span>
-        </div>
-        <p>Uno spazio per spiegare bene.</p>
-      </article>
-      <article class="yt-card">
-        <div class="yt-slot" data-youtube-id="">
-          <span class="yt-slot__play">▶</span>
-          <span class="yt-slot__n">03</span>
-        </div>
-        <p>Una storia direttamente dalle scuole.</p>
-      </article>
-    </div>
   </section>
 
 </div>
@@ -217,7 +296,7 @@
 <footer class="foot">
   <div class="foot__inner">
 
-    <div class="foot__bottom">
+    <div class="foot__top">
 
       <a class="foot__brand" href="index.html" aria-label="Interest — vai alla home">
         <svg class="foot__mark" viewBox="0 0 271.6 182.06" aria-hidden="true">
@@ -228,17 +307,15 @@
       </a>
 
       <div class="foot__legal">
-        <p class="foot__org">Interest Edufin APS</p>
-        <p>Associazione di Promozione Sociale iscritta al RUNTS, sezione B · C.F. 18028181008</p>
-        <p>Via Francesco Patrizio da Cherso 30, 00143 Roma · <a href="mailto:scuole@buildinterest.it">scuole@buildinterest.it</a></p>
-        <p class="foot__copy">© 2026 Interest Edufin APS</p>
+        <p><b class="foot__org">Interest Edufin APS</b> · Associazione di Promozione Sociale iscritta al RUNTS, sezione B · C.F. 18028181008</p>
+        <p>Via Francesco Patrizio da Cherso 30, 00143 Roma · <a href="mailto:scuole@buildinterest.it">scuole@buildinterest.it</a> · <a href="privacy.html">Privacy</a> · <a href="privacy.html#cookie">Cookie</a></p>
       </div>
 
       <div class="fsoc">
         <a href="https://www.linkedin.com/company/interest-edufin/" aria-label="LinkedIn">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95 4.02 0 4.76 2.5 4.76 5.75V21h-4v-5.6c0-1.34-.03-3.06-1.9-3.06-1.9 0-2.19 1.45-2.19 2.96V21h-4V9Z"/></svg>
         </a>
-        <a href="https://www.instagram.com/" aria-label="Instagram">
+        <a href="https://www.instagram.com/buildinterest/" aria-label="Instagram">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.4 2.21 8.8 2.2 12 2.2Zm0 3.05a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5Zm0 11.13a4.38 4.38 0 1 1 0-8.76 4.38 4.38 0 0 1 0 8.76Zm8.6-11.4a1.58 1.58 0 1 1-3.15 0 1.58 1.58 0 0 1 3.15 0Z"/></svg>
         </a>
       </div>
@@ -253,9 +330,22 @@
   const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 12);
   onScroll();
   addEventListener('scroll', onScroll, { passive: true });
+
+  /* Gli articoli si aprono sei per volta. Il tasto sparisce quando finiscono. */
+  const piu = document.getElementById('piu');
+  const PASSO = 6;
+  piu.addEventListener('click', () => {
+    const restano = [...document.querySelectorAll('.post[hidden]')];
+    restano.slice(0, PASSO).forEach((card, i) => {
+      card.hidden = false;
+      card.style.animationDelay = i * 45 + 'ms';
+      card.classList.add('post--entra');
+    });
+    if (restano.length <= PASSO) piu.parentElement.remove();
+  });
 </script>
 
-<script src="assets/nav.js"></script>
+<script src="assets/nav.js?v=20260822c"></script>
 
 </body>
 </html>

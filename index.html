@@ -21,6 +21,18 @@
     --paper:  #f7f8fa;
 
     --header-h: 76px;
+    /* il lockup non pareggia le altezze ma gli spessori: il simbolo ha il
+       tratto costante di 28,31 unita' su 182,06 di viewBox, la scritta l'asta
+       di 31,31 su 137,98. A queste due misure il tratto vale 5,29px e l'asta
+       5,67px: 7% di scarto, che a occhio non si vede. Alti uguali erano 4,35
+       contro 6,35, cioe' lettere piu' grasse del 46% del simbolo. */
+    --logo-simbolo: 34px;
+    --logo-nome:    25px;
+
+    /* misure della secchiata, in vmax. Le legge anche il JS per calcolare
+       quanto deve crescere: vanno cambiate solo qui */
+    --blob-w: 210;
+    --blob-h: 190;
     --wrap: 1180px;
 
     /* Una secchiata vera: corpo irregolare, punte, schizzi e gocce. */
@@ -112,7 +124,7 @@
   }
 
   .logo__mark {
-    height: 30px;
+    height: var(--logo-simbolo);
     width: auto;
     display: block;
     fill: var(--ink);
@@ -134,15 +146,16 @@
   }
 
   .logo__name svg {
-    height: 19px;
+    height: var(--logo-nome);
     width: auto;
     display: block;
     fill: var(--ink);
   }
 
   .logo:hover .logo__name,
-  .logo:focus-visible .logo__name {
-    max-width: 160px;
+  .logo:focus-visible .logo__name,
+  .logo.is-saluto .logo__name {
+    max-width: 150px;   /* la scritta a 25px misura 146px */
     opacity: 1;
     transform: translateX(0);
   }
@@ -202,9 +215,107 @@
     border-radius: 3px;
   }
 
-  /* pagina corrente: sottolineatura fissa, testo pieno */
-  .nav a[aria-current="page"] { color: var(--ink); font-weight: 600; }
-  .nav a[aria-current="page"]::after { transform: scaleX(1); background: var(--ink); }
+
+  /* Due voci del menu non sono pagine ma porte: Cosa facciamo apre i tre
+     progetti, Blog apre articoli e video. Il menu si apre passando il cursore
+     sulla voce e resta aperto anche col fuoco da tastiera. */
+  .nav__gruppo { position: relative; display: inline-flex; }
+
+  /* la voce e' la maniglia del menu, non una pagina: senza href non e' un
+     link, non porta da nessuna parte e non prende il fuoco. Chi va di tastiera
+     tabula direttamente sulla prima voce dentro, e il focus-within apre. */
+  .nav__voce { cursor: default; }
+
+  /* la cassa e' larga quanto la voce piu' lunga: un menu di due o tre voci
+     non ha bisogno di 150px di vuoto attorno. La punta la aggancia alla voce
+     che l'ha aperta, cosi' si capisce da dove esce. */
+  .nav__sub {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    z-index: 20;
+    display: grid;
+    margin-top: 9px;
+    padding: 5px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(14, 27, 44, .05), 0 10px 24px rgba(14, 27, 44, .10);
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -6px);
+    transition: opacity .16s ease, transform .2s cubic-bezier(.4, 0, .2, 1), visibility 0s linear .2s;
+  }
+
+  /* il ponte invisibile sopra il menu: senza questo, scendendo col cursore
+     dalla voce al menu si attraversano i 9px di stacco e il menu si chiude */
+  .nav__sub::before { content: ""; position: absolute; inset: -13px 0 auto; height: 13px; }
+
+  /* la punta: un quadratino ruotato che copre col suo bianco il bordo della
+     cassa, di cui restano visibili solo i due lati esterni */
+  .nav__sub::after {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    width: 9px;
+    height: 9px;
+    margin-left: -4.5px;
+    background: #fff;
+    border-top: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+    border-radius: 2px 0 0 0;
+    transform: rotate(45deg);
+  }
+
+  .nav__gruppo:hover .nav__sub,
+  .nav__gruppo:focus-within .nav__sub {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+    transition: opacity .16s ease, transform .2s cubic-bezier(.4, 0, .2, 1), visibility 0s;
+  }
+
+  .nav__sub a { padding: 6px 18px; border-radius: 8px; font-size: 14.5px; font-weight: 600; line-height: 1.2; text-align: center; transition: background .16s ease; }
+  .nav__sub a::after { display: none; }
+
+  /* le due voci hanno il colore di quello che aprono: gli articoli il blu del
+     sito, i video il rosso di YouTube. Lo sfondo dell'hover e' lo stesso
+     colore all'8%, cosi' resta leggibile invece di virare al grigio. */
+  .nav__sub .nav__articoli { color: var(--blue); }
+  .nav__sub .nav__articoli:hover { background: color-mix(in srgb, var(--blue) 8%, #fff); }
+  .nav__sub .nav__video { color: #ff0033; }
+  .nav__sub .nav__video:hover { background: color-mix(in srgb, #ff0033 8%, #fff); }
+
+  /* i tre progetti portano nel menu il colore che usano nella loro pagina:
+     il verde dei seminari, il blu della ricerca, il rosso del microcredito.
+     Sono i tre del filo tricolore in fondo, nello stesso ordine. Verde e
+     rosso sono piu' chiari del blu: il loro sfondo va al 10%, non all'8%,
+     altrimenti sotto il testo non si vede. */
+  .nav__sub--tre a { white-space: nowrap; }
+  .nav__sub .nav__ffs { color: var(--green); }
+  .nav__sub .nav__ffs:hover { background: color-mix(in srgb, var(--green) 10%, #fff); }
+  .nav__sub .nav__ricerca { color: var(--blue); }
+  .nav__sub .nav__ricerca:hover { background: color-mix(in srgb, var(--blue) 8%, #fff); }
+  .nav__sub .nav__mfm { color: var(--red); }
+  .nav__sub .nav__mfm:hover { background: color-mix(in srgb, var(--red) 10%, #fff); }
+
+  /* pagina corrente: sottolineatura fissa, testo pieno. Blog si accende con
+     la classe invece che con aria-current: non essendo un link, "pagina
+     corrente" su di lui non vorrebbe dire niente. */
+  .nav a[aria-current="page"],
+  .nav a.nav__voce--attiva { color: var(--ink); font-weight: 600; }
+  .nav a[aria-current="page"]::after,
+  .nav a.nav__voce--attiva::after { transform: scaleX(1); background: var(--ink); }
+
+  /* nel sottomenu la pagina aperta non prende ne' inchiostro ne' riga: tiene
+     il suo colore e si accende lo sfondo, come un hover che resta */
+  .nav__sub a[aria-current] { font-weight: 700; }
+  .nav__sub .nav__articoli[aria-current] { color: var(--blue); background: color-mix(in srgb, var(--blue) 8%, #fff); }
+  .nav__sub .nav__video[aria-current] { color: #ff0033; background: color-mix(in srgb, #ff0033 8%, #fff); }
+  .nav__sub .nav__ffs[aria-current] { color: var(--green); background: color-mix(in srgb, var(--green) 10%, #fff); }
+  .nav__sub .nav__ricerca[aria-current] { color: var(--blue); background: color-mix(in srgb, var(--blue) 8%, #fff); }
+  .nav__sub .nav__mfm[aria-current] { color: var(--red); background: color-mix(in srgb, var(--red) 10%, #fff); }
 
   @media (prefers-reduced-motion: reduce) {
     .nav a::after, .logo svg, .site-header { transition: none; }
@@ -218,20 +329,13 @@
   .hero {
     position: relative;
     background: var(--paper);
-    min-height: 100svh;
+    /* l'header e sticky: occupa gia il suo spazio nel flusso, quindi qui va
+       sottratto e non sommato, altrimenti le parole cadono sotto il centro
+       e la hero sporge oltre la prima schermata */
+    min-height: calc(100svh - var(--header-h));
     display: flex;
     align-items: center;
-    padding: calc(var(--header-h) + 4vh) 32px 8vh;
-  }
-
-  /* la grana di fondo dell'immagine, generata senza file esterni */
-  .hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
-    opacity: .38;
-    pointer-events: none;
+    padding: 4vh 32px 8vh;
   }
 
   .hero__inner {
@@ -251,7 +355,7 @@
     flex-direction: column;
     align-items: center;
     width: fit-content;
-    gap: clamp(4px, 1.1vh, 16px);
+    gap: clamp(10px, 2vh, 22px);
   }
 
   .claim__item {
@@ -259,12 +363,24 @@
   }
 
   /* l'entrata è sulla parola, non sull'elemento: così il pannello a schermo
-     pieno non resta prigioniero della trasformazione del genitore */
+     pieno non resta prigioniero della trasformazione del genitore.
+     Il riempimento è "backwards", non "forwards": copre solo l'attesa dello
+     scaglionamento. Con "forwards" l'ultimo fotogramma restava padrone di
+     transform e opacity per sempre - le animazioni vincono sui fogli di
+     stile - e sollevamento all'hover e dissolvenza delle altre due parole
+     non arrivavano mai allo schermo. */
   .claim__word {
-    opacity: 0;
-    transform: translateY(16px);
-    animation: pop .62s cubic-bezier(.22, 1, .36, 1) forwards;
+    transform: rotate(var(--storto, 0deg));
+    will-change: transform;
+    animation: pop .62s cubic-bezier(.22, 1, .36, 1) backwards;
   }
+
+  /* Adesivi attaccati a mano: ognuna riposa con la sua piccola rotazione.
+     Gli stessi gradi stanno nello script del cursore in fondo alla pagina:
+     se si cambiano qui vanno cambiati anche lì. */
+  .claim__item:nth-child(1) { --storto: -1.6deg; }
+  .claim__item:nth-child(2) { --storto: 1.1deg; }
+  .claim__item:nth-child(3) { --storto: -.7deg; }
 
   /* la parola: è un pulsante, ma non lo sembra.
      L'area sensibile è tutto il rettangolo, spazi tra le lettere compresi:
@@ -287,16 +403,18 @@
     line-height: 1.06;
     text-transform: uppercase;
 
-    /* il contorno bianco spesso + l'ombra morbida dell'adesivo.
-       L'ombra è fissa: transizionare un drop-shadow sfocato su testo
-       così grande costringe a ridisegnare tutto a ogni frame */
+    /* il contorno bianco spesso + l'ombra morbida dell'adesivo */
     -webkit-text-stroke: .13em #fff;
     paint-order: stroke fill;
     filter:
       drop-shadow(0 3px 0 #fff)
       drop-shadow(0 10px 14px rgba(14, 27, 44, .20));
 
-    transition: transform .28s cubic-bezier(.22, 1, .36, 1);
+    /* si anima solo il transform. Interpolare "filter" obbligava il browser a
+       ridisegnare la parola a ogni fotogramma - contorno bianco e ombra
+       sfocata compresi - e succedeva sulle tre parole insieme, proprio
+       mentre la bolla si stava aprendo. */
+    transition: transform .28s cubic-bezier(.22, 1, .36, 1), opacity .28s ease;
   }
 
   /* lastra invisibile davanti alla parola: intercetta il cursore anche
@@ -308,8 +426,11 @@
     z-index: 1;
   }
 
-  /* la parola attiva si solleva: solo transform, che il compositore
-     anima senza ridisegnare nulla */
+  /* la parola attiva si solleva e si raddrizza. Quando lo script del
+     cursore e' in moto questa regola e' coperta dal suo stile inline, che
+     produce lo stesso gesto piu' l'inclinazione: qui resta la versione per
+     chi va senza JS o con le animazioni ridotte. L'ombra non si tocca:
+     cambiarla voleva dire ridisegnarla sfocata a ogni fotogramma. */
   .claim__item.is-open .claim__word,
   .claim__word:hover {
     transform: translateY(-4px) scale(1.02);
@@ -328,7 +449,6 @@
   /* le altre due sbiadiscono quando una è aperta */
   .claim.has-open .claim__item:not(.is-open) .claim__word {
     opacity: .34;
-    filter: drop-shadow(0 3px 0 #fff);
   }
 
   /* Le tre parole impilate sullo stesso asse, centrate. */
@@ -407,14 +527,22 @@
     z-index: 2;
     opacity: 0;
     transform: translateY(18px);
-    transition: opacity .3s ease, transform .45s cubic-bezier(.22, 1, .36, 1);
+    /* uscita: il testo se ne va prima che il colore si ritiri */
+    transition: opacity .146s ease, transform .223s cubic-bezier(.4, .1, .7, .5);
   }
-  .claim__item.is-open .pop > :not(.pop__photo) { opacity: 1; transform: none; }
-  .claim__item.is-open .pop > :nth-child(1) { transition-delay: .10s; }
-  .claim__item.is-open .pop > :nth-child(2) { transition-delay: .15s; }
-  .claim__item.is-open .pop > :nth-child(3) { transition-delay: .20s; }
-  .claim__item.is-open .pop > :nth-child(4) { transition-delay: .25s; }
-  .claim__item.is-open .pop > :nth-child(5) { transition-delay: .30s; }
+  .claim__item.is-open .pop > :not(.pop__photo) {
+    opacity: 1;
+    transform: none;
+    transition: opacity .216s ease, transform .319s cubic-bezier(.33, .85, .3, 1);
+  }
+  /* La scala parte a 127ms perche' a quel punto la vernice ha coperto il 90%
+     della fascia dove sta il testo: prima le righe entravano su carta bianca,
+     e le bianche su bianco semplicemente non si vedevano. */
+  .claim__item.is-open .pop > :nth-child(1) { transition-delay: .127s; }
+  .claim__item.is-open .pop > :nth-child(2) { transition-delay: .162s; }
+  .claim__item.is-open .pop > :nth-child(3) { transition-delay: .189s; }
+  .claim__item.is-open .pop > :nth-child(4) { transition-delay: .224s; }
+  .claim__item.is-open .pop > :nth-child(5) { transition-delay: .266s; }
 
   .pop__k {
     margin: 0;
@@ -428,16 +556,20 @@
 
   .pop__t {
     margin: 0;
-    max-width: 20ch;
+    max-width: 22ch;
+    text-wrap: balance;
     font-size: clamp(24px, 3.6vw, 46px);
     font-weight: 800;
     line-height: 1.18;
     color: #fff;
   }
 
+  .pop__d b { color: #fff; font-weight: 700; }
+
   .pop__d {
     margin: 0;
     max-width: 46ch;
+    text-wrap: pretty;
     font-size: clamp(15px, 1.5vw, 19px);
     line-height: 1.6;
     color: rgba(255, 255, 255, .88);
@@ -448,24 +580,26 @@
     align-items: center;
     gap: 10px;
     margin-top: 6px;
-    padding: 16px 30px;
+    /* padding e freccia in em: la pillola resta in proporzione al testo,
+       quindi per ingrandirla si tocca solo il font-size */
+    padding: 1.06em 2.11em;
     border-radius: 999px;
     background: #fff;
     color: currentColor;
-    font-size: 16px;
+    font-size: 21px;
     font-weight: 700;
     text-decoration: none;
     transition: gap .18s ease, transform .18s ease;
   }
 
-  .pop__cta > svg { width: 17px; height: 17px; flex: none; }
+  .pop__cta > svg { width: 1.06em; height: 1.06em; flex: none; }
   .pop__cta:hover { gap: 16px; transform: translateY(-2px); }
   .pop__cta:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
 
   /* dice come si esce, senza rubare la scena */
   .pop__hint {
     margin: 0;
-    font-size: 13px;
+    font-size: 17px;
     letter-spacing: .04em;
     color: rgba(255, 255, 255, .62);
   }
@@ -476,33 +610,57 @@
     right: clamp(-90px, -4vw, -42px);
     bottom: -5vh;
     z-index: 0;
-    height: min(92vh, 900px);
+    /* 92vh e il massimo, ma sui monitor stretti la foto si restringe quanto
+       serve per restare a fianco del testo e non sopra: a 1280px e oltre
+       vince 92vh, sotto vince la larghezza che avanza accanto alla colonna */
+    height: min(92vh, 900px, calc(75vw - 312px));
     width: auto;
     max-width: 64vw;
     object-fit: contain;
     object-position: right bottom;
     pointer-events: none;
     opacity: 0;
-    /* la desaturazione è cotta dentro il file: un filter qui costerebbe
-       un passaggio di resa in più su un'immagine grande */
-    transform: translate3d(5%, 28px, 0) scale(.97);
-    transition: opacity .42s ease .18s, transform .72s cubic-bezier(.22, 1, .36, 1) .12s;
+    /* Il bordo bianco intorno alla figura ora e' dentro il PNG. Prima erano
+       quattro drop-shadow annidate: quattro passaggi di filtro su un'immagine
+       da 1024x1536, da rifare ogni volta che il livello veniva rasterizzato,
+       ed era l'ultimo scatto che restava nell'apertura della bolla. Il PNG
+       porta lo stesso profilo (unione delle nove copie a +/-9px sorgente,
+       che a schermo valgono i 5px di prima), disegnato una volta per sempre.
+       Se le foto vengono rifatte, il bordo va ricotto: senza, restano nude. */
+    /* solo traslazione: la scala cambiava la dimensione da rasterizzare e
+       il bordo bianco (quattro ombre) andava ricalcolato a ogni passaggio */
+    transform: translate3d(5%, 28px, 0);
+    will-change: transform, opacity;
+    transition: opacity .167s ease, transform .25s cubic-bezier(.4, .1, .7, .5);
   }
 
   .claim__item.is-open .pop__photo {
-    opacity: .38;
-    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    /* La foto sta sul bordo destro, che e' l'ultimo pezzo di schermo che la
+       vernice raggiunge: coperto al 30% a 254ms, al 97% a 454ms.
+       Se compare prima, la figura scontornata galleggia sulla carta bianca e
+       il suo bordo bianco sparisce - si vedeva, ed era sbagliato. Quindi
+       entra negli ultimi 212ms, quando sotto c'e' colore.
+       ,393s + ,212s = ,605s: e' questa somma, insieme alla crescita della
+       macchia, a dare la durata dell'apertura. */
+    transition: opacity .151s ease .428s,
+                transform .212s cubic-bezier(.4, .75, .3, 1) .393s;
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 1000px) {
+    /* a colori pieni la foto non puo passare sotto al testo: le si riserva
+       la fascia bassa e il testo si centra nello spazio che resta sopra */
+    .pop { padding-bottom: 48vh; }
+
     .pop__photo {
-      right: -34vw;
-      bottom: -2vh;
-      height: 68vh;
+      right: -18vw;
+      bottom: 0;
+      height: 46vh;
       max-width: none;
     }
 
-    .claim__item.is-open .pop__photo { opacity: .24; }
+    .claim__item.is-open .pop__photo { opacity: 1; }
   }
 
   /* browser senza maschere CSS: si apre a cerchio, senza bordi colati */
@@ -531,8 +689,8 @@
     .pop__photo { transition: none; transform: none; }
   }
 
-  /* Secchiata di vernice: una massa irregolare e un fronte di schizzi.
-     Il pannello resta stabile finché non viene chiuso esplicitamente. */
+  /* Secchiata di vernice: una massa irregolare che si versa dal punto del
+     cursore. Il pannello resta stabile finché non viene chiuso esplicitamente. */
   .pop {
     isolation: isolate;
     overflow: hidden;
@@ -542,7 +700,9 @@
     clip-path: none;
     visibility: hidden;
     pointer-events: none;
-    transition: visibility 0s linear .62s;
+    /* .338s = esattamente la durata del ritiro della macchia. Va tenuta
+       allineata: se resta piu corta, la fine del ritiro viene tagliata */
+    transition: visibility 0s linear .338s;
   }
 
   .pop::before,
@@ -551,44 +711,48 @@
     position: fixed;
     left: var(--px, 50vw);
     top: var(--py, 50vh);
+    background: currentColor;
     pointer-events: none;
-    /* i layer nascono già al caricamento: senza, il primo hover paga
-       la rasterizzazione delle macchie e perde qualche frame */
+    /* la sagoma non cambia mai: e' fissa e viene disegnata una volta sola.
+       Prima il border-radius era dentro la transizione, e animarlo vuol dire
+       ridisegnare la lastra a ogni fotogramma: 210x190vmax sono 4000x3600px
+       su uno schermo da 1920, ridipinti sessanta volte al secondo. Da li'
+       veniva lo scatto. Ora l'unica cosa che si muove e' il transform, che
+       la GPU applica a un disegno gia' pronto. */
     will-change: transform;
   }
 
-  /* Le due macchie hanno misure dimezzate e raddoppiano in scala:
-     la texture da rasterizzare è 4 volte più piccola (era ~3000px di
-     lato) e i bordi ingranditi finiscono comunque fuori dallo schermo. */
+  /* La deformazione ora viene dalla forma: la secchiata e' fatta di due lobi
+     con proporzioni, rotazione e tempi diversi. Crescendo, il loro contorno
+     comune cambia sagoma - senza che nessuno dei due venga ridisegnato. */
+  /* La curva e' la stessa per crescita e ritiro, ed e' scelta misurando quanta
+     parte di schermo e' coperta istante per istante: parte svelta, tiene il
+     passo in mezzo, chiude piano. Sembra strana scritta - veloce, lenta,
+     veloce - ma e' quella che fa avanzare il COLORE a passo costante: l'area
+     cresce col quadrato della scala, quindi per coprire di area sempre uguale
+     la scala deve correre all'inizio, rallentare quando il fronte attraversa
+     la parte larga dello schermo e riprendere per gli ultimi angoli.
+     Con la curva di prima si andava da +2 a +26 punti di copertura per decimo
+     di secondo; ora si sta fra +2 e +11. */
   .pop::before {
     z-index: -2;
-    width: 105vmax;
-    height: 95vmax;
-    background: currentColor;
-    border-radius: 43% 57% 48% 52% / 55% 42% 58% 45%;
-    transform: translate(-50%, -50%) rotate(-7deg) scale(0);
-    transition: transform .72s cubic-bezier(.2, .9, .24, 1);
+    width: calc(var(--blob-w) * 1vmax);
+    height: calc(var(--blob-h) * 1vmax);
+    border-radius: 44% 56% 47% 53% / 54% 43% 57% 46%;
+    transform: translate(-50%, -50%) rotate(-22deg) scale(0) translate(0, 0);
+    transition: transform .338s cubic-bezier(.08, .5, .92, .5);
   }
 
+  /* il secondo lobo: piu' stretto e piu' alto, ruotato dall'altra parte.
+     La traslazione finale sta DOPO la scala, cosi' a bolla chiusa vale zero
+     e i due lobi partono dallo stesso punto, sotto il cursore. */
   .pop::after {
     z-index: -1;
-    width: 52.5vmax;
-    height: 52.5vmax;
-    background:
-      radial-gradient(circle at 4% 42%, currentColor 0 2.2%, transparent 2.4%),
-      radial-gradient(circle at 14% 10%, currentColor 0 3.1%, transparent 3.35%),
-      radial-gradient(circle at 31% 3%, currentColor 0 1.8%, transparent 2%),
-      radial-gradient(circle at 62% 6%, currentColor 0 2.5%, transparent 2.75%),
-      radial-gradient(circle at 88% 17%, currentColor 0 3.2%, transparent 3.45%),
-      radial-gradient(circle at 97% 48%, currentColor 0 1.9%, transparent 2.1%),
-      radial-gradient(circle at 87% 85%, currentColor 0 2.6%, transparent 2.85%),
-      radial-gradient(circle at 56% 97%, currentColor 0 3.1%, transparent 3.35%),
-      radial-gradient(circle at 23% 92%, currentColor 0 2.1%, transparent 2.35%),
-      radial-gradient(circle at 5% 73%, currentColor 0 3.4%, transparent 3.65%),
-      radial-gradient(ellipse at 50% 50%, currentColor 0 30%, transparent 30.3%);
-    transform: translate(-50%, -50%) rotate(9deg) scale(0);
-    opacity: 0;
-    transition: transform .58s cubic-bezier(.1, .85, .2, 1) .06s, opacity .12s ease .04s;
+    width: calc(var(--blob-w) * .84 * 1vmax);
+    height: calc(var(--blob-h) * 1.08 * 1vmax);
+    border-radius: 57% 43% 52% 48% / 46% 56% 44% 54%;
+    transform: translate(-50%, -50%) rotate(19deg) scale(0) translate(7%, -5%);
+    transition: transform .338s cubic-bezier(.08, .5, .92, .5);
   }
 
   .claim__item.is-open .pop {
@@ -597,27 +761,39 @@
     transition: visibility 0s;
   }
 
+  /* --s la calcola il JS: quanto basta a coprire lo schermo da QUEL punto.
+     Prima cresceva sempre fino a 1, ma dal 60% di scala in poi era tutto
+     fuori schermo e il 72% della durata non si vedeva */
   .claim__item.is-open .pop::before {
-    transform: translate(-50%, -50%) rotate(-7deg) scale(2);
+    transform: translate(-50%, -50%) rotate(-7deg) scale(var(--s, 1)) translate(0, 0);
+    /* ,605s: il colore finisce di riempire lo schermo esattamente quando si
+       posa la foto, cosi' l'apertura e' un gesto unico che atterra tutto insieme */
+    transition: transform .605s cubic-bezier(.08, .5, .92, .5);
   }
 
+  /* il secondo lobo parte avanti e viene raggiunto: e' questo sfasamento che
+     fa leggere la crescita come una colata e non come uno zoom */
   .claim__item.is-open .pop::after {
-    transform: translate(-50%, -50%) rotate(9deg) scale(2);
-    opacity: 1;
+    transform: translate(-50%, -50%) rotate(38deg) scale(var(--s, 1)) translate(7%, -5%);
+    /* il 90% del primo: resta lo sfasamento che fa cambiare sagoma all'unione */
+    transition: transform .544s cubic-bezier(.08, .5, .92, .5);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .pop::before, .pop::after { transition: none; }
+    .pop::before,
+    .pop::after { transition: none; }
     .claim__item.is-open .pop::before,
-    .claim__item.is-open .pop::after { transform: translate(-50%, -50%) scale(2); }
+    .claim__item.is-open .pop::after { transform: translate(-50%, -50%) scale(1); }
   }
 
   @keyframes pop {
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(16px) rotate(var(--storto, 0deg)); }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .claim__word { animation: none; opacity: 1; transform: none; }
+    /* niente entrata e niente inseguimento del cursore (lo script si spegne
+       da solo): resta solo il riposo storto, che e' carattere, non moto */
+    .claim__word { animation: none; }
   }
 
   /* ── testo e pulsanti ── */
@@ -644,11 +820,14 @@
     background: linear-gradient(90deg, var(--green) 0 33.333%, var(--red) 33.333% 66.666%, var(--blue) 66.666%);
   }
 
-  .foot__inner { max-width: var(--wrap); margin: 0 auto; }
+  /* stesso perimetro utile dell'header (1180px MENO i 32px di bordo per lato,
+     che lì stanno dentro al box): logo sotto logo, Instagram sotto "Contattaci" */
+  .foot__inner { max-width: calc(var(--wrap) - 64px); margin: 0 auto; }
 
   .foot__brand { display: inline-flex; flex: none; border-radius: 4px; }
   .foot__brand:focus-visible { outline: 2px solid #fff; outline-offset: 6px; }
-  .foot__mark { width: 42px; height: auto; fill: #fff; display: block; }
+  /* stesso simbolo dell'header e stessa misura: sopra e sotto pesano uguale */
+  .foot__mark { height: var(--logo-simbolo); width: auto; fill: #fff; display: block; }
 
   .fsoc { display: flex; gap: 10px; flex: none; }
 
@@ -666,52 +845,40 @@
   .fsoc a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
   .fsoc svg { width: 17px; height: 17px; }
 
-  .foot__bottom {
-    display: flex;
+  /* riga unica a tre zone: 1fr-auto-1fr tiene i dati al centro esatto
+     anche se il logo e i social occupano larghezze diverse */
+  .foot__top {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px 26px;
+    gap: 26px;
   }
+  .foot__top .foot__brand { justify-self: start; }
+  .foot__top .fsoc { justify-self: end; }
 
   .foot__legal {
     margin: 0;
-    max-width: 72ch;
-    flex: 1 1 420px;
+    text-align: center;
     font-size: 12.5px;
-    line-height: 1.75;
+    line-height: 1.8;
     color: rgba(255, 255, 255, .62);
   }
 
   .foot__legal p { margin: 0; }
 
-  /* il nome apre il blocco, in chiaro; il copyright chiude, in sordina */
+  /* il nome in chiaro apre la riga; i dati seguono in sordina */
   .foot__legal .foot__org {
-    margin-bottom: 5px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     letter-spacing: .01em;
     color: #fff;
   }
 
-  .foot__legal .foot__copy {
-    margin-top: 9px;
-    font-size: 11.5px;
-    color: rgba(255, 255, 255, .4);
-  }
 
   .foot__legal a { color: rgba(255, 255, 255, .78); text-decoration: none; }
   .foot__legal a:hover { color: #fff; text-decoration: underline; }
 
 
-  @media (max-width: 720px) {
-    .foot__bottom {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 18px;
-    }
-    .foot__legal { flex: 0 0 auto; }
-  }
   @media (max-width: 520px) {
     .hero { padding-left: 22px; padding-right: 22px; }
     .foot { padding-left: 22px; padding-right: 22px; }
@@ -814,7 +981,8 @@
     /* la sottolineatura animata non serve nel pannello */
     .nav a::after { display: none; }
 
-    .nav a[aria-current="page"] { color: var(--accent); }
+    .nav a[aria-current="page"],
+    .nav a.nav__voce--attiva { color: var(--accent); }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -856,10 +1024,23 @@
     </a>
 
     <nav class="nav" id="site-nav" aria-label="Menu principale">
-      <a href="cosa-facciamo.html">Cosa facciamo</a>
+      <span class="nav__gruppo">
+        <a class="nav__voce">Cosa facciamo</a>
+        <span class="nav__sub nav__sub--tre">
+          <a class="nav__ffs" href="finance-for-schools.html">Seminari nelle scuole</a>
+          <a class="nav__ricerca" href="ricerca.html">Ricerca</a>
+          <a class="nav__mfm" href="micro-for-macro.html">Microcredito</a>
+        </span>
+      </span>
       <a href="chi-siamo.html">Chi siamo</a>
       <a href="governance.html">Governance</a>
-      <a href="blog.html">Blog</a>
+      <span class="nav__gruppo">
+        <a class="nav__voce">Blog</a>
+        <span class="nav__sub">
+          <a class="nav__articoli" href="blog.html">Articoli</a>
+          <a class="nav__video" href="video.html">Video</a>
+        </span>
+      </span>
       <a href="contattaci.html">Contattaci</a>
     </nav>
 
@@ -885,17 +1066,14 @@
         </button>
         <div class="pop" id="pop-curiosa" role="dialog" aria-label="Cosa facciamo">
           <p class="pop__k">Curiosa</p>
-          <p class="pop__t">Non ci limitiamo ai seminari.</p>
-          <p class="pop__d">
-            Educazione finanziaria nelle scuole superiori, ricerca sulle competenze degli studenti
-            e un progetto pilota di microcredito a impatto.
-          </p>
-          <a class="pop__cta" href="cosa-facciamo.html">
-            Cosa facciamo
+          <p class="pop__t">Facciamo tre cose.</p>
+          <p class="pop__d"><b>Seminari</b> nelle scuole superiori, <b>ricerca</b> su cosa sanno davvero gli studenti, <b>microcredito</b> a tasso zero per artigiani e piccole&nbsp;imprese.</p>
+          <a class="pop__cta" href="finance-for-schools.html">
+            Finance for Schools
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <p class="pop__hint">Allontana il cursore oppure premi Esc</p>
-          <img class="pop__photo" src="assets/home/curiosa.webp" alt="" aria-hidden="true" decoding="async">
+          <img class="pop__photo" src="assets/home/curiosa.png?v=20260822e" alt="" aria-hidden="true" decoding="async">
         </div>
       </li>
 
@@ -905,17 +1083,17 @@
         </button>
         <div class="pop" id="pop-giovane" role="dialog" aria-label="Chi siamo">
           <p class="pop__k">Giovane</p>
-          <p class="pop__t">Nata nel 2025, da under 25.</p>
+          <p class="pop__t">Nata nel 2025, da under&nbsp;25.</p>
           <p class="pop__d">
-            A parlare agli studenti sono altri studenti, di qualche anno più grandi. Con al fianco
-            professionisti senior che ci fanno da bussola.
+            A parlare agli studenti sono <b>altri studenti</b>, di qualche anno più grandi. Con al fianco
+            <b>professionisti senior</b> che ci fanno da bussola.
           </p>
           <a class="pop__cta" href="chi-siamo.html">
             Chi siamo
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <p class="pop__hint">Allontana il cursore oppure premi Esc</p>
-          <img class="pop__photo" src="assets/home/giovane.webp" alt="" aria-hidden="true" decoding="async">
+          <img class="pop__photo" src="assets/home/giovane.png?v=20260821a" alt="" aria-hidden="true" decoding="async">
         </div>
       </li>
 
@@ -927,15 +1105,15 @@
           <p class="pop__k">Non profit</p>
           <p class="pop__t">Ente del Terzo Settore.</p>
           <p class="pop__d">
-            Associazione di Promozione Sociale iscritta al RUNTS. Statuto, organi e documenti
-            sono pubblici: chiunque può verificarli.
+            Associazione di Promozione Sociale <b>iscritta al RUNTS</b>. Statuto, organi e documenti
+            sono <b>pubblici</b>: chiunque può verificarli.
           </p>
           <a class="pop__cta" href="governance.html">
             Governance
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <p class="pop__hint">Allontana il cursore oppure premi Esc</p>
-          <img class="pop__photo" src="assets/home/non-profit.webp" alt="" aria-hidden="true" decoding="async">
+          <img class="pop__photo" src="assets/home/non-profit.png?v=20260821a" alt="" aria-hidden="true" decoding="async">
         </div>
       </li>
 
@@ -952,7 +1130,7 @@
 <footer class="foot snap--tall">
   <div class="foot__inner">
 
-    <div class="foot__bottom">
+    <div class="foot__top">
 
       <a class="foot__brand" href="index.html" aria-label="Interest — vai alla home">
         <svg class="foot__mark" viewBox="0 0 271.6 182.06" aria-hidden="true">
@@ -963,17 +1141,15 @@
       </a>
 
       <div class="foot__legal">
-        <p class="foot__org">Interest Edufin APS</p>
-        <p>Associazione di Promozione Sociale iscritta al RUNTS, sezione B · C.F. 18028181008</p>
-        <p>Via Francesco Patrizio da Cherso 30, 00143 Roma · <a href="mailto:scuole@buildinterest.it">scuole@buildinterest.it</a></p>
-        <p class="foot__copy">© 2026 Interest Edufin APS</p>
+        <p><b class="foot__org">Interest Edufin APS</b> · Associazione di Promozione Sociale iscritta al RUNTS, sezione B · C.F. 18028181008</p>
+        <p>Via Francesco Patrizio da Cherso 30, 00143 Roma · <a href="mailto:scuole@buildinterest.it">scuole@buildinterest.it</a> · <a href="privacy.html">Privacy</a> · <a href="privacy.html#cookie">Cookie</a></p>
       </div>
 
       <div class="fsoc">
         <a href="https://www.linkedin.com/company/interest-edufin/" aria-label="LinkedIn">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95 4.02 0 4.76 2.5 4.76 5.75V21h-4v-5.6c0-1.34-.03-3.06-1.9-3.06-1.9 0-2.19 1.45-2.19 2.96V21h-4V9Z"/></svg>
         </a>
-        <a href="https://www.instagram.com/" aria-label="Instagram">
+        <a href="https://www.instagram.com/buildinterest/" aria-label="Instagram">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.4 2.21 8.8 2.2 12 2.2Zm0 3.05a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5Zm0 11.13a4.38 4.38 0 1 1 0-8.76 4.38 4.38 0 0 1 0 8.76Zm8.6-11.4a1.58 1.58 0 1 1-3.15 0 1.58 1.58 0 0 1 3.15 0Z"/></svg>
         </a>
       </div>
@@ -999,13 +1175,48 @@
     const fine  = matchMedia('(hover: hover) and (pointer: fine)').matches;
     let timer;
     let apertoIl = 0;            // istante dell'apertura, per la breve immunità
-    let chiusoIl = 0;            // istante dell'ultima chiusura
+    let chiusoIl = 0;            // istante dell'ultima chiusura (0 = mai chiusa)
+    let zona = null;             // zona sensibile, misurata una volta per apertura
 
-    /* le foto dei pannelli sono nascoste finché non si apre un colore:
-       decodificarle subito evita lo scatto al primo hover */
-    claim.querySelectorAll('.pop__photo').forEach(img => {
-      if (img.decode) img.decode().catch(() => {});
-    });
+    /* Il gesto di scroll sul trackpad NON genera mousemove: il cursore resta
+       fermo mentre la pagina scorre. Senza questo, scorrendo col colore aperto
+       il pannello restava lì e le parole scivolavano sotto il cursore.
+       Ora il gesto di scorrimento chiude la vernice, come allontanarsi.
+       Viene agganciato all'apertura e staccato alla chiusura. */
+    const chiudiSuGesto = (e) => {
+      if (performance.now() - apertoIl < 209) return;
+      e.preventDefault();
+      closeAll();
+    };
+
+    /* Quanto deve crescere la macchia per coprire lo schermo da un dato punto.
+       Senza questo cresceva sempre fino a scala 1, ma lo schermo era gia coperto
+       a 0,6: il 72% della durata si consumava fuori dalla vista, ed e il motivo
+       per cui l'effetto sembrava uno scatto meccanico. */
+    const scalaNecessaria = (x, y) => {
+      const vmax = Math.max(innerWidth, innerHeight) / 100;
+      const css = getComputedStyle(document.documentElement);
+      const a = parseFloat(css.getPropertyValue('--blob-w')) * vmax / 2;
+      const b = parseFloat(css.getPropertyValue('--blob-h')) * vmax / 2;
+      if (!(a > 0 && b > 0)) return 1;
+      let serve = 0;
+      for (const [cx, cy] of [[0, 0], [innerWidth, 0], [0, innerHeight], [innerWidth, innerHeight]]) {
+        const dx = cx - x, dy = cy - y;
+        const d = Math.hypot(dx, dy);
+        if (!d) continue;
+        /* raggio della macchia in quella direzione, approssimata a ellisse */
+        const raggio = 1 / Math.hypot(dx / d / a, dy / d / b);
+        serve = Math.max(serve, d / raggio);
+      }
+      /* 4% di margine. Erano 18, ed erano 18 punti di scala che si consumavano
+         a schermo GIA' pieno: misurando la copertura fotogramma per fotogramma,
+         lo schermo era coperto al 75% della durata e l'ultimo quarto non si
+         vedeva - ed e' da li' che l'animazione sembrava incepparsi. Con due
+         lobi la sagoma reale e' piu' piena di un'ellisse, quindi questa stima
+         e' esatta entro il 2% su tutte le nove combinazioni misurate
+         (tre parole per 1280, 1440 e 1920 di larghezza). */
+      return Math.min(1, serve * 1.04);
+    };
 
     /* l'onda di colore parte dal punto in cui si trova il cursore */
     const setOrigin = (item, ev) => {
@@ -1017,6 +1228,7 @@
       pop.style.setProperty('--y', (y / innerHeight * 100) + '%');
       pop.style.setProperty('--px', `${x}px`);
       pop.style.setProperty('--py', `${y}px`);
+      pop.style.setProperty('--s', scalaNecessaria(x, y).toFixed(3));
     };
 
     const open = (item, ev) => {
@@ -1030,10 +1242,12 @@
       });
       claim.classList.add('has-open');
       apertoIl = performance.now();
+      zona = null;
       /* il pannello copre tutto: scorrere muoverebbe una pagina che non si vede */
       document.documentElement.classList.add('is-locked');
-      /* i listener non-passivi vivono solo a pannello aperto: tenerli sempre
-         attivi obbligherebbe il browser ad aspettare il JS a ogni tick di scroll */
+      /* i due listener non passivi vivono solo mentre la bolla e' aperta:
+         restare appesi a wheel per tutta la vita della pagina obbligava ogni
+         gesto di scorrimento ad aspettare il main thread */
       addEventListener('wheel', chiudiSuGesto, { passive: false });
       addEventListener('touchmove', chiudiSuGesto, { passive: false });
     };
@@ -1063,6 +1277,7 @@
       document.documentElement.classList.remove('is-locked');
       removeEventListener('wheel', chiudiSuGesto, { passive: false });
       removeEventListener('touchmove', chiudiSuGesto, { passive: false });
+      zona = null;
       if (wasOpen) chiusoIl = performance.now();
       return wasOpen;
     };
@@ -1079,7 +1294,7 @@
           if (claim.classList.contains('has-open')) return;
           /* dopo una chiusura il cursore è spesso ancora fermo su una parola:
              senza questa pausa il pannello si riaprirebbe da solo */
-          if (performance.now() - chiusoIl < 350) return;
+          if (chiusoIl && performance.now() - chiusoIl < 244) return;
           open(item, e);
         });
       }
@@ -1097,40 +1312,53 @@
     /* La zona sensibile comprende la parola, il contenuto aperto e il corridoio
        fra i due: così si può raggiungere il pulsante senza chiudere il pannello. */
     if (fine) {
-      /* al massimo una misurazione per frame: getBoundingClientRect a ogni
-         singolo mousemove forzerebbe il layout decine di volte al secondo */
-      let ultimoMove = null;
-      let rafMove = 0;
-      addEventListener('mousemove', (ev) => { ultimoMove = ev; if (!rafMove) rafMove = requestAnimationFrame(controllaZona); }, { passive: true });
-      const controllaZona = () => {
-        rafMove = 0;
-        const e = ultimoMove;
+      addEventListener('mousemove', (e) => {
         if (!claim.classList.contains('has-open')) return;
 
         /* subito dopo l'apertura il cursore è ancora sulla parola, che può
            trovarsi già oltre la soglia: senza questa pausa si richiuderebbe
            all'istante, ed è il motivo per cui sembrava non funzionare */
-        if (performance.now() - apertoIl < 420) return;
+        if (performance.now() - apertoIl < 292) return;
 
         const openItem = claim.querySelector('.claim__item.is-open');
         if (!openItem) return;
-        const interactiveParts = [
-          openItem.querySelector('.claim__word'),
-          ...openItem.querySelectorAll('.pop__k, .pop__t, .pop__d, .pop__cta, .pop__hint')
-        ];
-        const rects = interactiveParts.map(part => part.getBoundingClientRect());
-        const zone = rects.reduce((area, rect) => ({
-          left: Math.min(area.left, rect.left),
-          right: Math.max(area.right, rect.right),
-          top: Math.min(area.top, rect.top),
-          bottom: Math.max(area.bottom, rect.bottom)
-        }), { left: innerWidth, right: 0, top: innerHeight, bottom: 0 });
-        const padX = 32;
-        const padY = 26;
-        const inside = e.clientX >= zone.left - padX
-          && e.clientX <= zone.right + padX
-          && e.clientY >= zone.top - padY
-          && e.clientY <= zone.bottom + padY;
+
+        /* La zona si misura una volta per apertura. Prima la ricalcolava a
+           ogni mousemove: sei getBoundingClientRect per evento, cioe' un
+           ricalcolo di layout forzato dentro l'animazione della foto, che
+           dura piu' della finestra di immunita' qui sopra. Le posizioni non
+           cambiano: il pannello e' fisso e la pagina sotto e' bloccata. */
+        if (!zona) {
+          const interactiveParts = [
+            openItem.querySelector('.claim__word'),
+            ...openItem.querySelectorAll('.pop__k, .pop__t, .pop__d, .pop__cta, .pop__hint')
+          ];
+          const rects = interactiveParts.map(part => part.getBoundingClientRect());
+          const box = rects.reduce((area, rect) => ({
+            left: Math.min(area.left, rect.left),
+            right: Math.max(area.right, rect.right),
+            top: Math.min(area.top, rect.top),
+            bottom: Math.max(area.bottom, rect.bottom)
+          }), { left: innerWidth, right: 0, top: innerHeight, bottom: 0 });
+          const padX = 32;
+          const padY = 26;
+          /* la zona utile e' il rettangolo con i suoi margini, ridotto di area:
+             i lati si accorciano della radice di AREA, cosi' il taglio e' in area
+             e non su un margine solo. Due passaggi da -5%: resta il 90,25%. */
+          const AREA = 0.95 * 0.95;
+          const rientro = (1 - Math.sqrt(AREA)) / 2;
+          const rientroX = ((box.right + padX) - (box.left - padX)) * rientro;
+          const rientroY = ((box.bottom + padY) - (box.top - padY)) * rientro;
+          zona = {
+            x0: box.left - padX + rientroX,
+            x1: box.right + padX - rientroX,
+            y0: box.top - padY + rientroY,
+            y1: box.bottom + padY - rientroY
+          };
+        }
+
+        const inside = e.clientX >= zona.x0 && e.clientX <= zona.x1
+          && e.clientY >= zona.y0 && e.clientY <= zona.y1;
 
         if (inside) {
           clearTimeout(timer);
@@ -1138,25 +1366,13 @@
         } else if (!timer) {
           timer = setTimeout(closeAll, 180);
         }
-      };
+      }, { passive: true });
 
       /* uscendo dalla finestra si ritira comunque */
       document.addEventListener('mouseleave', () => {
         if (claim.classList.contains('has-open')) closeAll();
       });
     }
-
-    /* Il gesto di scroll sul trackpad NON genera mousemove: il cursore resta
-       fermo mentre la pagina scorre. Senza questo, scorrendo col colore aperto
-       il pannello restava lì e le parole scivolavano sotto il cursore.
-       Ora il gesto di scorrimento chiude la vernice, come allontanarsi. */
-    const chiudiSuGesto = (e) => {
-      if (!claim.classList.contains('has-open')) return;
-      if (performance.now() - apertoIl < 300) return;
-      e.preventDefault();
-      closeAll();
-    };
-    /* agganciati in open() e sganciati in closeAll(), vedi sopra */
 
     /* Esc chiude e restituisce il focus senza mostrare un falso stato attivo. */
     addEventListener('keydown', (e) => {
@@ -1171,7 +1387,80 @@
   })();
 </script>
 
-<script src="assets/nav.js"></script>
+<script>
+  /* Il cursore: le parole riposano storte (i gradi di --storto) e, quando il
+     mouse gira nella prima schermata, si inclinano e scivolano verso di lui,
+     ognuna con un peso diverso - la terza piu' della prima, come se il blocco
+     avesse profondita'. Sopra una parola, quella si raddrizza e si solleva:
+     sta per essere cliccata. Quando il mouse esce, tornano al riposo da sole.
+
+     Tutto e' un solo transform sul bottone, mai sui suoi antenati (il
+     pannello della vernice e' fixed e se lo porterebbero dietro) e mai su
+     un figlio (le ombre dell'adesivo sono un filter sul bottone: muovergli
+     qualcosa dentro obbliga a ricalcolarle a ogni fotogramma). Il ciclo rAF
+     si spegne da solo quando tutto e' fermo al suo posto. */
+  (() => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const claim = document.querySelector('.claim');
+    const hero = document.querySelector('.hero');
+    if (!claim || !hero) return;
+    const items = [...claim.querySelectorAll('.claim__item')];
+    const parole = items.map((li) => li.querySelector('.claim__word'));
+
+    /* il transform lo scrive lo script a ogni passo: la transizione CSS di
+       .28s sopra ogni scrittura farebbe da freno doppio. Resta sull'opacity,
+       che e' ancora affare del foglio di stile (la dissolvenza a .34). */
+    parole.forEach((p) => { p.style.transition = 'opacity .28s ease'; });
+
+    const storto = [-1.6, 1.1, -.7]; /* deve combaciare con --storto nel CSS */
+    const stato = parole.map((_, i) => ({ x: 0, y: 0, r: storto[i], k: 1 }));
+    let mx = 0, my = 0, dentro = false, sopra = -1, vivo = false;
+
+    const passo = () => {
+      let fermo = true;
+      /* con la bolla aperta la spinta si spegne: sotto la vernice le parole
+         tornano a posto, pronte per quando si ritira */
+      const attivo = dentro && !claim.classList.contains('has-open');
+      parole.forEach((p, i) => {
+        const s = stato[i];
+        const su = sopra === i || items[i].classList.contains('is-open');
+        const ax = attivo ? mx * (8 + i * 5) : 0;
+        const ay = (attivo ? my * (4 + i * 2) : 0) + (su ? -4 : 0);
+        const ar = su ? 0 : storto[i] + (attivo ? mx * (1.8 - i * .5) : 0);
+        const ak = su ? 1.02 : 1;
+        s.x += (ax - s.x) * .09;
+        s.y += (ay - s.y) * .09;
+        s.r += (ar - s.r) * .09;
+        s.k += (ak - s.k) * .09;
+        if (Math.abs(ax - s.x) > .04 || Math.abs(ay - s.y) > .04 ||
+            Math.abs(ar - s.r) > .01 || Math.abs(ak - s.k) > .002) fermo = false;
+        p.style.transform =
+          `translate(${s.x.toFixed(2)}px, ${s.y.toFixed(2)}px) rotate(${s.r.toFixed(2)}deg) scale(${s.k.toFixed(3)})`;
+      });
+      if (fermo) { vivo = false; return; }
+      requestAnimationFrame(passo);
+    };
+    const sveglia = () => { if (!vivo) { vivo = true; requestAnimationFrame(passo); } };
+
+    hero.addEventListener('mousemove', (e) => {
+      mx = e.clientX / innerWidth * 2 - 1;   /* -1..1 dal centro dello schermo */
+      my = e.clientY / innerHeight * 2 - 1;
+      dentro = true;
+      sveglia();
+    });
+    hero.addEventListener('mouseleave', () => { dentro = false; sveglia(); });
+    items.forEach((li, i) => {
+      li.addEventListener('mouseenter', () => { sopra = i; sveglia(); });
+      li.addEventListener('mouseleave', () => { sopra = -1; sveglia(); });
+    });
+    /* apertura e chiusura della bolla cambiano le classi da piu' strade
+       (click, tastiera, scroll): qualunque sia, il ciclo si risveglia */
+    new MutationObserver(sveglia)
+      .observe(claim, { attributes: true, subtree: true, attributeFilter: ['class'] });
+  })();
+</script>
+
+<script src="assets/nav.js?v=20260822c"></script>
 
 </body>
 </html>
