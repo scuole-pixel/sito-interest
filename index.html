@@ -215,19 +215,19 @@
   }
 
 
-  /* Blog ha due porte, articoli e video: il menu si apre passando il cursore
-     sulla voce e resta aperto anche col fuoco da tastiera. La voce resta un
-     link vero: chi clicca o tocca va comunque al blog. */
+  /* Due voci del menu non sono pagine ma porte: Cosa facciamo apre i tre
+     progetti, Blog apre articoli e video. Il menu si apre passando il cursore
+     sulla voce e resta aperto anche col fuoco da tastiera. */
   .nav__gruppo { position: relative; display: inline-flex; }
 
-  /* Blog e' la maniglia del menu, non una pagina: senza href non e' un link,
-     non porta da nessuna parte e non prende il fuoco. Chi va di tastiera
-     tabula direttamente su Articoli, e il focus-within apre il menu. */
+  /* la voce e' la maniglia del menu, non una pagina: senza href non e' un
+     link, non porta da nessuna parte e non prende il fuoco. Chi va di tastiera
+     tabula direttamente sulla prima voce dentro, e il focus-within apre. */
   .nav__voce { cursor: default; }
 
-  /* la cassa e' larga quanto le due parole: un menu di due voci non ha
-     bisogno di 150px di vuoto attorno. La punta la aggancia alla voce Blog,
-     cosi' si capisce da dove esce. */
+  /* la cassa e' larga quanto la voce piu' lunga: un menu di due o tre voci
+     non ha bisogno di 150px di vuoto attorno. La punta la aggancia alla voce
+     che l'ha aperta, cosi' si capisce da dove esce. */
   .nav__sub {
     position: absolute;
     top: 100%;
@@ -286,6 +286,19 @@
   .nav__sub .nav__video { color: #ff0033; }
   .nav__sub .nav__video:hover { background: color-mix(in srgb, #ff0033 8%, #fff); }
 
+  /* i tre progetti portano nel menu il colore che usano nella loro pagina:
+     il verde dei seminari, il blu della ricerca, il rosso del microcredito.
+     Sono i tre del filo tricolore in fondo, nello stesso ordine. Verde e
+     rosso sono piu' chiari del blu: il loro sfondo va al 10%, non all'8%,
+     altrimenti sotto il testo non si vede. */
+  .nav__sub--tre a { white-space: nowrap; }
+  .nav__sub .nav__ffs { color: var(--green); }
+  .nav__sub .nav__ffs:hover { background: color-mix(in srgb, var(--green) 10%, #fff); }
+  .nav__sub .nav__ricerca { color: var(--blue); }
+  .nav__sub .nav__ricerca:hover { background: color-mix(in srgb, var(--blue) 8%, #fff); }
+  .nav__sub .nav__mfm { color: var(--red); }
+  .nav__sub .nav__mfm:hover { background: color-mix(in srgb, var(--red) 10%, #fff); }
+
   /* pagina corrente: sottolineatura fissa, testo pieno. Blog si accende con
      la classe invece che con aria-current: non essendo un link, "pagina
      corrente" su di lui non vorrebbe dire niente. */
@@ -299,6 +312,9 @@
   .nav__sub a[aria-current] { font-weight: 700; }
   .nav__sub .nav__articoli[aria-current] { color: var(--blue); background: color-mix(in srgb, var(--blue) 8%, #fff); }
   .nav__sub .nav__video[aria-current] { color: #ff0033; background: color-mix(in srgb, #ff0033 8%, #fff); }
+  .nav__sub .nav__ffs[aria-current] { color: var(--green); background: color-mix(in srgb, var(--green) 10%, #fff); }
+  .nav__sub .nav__ricerca[aria-current] { color: var(--blue); background: color-mix(in srgb, var(--blue) 8%, #fff); }
+  .nav__sub .nav__mfm[aria-current] { color: var(--red); background: color-mix(in srgb, var(--red) 10%, #fff); }
 
   @media (prefers-reduced-motion: reduce) {
     .nav a::after, .logo svg, .site-header { transition: none; }
@@ -990,7 +1006,14 @@
     </a>
 
     <nav class="nav" id="site-nav" aria-label="Menu principale">
-      <a href="cosa-facciamo.html">Cosa facciamo</a>
+      <span class="nav__gruppo">
+        <a class="nav__voce">Cosa facciamo</a>
+        <span class="nav__sub nav__sub--tre">
+          <a class="nav__ffs" href="finance-for-schools.html">Seminari nelle scuole</a>
+          <a class="nav__ricerca" href="ricerca.html">Ricerca</a>
+          <a class="nav__mfm" href="micro-for-macro.html">Microcredito</a>
+        </span>
+      </span>
       <a href="chi-siamo.html">Chi siamo</a>
       <a href="governance.html">Governance</a>
       <span class="nav__gruppo">
@@ -1027,8 +1050,8 @@
           <p class="pop__k">Curiosa</p>
           <p class="pop__t">Facciamo tre cose.</p>
           <p class="pop__d"><b>Seminari</b> nelle scuole superiori, <b>ricerca</b> su cosa sanno davvero gli studenti, <b>microcredito</b> a tasso zero per artigiani e piccole&nbsp;imprese.</p>
-          <a class="pop__cta" href="cosa-facciamo.html">
-            Cosa facciamo
+          <a class="pop__cta" href="finance-for-schools.html">
+            Finance for Schools
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <p class="pop__hint">Allontana il cursore oppure premi Esc</p>

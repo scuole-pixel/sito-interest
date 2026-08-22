@@ -222,19 +222,19 @@
   }
 
 
-  /* Blog ha due porte, articoli e video: il menu si apre passando il cursore
-     sulla voce e resta aperto anche col fuoco da tastiera. La voce resta un
-     link vero: chi clicca o tocca va comunque al blog. */
+  /* Due voci del menu non sono pagine ma porte: Cosa facciamo apre i tre
+     progetti, Blog apre articoli e video. Il menu si apre passando il cursore
+     sulla voce e resta aperto anche col fuoco da tastiera. */
   .nav__gruppo { position: relative; display: inline-flex; }
 
-  /* Blog e' la maniglia del menu, non una pagina: senza href non e' un link,
-     non porta da nessuna parte e non prende il fuoco. Chi va di tastiera
-     tabula direttamente su Articoli, e il focus-within apre il menu. */
+  /* la voce e' la maniglia del menu, non una pagina: senza href non e' un
+     link, non porta da nessuna parte e non prende il fuoco. Chi va di tastiera
+     tabula direttamente sulla prima voce dentro, e il focus-within apre. */
   .nav__voce { cursor: default; }
 
-  /* la cassa e' larga quanto le due parole: un menu di due voci non ha
-     bisogno di 150px di vuoto attorno. La punta la aggancia alla voce Blog,
-     cosi' si capisce da dove esce. */
+  /* la cassa e' larga quanto la voce piu' lunga: un menu di due o tre voci
+     non ha bisogno di 150px di vuoto attorno. La punta la aggancia alla voce
+     che l'ha aperta, cosi' si capisce da dove esce. */
   .nav__sub {
     position: absolute;
     top: 100%;
@@ -293,6 +293,19 @@
   .nav__sub .nav__video { color: #ff0033; }
   .nav__sub .nav__video:hover { background: color-mix(in srgb, #ff0033 8%, #fff); }
 
+  /* i tre progetti portano nel menu il colore che usano nella loro pagina:
+     il verde dei seminari, il blu della ricerca, il rosso del microcredito.
+     Sono i tre del filo tricolore in fondo, nello stesso ordine. Verde e
+     rosso sono piu' chiari del blu: il loro sfondo va al 10%, non all'8%,
+     altrimenti sotto il testo non si vede. */
+  .nav__sub--tre a { white-space: nowrap; }
+  .nav__sub .nav__ffs { color: var(--green); }
+  .nav__sub .nav__ffs:hover { background: color-mix(in srgb, var(--green) 10%, #fff); }
+  .nav__sub .nav__ricerca { color: var(--blue); }
+  .nav__sub .nav__ricerca:hover { background: color-mix(in srgb, var(--blue) 8%, #fff); }
+  .nav__sub .nav__mfm { color: var(--red); }
+  .nav__sub .nav__mfm:hover { background: color-mix(in srgb, var(--red) 10%, #fff); }
+
   /* pagina corrente: sottolineatura fissa, testo pieno. Blog si accende con
      la classe invece che con aria-current: non essendo un link, "pagina
      corrente" su di lui non vorrebbe dire niente. */
@@ -306,6 +319,9 @@
   .nav__sub a[aria-current] { font-weight: 700; }
   .nav__sub .nav__articoli[aria-current] { color: var(--blue); background: color-mix(in srgb, var(--blue) 8%, #fff); }
   .nav__sub .nav__video[aria-current] { color: #ff0033; background: color-mix(in srgb, #ff0033 8%, #fff); }
+  .nav__sub .nav__ffs[aria-current] { color: var(--green); background: color-mix(in srgb, var(--green) 10%, #fff); }
+  .nav__sub .nav__ricerca[aria-current] { color: var(--blue); background: color-mix(in srgb, var(--blue) 8%, #fff); }
+  .nav__sub .nav__mfm[aria-current] { color: var(--red); background: color-mix(in srgb, var(--red) 10%, #fff); }
 
   @media (prefers-reduced-motion: reduce) {
     .nav a::after, .logo svg, .site-header { transition: none; }
