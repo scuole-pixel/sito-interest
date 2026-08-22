@@ -6,7 +6,7 @@
 <title>Governance — Interest Edufin APS</title>
 <meta name="description" content="Organi, consiglio direttivo, comitato scientifico e documenti di Interest Edufin APS: statuto, iscrizione al RUNTS e bilancio.">
 <link rel="stylesheet" href="assets/base.css?v=20260821f">
-<link rel="stylesheet" href="assets/governance.css?v=20260820d">
+<link rel="stylesheet" href="assets/governance.css?v=20260822d">
 </head>
 <body>
 
@@ -71,14 +71,22 @@
   </header>
 
 <div class="gov">
-  <!-- ── il consiglio ── -->
-  <section class="gov__s">
-    <h2 class="gov__t">Consiglio direttivo</h2>
+
+    <div class="gov__tabs" role="tablist" aria-label="Organi e documenti">
+      <button type="button" class="gov__tab is-attiva" role="tab" id="scheda-consiglio"
+              aria-controls="pan-consiglio" aria-selected="true">Consiglio direttivo</button>
+      <button type="button" class="gov__tab" role="tab" id="scheda-comitato"
+              aria-controls="pan-comitato" aria-selected="false" tabindex="-1">Comitato scientifico</button>
+      <button type="button" class="gov__tab" role="tab" id="scheda-documenti"
+              aria-controls="pan-documenti" aria-selected="false" tabindex="-1">Documenti e dati legali</button>
+    </div>
+
+  <div class="gov__pan" role="tabpanel" id="pan-consiglio" aria-labelledby="scheda-consiglio">
     <ul class="ppl">
 
       <li tabindex="0">
         <!-- foto: ritaglio PNG senza sfondo in assets/people/; se manca, restano le iniziali -->
-        <span class="ppl__ph"><img src="assets/people/davide-dorigo.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()"><span aria-hidden="true">DD</span></span>
+        <span class="ppl__ph"><img src="assets/people/davide-dorigo.webp?v=20260822a" alt="" loading="lazy" decoding="async" onerror="this.remove()"><span aria-hidden="true">DD</span></span>
         <div class="ppl__b">
           <b>Davide Dorigo</b>
           <span class="ppl__r">Presidente</span>
@@ -92,42 +100,73 @@
                 alla SDA Bocconi; in passato analista in private equity.
               </p>
               <p class="ppl__w"><b>Segue</b> Relazioni istituzionali · Reclutamento degli speaker</p>
-              <a class="ppl__l" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn →</a>
+                          <a class="ppl__l" href="https://www.linkedin.com/in/davide-dorigo/" target="_blank" rel="noopener">LinkedIn &rarr;</a>
             </div>
           </div>
         </div>
       </li>
 
-      <!-- DA COMPILARE: nomi dal verbale successivo al 29/05/2026 -->
-      <li class="ppl--todo">
-        <span class="ppl__ph"><span aria-hidden="true">—</span></span>
+      <li tabindex="0">
+        <span class="ppl__ph"><img src="assets/people/alessandro-luigi-ficai.webp?v=20260822a" alt="" loading="lazy" decoding="async" onerror="this.remove()"><span aria-hidden="true">AF</span></span>
         <div class="ppl__b">
-          <b>Da confermare</b>
+          <b>Alessandro Luigi Ficai</b>
           <span class="ppl__r">Vicepresidente</span>
+          <p class="ppl__s">Studente Bocconi, Dean's List 2025-2026.</p>
+          <div class="ppl__x">
+            <div>
+              <p>In Interest da ottobre 2025, prima come responsabile delle operazioni e tesoriere. Tiene la macchina organizzativa dei seminari: calendario, logistica e rapporti con i referenti scolastici. Ha lavorato in analisi M&amp;A su societ&agrave; dell'impiantistica e in operations in Amazon.</p>
+              <p class="ppl__w"><b>Segue</b> Operazioni · Rapporti con le scuole</p>
+                          <a class="ppl__l" href="https://www.linkedin.com/in/alessandro-luigi-ficai/" target="_blank" rel="noopener">LinkedIn &rarr;</a>
+            </div>
+          </div>
         </div>
       </li>
 
-      <li class="ppl--todo">
-        <span class="ppl__ph"><span aria-hidden="true">—</span></span>
+      <li tabindex="0">
+        <span class="ppl__ph"><img src="assets/people/marilisa-sibille.webp?v=20260822a" alt="" loading="lazy" decoding="async" onerror="this.remove()"><span aria-hidden="true">MS</span></span>
         <div class="ppl__b">
-          <b>Da confermare</b>
-          <span class="ppl__r">Segretario</span>
+          <b>Marilisa Sibille</b>
+          <span class="ppl__r">Segretaria</span>
+          <p class="ppl__s">Studentessa a Torino, scienze internazionali dello sviluppo.</p>
+          <div class="ppl__x">
+            <div>
+              <p>Tutor del presidio di Torino, uno dei pochi della rete fuori da Milano: tre scuole seguite nell'anno 2025/26. Da marzo a luglio 2026 in stage all'ufficio di Bruxelles della Regione Piemonte, su politica di coesione e competitivit&agrave;. Organizza le selezioni nazionali dello European Youth Parliament a Torino.</p>
+              <p class="ppl__w"><b>Segue</b> Verbali e adempimenti · Presidio di Torino</p>
+                          <a class="ppl__l" href="https://www.linkedin.com/in/marilisa-sibille-a1a7a72a2/" target="_blank" rel="noopener">LinkedIn &rarr;</a>
+            </div>
+          </div>
         </div>
       </li>
 
-      <li class="ppl--todo">
-        <span class="ppl__ph"><span aria-hidden="true">—</span></span>
+      <li tabindex="0">
+        <span class="ppl__ph"><!-- foto mancante: mettere karim-vallaro.webp in assets/people/ e rimettere l'<img> come gli altri --><span aria-hidden="true">KV</span></span>
         <div class="ppl__b">
-          <b>Da confermare</b>
-          <span class="ppl__r">Tesoriere</span>
-        </div>
-      </li>
-
-      <li class="ppl--todo">
-        <span class="ppl__ph"><span aria-hidden="true">—</span></span>
-        <div class="ppl__b">
-          <b>Da confermare</b>
+          <b>Karim Vallaro</b>
           <span class="ppl__r">Consigliere</span>
+          <p class="ppl__s">Studente di International Economics and Finance in Bocconi.</p>
+          <div class="ppl__x">
+            <div>
+              <p>Socio fondatore: ha firmato l'atto costitutivo del 17 marzo 2025 ed &egrave; nel consiglio da allora. Fra i tutor pi&ugrave; presenti in aula, con sei scuole seguite nell'anno 2025/26. Segue il progetto di ricerca sull'alfabetizzazione finanziaria.</p>
+              <p class="ppl__w"><b>Segue</b> Ricerca · Logistica dei seminari</p>
+                          <a class="ppl__l" href="https://www.linkedin.com/in/karim-vallaro-528102301/" target="_blank" rel="noopener">LinkedIn &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li tabindex="0">
+        <span class="ppl__ph"><img src="assets/people/paola-pacchiana.webp?v=20260822a" alt="" loading="lazy" decoding="async" onerror="this.remove()"><span aria-hidden="true">PP</span></span>
+        <div class="ppl__b">
+          <b>Paola Pacchiana</b>
+          <span class="ppl__r">Consigliere</span>
+          <p class="ppl__s">Operations e vendite B2B: oggi in Prestatech, prima Qomodo e Scalapay.</p>
+          <div class="ppl__x">
+            <div>
+              <p>Nel consiglio dal 2025 con delega alle relazioni esterne, tiene il fundraising dell'associazione. Viene da operations e vendite B2B fra corporate, PMI e startup, con specializzazione su after-sales e percorso del cliente: ha guidato l'account management in Qomodo e le merchant operations in Scalapay. &Egrave; l'unica del gruppo fuori dalla fascia under 25, come le piace ricordare.</p>
+              <p class="ppl__w"><b>Segue</b> Fundraising · Relazioni esterne</p>
+                          <a class="ppl__l" href="https://www.linkedin.com/in/paola-pacchiana/" target="_blank" rel="noopener">LinkedIn &rarr;</a>
+            </div>
+          </div>
         </div>
       </li>
 
@@ -136,11 +175,9 @@
       Le cariche sono elettive, durano due esercizi e sono gratuite: nessun membro degli
       organi sociali percepisce compensi.
     </p>
-  </section>
+  </div>
 
-  <!-- ── il comitato ── -->
-  <section class="gov__s">
-    <h2 class="gov__t">Comitato scientifico</h2>
+  <div class="gov__pan" role="tabpanel" id="pan-comitato" aria-labelledby="scheda-comitato" hidden>
     <ul class="ppl">
 
       <li tabindex="0">
@@ -157,7 +194,6 @@
                 di economia pubblica e disuguaglianze.
               </p>
               <p class="ppl__w"><b>Segue</b> Impostazione metodologica della ricerca</p>
-              <a class="ppl__l" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn →</a>
             </div>
           </div>
         </div>
@@ -177,7 +213,6 @@
                 Paschi di Siena e Banca Widiba.
               </p>
               <p class="ppl__w"><b>Segue</b> Rapporti istituzionali · Compliance</p>
-              <a class="ppl__l" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn →</a>
             </div>
           </div>
         </div>
@@ -197,7 +232,6 @@
                 societaria.
               </p>
               <p class="ppl__w"><b>Segue</b> Governance · Assetto societario</p>
-              <a class="ppl__l" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn →</a>
             </div>
           </div>
         </div>
@@ -216,7 +250,6 @@
                 acquisizioni e operazioni con fondi di private equity.
               </p>
               <p class="ppl__w"><b>Segue</b> Contenuti finanziari · Micro for Macro</p>
-              <a class="ppl__l" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn →</a>
             </div>
           </div>
         </div>
@@ -236,18 +269,15 @@
                 Dipartimento per le Politiche Europee.
               </p>
               <p class="ppl__w"><b>Segue</b> Trattamento dei dati dei questionari in aula</p>
-              <a class="ppl__l" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn →</a>
             </div>
           </div>
         </div>
       </li>
 
     </ul>
-  </section>
+  </div>
 
-  <!-- ── i documenti ── -->
-  <section class="gov__s">
-    <h2 class="gov__t">Documenti</h2>
+  <div class="gov__pan" role="tabpanel" id="pan-documenti" aria-labelledby="scheda-documenti" hidden>
     <ul class="docs">
       <li><a href="statuto.pdf"><b>Statuto</b><span>Atto costitutivo del 17 marzo 2025</span></a></li>
       <li><a href="runts.pdf"><b>Iscrizione al RUNTS</b><span>Regione Lazio, 2 aprile 2025 · sezione B</span></a></li>
@@ -258,11 +288,8 @@
       Depositiamo il bilancio al RUNTS ogni anno entro il 30 giugno. Pubblicarlo qui è una
       scelta, non un obbligo.
     </p>
-  </section>
 
-  <!-- ── i dati ── -->
-  <section class="gov__s">
-    <h2 class="gov__t">Dati legali</h2>
+    <h3 class="gov__sub">Dati legali</h3>
     <dl class="org org--fitta">
       <div><dt>Denominazione</dt><dd>Interest Edufin — Associazione di Promozione Sociale</dd></div>
       <div><dt>Codice fiscale</dt><dd>18028181008</dd></div>
@@ -276,7 +303,7 @@
       entro quindici giorni. Per un documento che qui non trovi,
       <a class="lnk" href="mailto:scuole@buildinterest.it?subject=Richiesta%20documenti">contattaci</a>.
     </p>
-  </section>
+  </div>
 
 </div>
 
@@ -316,6 +343,29 @@
 </footer>
 
 <script>
+  /* Le tre voci sono schede: una aperta per volta, frecce per spostarsi. */
+  const schede = [...document.querySelectorAll('.gov__tab')];
+  const mostra = (k) => {
+    schede.forEach((b, i) => {
+      const attiva = i === k;
+      b.classList.toggle('is-attiva', attiva);
+      b.setAttribute('aria-selected', attiva);
+      b.tabIndex = attiva ? 0 : -1;
+      document.getElementById(b.getAttribute('aria-controls')).hidden = !attiva;
+    });
+  };
+  schede.forEach((b, k) => {
+    b.addEventListener('click', () => mostra(k));
+    b.addEventListener('keydown', (e) => {
+      const passo = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!passo) return;
+      e.preventDefault();
+      const n = (k + passo + schede.length) % schede.length;
+      mostra(n);
+      schede[n].focus();
+    });
+  });
+
   const header = document.getElementById('header');
   const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 12);
   onScroll();

@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="Settembre 2026 — Primo prestito erogato">
-  <rect width="800" height="1000" fill="#eef1f5"/>
-  <circle cx="610" cy="280" r="270" fill="#fa6676" opacity=".16"/>
-  <circle cx="150" cy="770" r="340" fill="#fa6676" opacity=".08"/>
-  <circle cx="610" cy="770" r="88" fill="#0e1b2c" opacity=".05"/>
-  <text x="60" y="838" font-family="'Archivo Black','Arial Black',sans-serif" font-size="168" letter-spacing="-8" fill="#0e1b2c">07</text>
-  <text x="64" y="898" font-family="Inter,'Helvetica Neue',sans-serif" font-size="30" font-weight="600" fill="#5a6b7d">Primo prestito erogato</text>
-  <text x="64" y="940" font-family="Inter,'Helvetica Neue',sans-serif" font-size="24" fill="#8ba0b3">Settembre 2026</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Giugno 2027 — Oltre 100 scuole">
+  <rect width="800" height="600" fill="#eef1f5"/>
+  <circle cx="618" cy="150" r="196" fill="#fa6676" opacity=".16"/>
+  <circle cx="120" cy="470" r="240" fill="#fa6676" opacity=".08"/>
+  <circle cx="612" cy="452" r="64" fill="#0e1b2c" opacity=".05"/>
+  <text x="56" y="470" font-family="'Archivo Black','Arial Black',sans-serif" font-size="150" letter-spacing="-7" fill="#0e1b2c">07</text>
+  <text x="60" y="524" font-family="Inter,'Helvetica Neue',sans-serif" font-size="27" font-weight="600" fill="#5a6b7d">Oltre 100 scuole</text>
+  <text x="60" y="562" font-family="Inter,'Helvetica Neue',sans-serif" font-size="22" fill="#8ba0b3">Giugno 2027</text>
 </svg>

@@ -1452,10 +1452,12 @@ a.pub__t:hover { color: var(--c); }
 }
 
 /* al centro, dove prima stava la data gigante, si alternano le immagini */
+/* orizzontale 4:3: le foto dai seminari sono tutte cosi', un riquadro
+   verticale le avrebbe tagliate a meta' */
 .story-date__media {
   position: relative;
-  width: min(100%, 400px);
-  height: clamp(250px, 44svh, 470px);
+  width: min(100%, 430px);
+  aspect-ratio: 4 / 3;
   border-radius: 22px;
   overflow: hidden;
   background: var(--border);
